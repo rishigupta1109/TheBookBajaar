@@ -1,0 +1,93 @@
+.navbar{
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+    color: white;
+    margin: 0;
+    justify-content: space-between;
+}
+.nav-logo{
+    height: 100px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 25px;
+}
+.left a,.right a,.right button,.mobilemenu a,.mobilemenu button{
+    color:white;
+    text-decoration: none;
+    font-size: larger;
+    padding: 15px;
+    margin: 0 15px;
+}
+.right button,.mobilemenu button{
+        background-color: rgb(255 0 0);
+    color: white;
+    padding: 15px;
+    margin: 10px;
+    border: white 2px solid;
+    border-radius: 25px;
+    cursor: pointer;
+}
+.right button:hover,.mobilemenu button:hover{
+    color: red;
+    background-color: white;
+}
+.nav-active{
+    background-color: white !important;
+    color: red !important;
+    border-radius: 30px !important;
+    
+}
+.menubtnbox{
+    height:50px;
+    width:50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.line1, .line2 ,.line3{
+    height:10px;
+    width:40px;
+    background-color: white;
+    margin: 5px 0;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    transition: ease-in-out 1s;
+    -webkit-transition: ease-in-out 1s;
+    -moz-transition: ease-in-out 1s;
+    -ms-transition: ease-in-out 1s;
+    -o-transition: ease-in-out 1s;
+}
+.mobilemenu{
+    background-color: rgb(255, 0, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 102px;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    padding: 20px 0;
+}
+.right a:hover,.left a:hover{
+    color:wheat
+}

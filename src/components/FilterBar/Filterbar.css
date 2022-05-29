@@ -1,0 +1,16 @@
+.filterbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    font-size: larger;
+}
+.filterbar input,.filterbar select{
+    margin: 10px 15px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    border:1px solid grey;
+}
