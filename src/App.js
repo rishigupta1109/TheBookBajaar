@@ -6,6 +6,8 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Books from './pages/Books/Books';
+import Chatroom from './pages/Chatroom/Chatroom';
+import Chat from './pages/Chatroom/Chat';
 AOS.init();
 function App() {
   
@@ -18,6 +20,12 @@ function App() {
           </Route>
           <Route path="/books" exact>
             <Books></Books>
+          </Route>
+          <Route path="/chats" exact>
+            <Chatroom></Chatroom>
+          </Route>
+          <Route path="/chats/:CHATID" exact>
+            <Chat></Chat>
           </Route>
       </Switch>
     </div>
