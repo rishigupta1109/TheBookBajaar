@@ -5,7 +5,7 @@ export default function Login() {
     <div className="login-register">
       <div className="switch-btns">
         <button>Register</button>
-        <button>Login</button>
+        <button className="active">Login</button>
       </div>
       <div className="column form">
         <h1 style={{alignSelf:"center"}}>Login</h1>
