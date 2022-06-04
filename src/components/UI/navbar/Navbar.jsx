@@ -61,7 +61,7 @@ export default function Navbar() {
                 My Profile
               </NavLink>
               <NavLink to="/login-signup" activeClassName="nav-active">
-                Login/Signup
+                Login/Register
               </NavLink>
             </div>
           )}
@@ -120,10 +120,10 @@ export default function Navbar() {
             onClick={() => {
               menuHandler();
             }}
-            to="/login-signup"
+            to="/login-register"
             activeClassName="nav-active"
           >
-            Login/Signup
+            Login/Register
           </NavLink>
           <button>Logout</button>
         </div>
