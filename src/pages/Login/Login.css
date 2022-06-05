@@ -70,3 +70,23 @@
     color: red !important;
     background-color: white !important;
 }
+@media (max-width:1405px) {
+    .switch-btns{
+        width: 300px;
+    }
+}
+@media (max-width:500px) {
+    .switch-btns{
+        width: 200px;
+    }
+    .switch-btns button{
+        font-size: small;
+    }
+    .form{
+        font-size: small;
+        padding: 30px 20px;
+    }
+    .form div{
+        width: 300px;
+    }
+}
