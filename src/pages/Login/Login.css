@@ -19,6 +19,7 @@
     color:white;
     padding: 4% 20% 4% 16%;
     border:1px solid red;
+    transition: cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 .form div{
     font-size: larger;
@@ -80,7 +81,7 @@
         width: 200px;
     }
     .switch-btns button{
-        font-size: small;
+        font-size: smaller;
     }
     .form{
         font-size: small;
@@ -88,5 +89,8 @@
     }
     .form div{
         width: 300px;
+    }
+    .login-register{
+        padding: 40px 3%;
     }
 }

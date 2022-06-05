@@ -3,7 +3,7 @@ import "../Login/Login.css";
 export default function Login() {
   const [mode,setMode]=useState(0);    //0->register 1->login
   return (
-    <div className="login-register">
+    <div className="login-register" data-aos="fade-down">
       <div className="switch-btns">
         <button
           className={mode ? "active" : undefined}
@@ -22,35 +22,51 @@ export default function Login() {
           Login
         </button>
       </div>
-      <div className="column form">
-        {mode===1&&<h1 style={{ alignSelf: "center" }}>Login</h1>}
-        {mode===0&&<h1 style={{ alignSelf: "center" }}>Register</h1>}
-        {mode=== 0&&<div>
-          <label>First Name</label>
-          <input type="text"></input>
-        </div>}
-        {mode===0&&<div>
-          <label>Last Name</label>
-          <input type="text"></input>
-        </div>}
+      <div  className="column form">
+        {mode === 1 && (
+          <h1 data-aos="flip-right" style={{ alignSelf: "center" }}>
+            Login
+          </h1>
+        )}
+        {mode === 0 && (
+          <h1 data-aos="flip-left" style={{ alignSelf: "center" }}>
+            Register
+          </h1>
+        )}
+        {mode === 0 && (
+          <div>
+            <label>First Name</label>
+            <input type="text"></input>
+          </div>
+        )}
+        {mode === 0 && (
+          <div>
+            <label>Last Name</label>
+            <input type="text"></input>
+          </div>
+        )}
         <div>
           <label>Email</label>
           <input type="text"></input>
         </div>
-       {mode==0&& <div>
-          <label>College</label>
-          <input type="text"></input>
-        </div>}
+        {mode == 0 && (
+          <div>
+            <label>College</label>
+            <input type="text"></input>
+          </div>
+        )}
         <div>
           <label>Password</label>
           <input type="text"></input>
         </div>
-       {mode===0&& <div>
-          <label>Confirm Password</label>
-          <input type="text"></input>
-        </div>}
-        {mode===0&&<button>Register</button>}
-       {mode===1&& <button>Login</button>}
+        {mode === 0 && (
+          <div>
+            <label>Confirm Password</label>
+            <input type="text"></input>
+          </div>
+        )}
+        {mode === 0 && <button>Register</button>}
+        {mode === 1 && <button>Login</button>}
       </div>
     </div>
   );

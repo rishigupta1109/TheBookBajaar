@@ -60,7 +60,7 @@ export default function Navbar() {
               <NavLink to="/profile" activeClassName="nav-active">
                 My Profile
               </NavLink>
-              <NavLink to="/login-signup" activeClassName="nav-active">
+              <NavLink to="/login-register" activeClassName="nav-active">
                 Login/Register
               </NavLink>
             </div>

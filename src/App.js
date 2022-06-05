@@ -28,7 +28,7 @@ function App() {
         <Route path="/chats/:CHATID" exact>
           <Chat></Chat>
         </Route>
-        <Route path="/login-signup">
+        <Route path="/login-register">
           <Login></Login>
         </Route>
       </Switch>
