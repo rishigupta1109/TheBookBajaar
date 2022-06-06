@@ -1,19 +1,19 @@
 import React from "react";
 import "./Filterbar.css";
-export default function Filterbar() {
+export default function Filterbar({collegeFilter}) {
   return (
     <div className="filterbar">
       <div className="searchbar">
         <label>Search</label>
         <input placeholder="search"></input>
       </div>
-      <div className="filters">
+     {collegeFilter&& <div className="filters">
         <label>College</label>
         <select className="college">
           <option>IET</option>
           <option>IIPS</option>
         </select>
-      </div>
+      </div>}
       <div className="filters">
         <label>Subject</label>
         <select className="subject">

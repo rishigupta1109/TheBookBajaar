@@ -52,7 +52,7 @@ const books = [
 //     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVhJXUPr2eNac4AGMFbdOHykGFEUU6e6BpeA&usqp=CAU",
 //   },
 ];
-export default function Shelf() {
+export default function Shelf({isBuyer}) {
   return (
     <div className='shelf'>
         {books.map((data,index)=>{
@@ -67,15 +67,16 @@ export default function Shelf() {
                   {" "}
                   <b>{data.price}₹</b>
                 </p>
-                <p>Seller :{data.seller}</p>
-                <p>{data.college}</p>
-                <button>
+               {isBuyer&& <p>Seller :{data.seller}</p>}
+                {isBuyer&&<p>{data.college}</p>}
+                {isBuyer&&<button>
                   <img src={addicon}></img>Add to wishlist
-                </button>
-                <button>
+                </button>}
+                {isBuyer&&<button>
                   {" "}
                   <img src={chaticon}></img> chat
-                </button>
+                </button>}
+                {!isBuyer&&<button>Edit</button>}
               </div>
             );
         })}

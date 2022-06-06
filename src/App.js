@@ -10,6 +10,7 @@ import Chatroom from './pages/Chatroom/Chatroom';
 import Chat from './pages/Chatroom/Chat';
 import Login from './pages/Login/Login';
 import Profile from './pages/profile/Profile';
+import Mybooks from './pages/Mybooks/Mybooks';
 AOS.init();
 function App() {
   
@@ -34,6 +35,9 @@ function App() {
         </Route>
         <Route path="/profile">
           <Profile></Profile>
+        </Route>
+        <Route path="/mybooks">
+          <Mybooks></Mybooks>
         </Route>
       </Switch>
     </div>
