@@ -46,8 +46,8 @@
     color: white;
     border-color: white;
 }
-.book button img{
-    height: 25px;
-    width: 25px;
+.book button img {
+    height: 30px;
+    width: 50px;
     padding: 0 10px;
 }

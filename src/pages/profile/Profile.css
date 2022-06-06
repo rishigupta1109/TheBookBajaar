@@ -1,0 +1,65 @@
+.profile{
+    padding: 5%;
+    justify-content: center;
+    align-items: center;
+}
+.profile-box{
+    padding: 5% 20%;
+    background-color: red;
+    color:white;
+    justify-content: center;
+    border-radius: 25px;
+}
+.profile-box div{
+    padding: 15px;
+    font-size: larger;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color:white
+}
+.profile-box div input{
+    margin:0 20px;
+    padding: 8px;
+    border-radius: 12px;
+    border:none;
+}
+.profile-box div input:disabled{
+    background-color: white;
+}
+.profile-box div button{
+    margin: 20px 0 0 0;
+    align-self: center;
+    padding: 4% 10%;
+    border-radius: 15px;
+    background-color: white;
+    color: red;
+    border: red;
+    font-size: large;
+    border: 1px solid white;
+}
+.profile-box div button:hover{
+    background-color: red;
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;
+}
+@media (max-width:600px) {
+    .profile{
+        padding: 20%;
+    }
+    .profile-box{
+        padding: 70px 5px;
+    }
+    .profile-box div{
+        font-size: large;
+        padding: 10px;
+    }
+    .profile-box div input{
+        margin:0 10px;
+        padding: 8px;
+        border-radius: 12px;
+        border:none;
+}
+}

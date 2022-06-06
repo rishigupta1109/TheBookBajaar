@@ -32,6 +32,7 @@
 }
 .form div input{
     padding: 8px 10px;
+    margin: 5px 10px;
     border-radius: 12px;
     border: none;
 }
@@ -88,7 +89,7 @@
         padding: 30px 20px;
     }
     .form div{
-        width: 300px;
+        width: 320px;
     }
     .login-register{
         padding: 40px 3%;
