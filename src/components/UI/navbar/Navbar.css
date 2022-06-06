@@ -24,7 +24,7 @@
     justify-content: space-between;
     margin-right: 25px;
 }
-.left a,.right a,.right button,.mobilemenu a,.mobilemenu button{
+.left a,.right a,.right button,.mobilemenu a,.mobilemenu button,.dd{
     color:white;
     text-decoration: none;
     font-size: larger;
@@ -88,6 +88,12 @@
     width: 100%;
     padding: 20px 0;
 }
-.right a:hover,.left a:hover{
+.right a:hover,.left a:hover,.dd:hover{
     color:wheat
+}
+.text{
+    color:red;
+}
+.dd{
+    border-radius: 25px;
 }

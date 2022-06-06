@@ -3,6 +3,7 @@ import "./Navbar.css";
 import logo from "../../../utilities/tbb_logo-whiteonred.png";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import DropdownTriggerExample from './Dropdown';
 export default function Navbar() {
   const history = useHistory();
   const [mobileview,setmobileview]=useState(window.innerWidth<900);
@@ -57,9 +58,10 @@ export default function Navbar() {
               <NavLink to="/chats" activeClassName="nav-active">
                 Chats
               </NavLink>
-              <NavLink to="/profile" activeClassName="nav-active">
+              {/* <NavLink to="/profile" activeClassName="nav-active">
                 My Profile
-              </NavLink>
+              </NavLink> */}
+              <DropdownTriggerExample className="dd" userName="Rishi"></DropdownTriggerExample>
               <NavLink to="/login-register" activeClassName="nav-active">
                 Login/Register
               </NavLink>
@@ -111,10 +113,28 @@ export default function Navbar() {
             onClick={() => {
               menuHandler();
             }}
+            to="/wishlist"
+            activeClassName="nav-active"
+          >
+             WishList
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              menuHandler();
+            }}
+            to="/mybooks"
+            activeClassName="nav-active"
+          >
+             My Books
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              menuHandler();
+            }}
             to="/profile"
             activeClassName="nav-active"
           >
-            My Profile
+             My Profile
           </NavLink>
           <NavLink
             onClick={() => {
