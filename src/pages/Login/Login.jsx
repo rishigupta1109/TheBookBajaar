@@ -125,7 +125,17 @@ export default function Login() {
       setErrorMessage("submitted");
     }
   };
-  console.log(errorMessage);
+  const loginHandler=()=>{
+    if(formValidity.inputs["email"].isValid&&formValidity.inputs["pass"].isValid){
+        console.log(formValidity);
+    }
+    else if (!formValidity.inputs["email"].isValid) {
+        setErrorMessage("*Write a valid email");
+    }
+    else{
+      setErrorMessage("*Write a valid password");
+    }
+  }
   return (
     <div className="login-register" data-aos="fade-down">
       <div className="switch-btns">
@@ -229,7 +239,7 @@ export default function Login() {
           </div>
         )}
         {mode === 0 && <button onClick={registerHandler}>Register</button>}
-        {mode === 1 && <button>Login</button>}
+        {mode === 1 && <button onClick={loginHandler}>Login</button>}
       </div>
     </div>
   );
