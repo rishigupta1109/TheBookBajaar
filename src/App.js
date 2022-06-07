@@ -11,6 +11,8 @@ import Chat from './pages/Chatroom/Chat';
 import Login from './pages/Login/Login';
 import Profile from './pages/profile/Profile';
 import Mybooks from './pages/Mybooks/Mybooks';
+import Wishlist from './pages/Wishlist/Wishlist';
+import BookForm from './pages/BookForm/BookForm';
 AOS.init();
 function App() {
   
@@ -38,6 +40,12 @@ function App() {
         </Route>
         <Route path="/mybooks">
           <Mybooks></Mybooks>
+        </Route>
+        <Route path="/wishlist">
+          <Wishlist></Wishlist>
+        </Route>
+        <Route path="/bookform">
+          <BookForm></BookForm>
         </Route>
       </Switch>
     </div>

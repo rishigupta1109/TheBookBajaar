@@ -8,7 +8,7 @@ styleLink.href =
 document.head.appendChild(styleLink);
 
 const DropdownTriggerExample = (props) => {
-  let history=useHistory();
+  let history = useHistory();
   const trigger = (
     <span>
       <Icon name="user" /> Hello,{props.userName}
@@ -29,7 +29,7 @@ const DropdownTriggerExample = (props) => {
       key: "My-Profile",
       text: "My Profile",
       onClick: () => {
-        history.push('/profile')
+        history.push("/profile");
       },
     },
     {
@@ -37,6 +37,13 @@ const DropdownTriggerExample = (props) => {
       text: "My Books",
       onClick: () => {
         history.push("/mybooks");
+      },
+    },
+    {
+      key: "Sell",
+      text: "Sell a Book",
+      onClick: () => {
+        history.push("/bookform");
       },
     },
     {
@@ -49,6 +56,6 @@ const DropdownTriggerExample = (props) => {
   ];
 
   return <Dropdown className="dd" trigger={trigger} options={options} />;
-}; 
+};
 
 export default DropdownTriggerExample;

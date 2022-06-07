@@ -7,7 +7,7 @@ export default function Mybooks() {
     <div>
       <Filterbar collegeFilter={false}></Filterbar>
       <div className="Mybooks">
-      <Shelf isBuyer={false}></Shelf>
+        <Shelf isBuyer={false} inWishlist={false}></Shelf>
       </div>
     </div>
   );

@@ -131,6 +131,15 @@ export default function Navbar() {
             onClick={() => {
               menuHandler();
             }}
+            to="/bookform"
+            activeClassName="nav-active"
+          >
+             Sell a book
+          </NavLink>
+          <NavLink
+            onClick={() => {
+              menuHandler();
+            }}
             to="/profile"
             activeClassName="nav-active"
           >

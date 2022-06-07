@@ -6,7 +6,7 @@ export default function Books() {
   return (
     <div className="books">
       <Filterbar collegeFilter={true}></Filterbar>
-      <Shelf isBuyer={true}></Shelf>
+      <Shelf isBuyer={true} inWishlist={false}></Shelf>
     </div>
   );
 }
