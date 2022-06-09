@@ -3,7 +3,8 @@ import "./Shelf.css";
 import chaticon from ".././../utilities/icons8-chat-32.png";
 import addicon from ".././../utilities/icons8-add-50.png";
 import removeicon from ".././../utilities/remove-icon-png-7132.png";
-
+import editicon from "../../utilities/icons8-edit-48.png"
+import soldicon from "../../utilities/icons8-sold-64.png"
 const books = [
   {
     name: "RD sharma",
@@ -72,14 +73,14 @@ export default function Shelf({ isBuyer, inWishlist }) {
             </p>
             {isBuyer && <p>Seller :{data.seller}</p>}
             {isBuyer && <p>{data.college}</p>}
-            {isBuyer && !inWishlist&& (
+            {isBuyer && !inWishlist && (
               <button>
                 <img src={addicon}></img>Add to wishlist
               </button>
             )}
-            {isBuyer && inWishlist&& (
+            {isBuyer && inWishlist && (
               <button>
-                <img src={removeicon}></img>Remove 
+                <img src={removeicon}></img>Remove
               </button>
             )}
             {isBuyer && (
@@ -88,7 +89,17 @@ export default function Shelf({ isBuyer, inWishlist }) {
                 <img src={chaticon}></img> chat
               </button>
             )}
-            {!isBuyer && <button>Edit</button>}
+            {!isBuyer && (
+              <button>
+                <img src={editicon}></img>Edit
+              </button>
+            )}
+            {!isBuyer && (
+              <button>
+                {" "}
+                <img src={soldicon}></img>Sold
+              </button>
+            )}
           </div>
         );
       })}

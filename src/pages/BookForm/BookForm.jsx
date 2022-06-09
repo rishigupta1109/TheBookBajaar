@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { ToastContainer } from 'react-toastify';
+import toastCreator from "../../utilities/toastCreator";
 
 export default function BookForm() {
   const [bookName,setBookName]=useState("");
   const [amount,setAmount]=useState(0);
-  const [errmsg,seterrmsg]=useState("");
   const clickHandler=()=>{
       let booknameisValid=bookName.trim().length>0;
       let bookamtisValid=Number(amount)>0;
@@ -11,10 +12,11 @@ export default function BookForm() {
         console.log(bookName,amount);
       }
       else if(!booknameisValid){
-        seterrmsg("* Write a valid name");
+        toastCreator(`Write a valid name`);
       }
       else{
-        seterrmsg("* Amount cannot be 0");
+        toastCreator(` Amount cannot be 0`);
+        
       }
 
   }
@@ -28,16 +30,30 @@ export default function BookForm() {
   }
   return (
     <div className="profile column">
+        <ToastContainer/>
       <div className="profile-box column">
         <h1 style={{ alignSelf: "center" }}>Sell a Book</h1>
-        {errmsg.trim().length>0&&<h3>{errmsg}</h3>}
         <div>
           <label>Book Name :</label>
-          <input type="text" id="bookname" onChange={(e)=>{setBookName(e.target.value)}} value={bookName}></input>
+          <input
+            type="text"
+            id="bookname"
+            onChange={(e) => {
+              setBookName(e.target.value);
+            }}
+            value={bookName}
+          ></input>
         </div>
         <div>
           <label>Amount :</label>
-          <input type="number" id="amount" onChange={(e)=>{setAmount(e.target.value)}} value={amount}></input>
+          <input
+            type="number"
+            id="amount"
+            onChange={(e) => {
+              setAmount(e.target.value);
+            }}
+            value={amount}
+          ></input>
         </div>
         <div>
           <label>Image:</label>
@@ -45,7 +61,9 @@ export default function BookForm() {
         </div>
 
         <div>
-          <button style={{ alignSelf: "center" }} onClick={clickHandler}>Sell</button>
+          <button style={{ alignSelf: "center" }} onClick={clickHandler}>
+            Sell
+          </button>
         </div>
       </div>
     </div>

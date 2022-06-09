@@ -1,6 +1,10 @@
 import React from "react";
 import "./Chat.css";
+import backicon from "../../utilities/icons8-back-48.png";
+import { useHistory } from 'react-router-dom';
 export default function Chat() {
+
+  const history =useHistory();
   return (
     <div className="chat">
       <div className="chat-section">
@@ -10,9 +14,20 @@ export default function Chat() {
             fontWeight: "bolder",
             padding: "6px",
             borderBottom: "1px solid gray",
+            alignItems: "center",
           }}
-          className="user"
+          className="user row"
         >
+          <img
+            src={backicon}
+            onClick={()=>{history.goBack()}}
+            style={{
+              border: "1px solid black",
+              borderRadius: "25px",
+              marginRight: "10px",
+              cursor: "pointer",
+            }}
+          ></img>
           Rishi Gupta
         </div>
         <div className="messages">

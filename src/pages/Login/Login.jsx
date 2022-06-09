@@ -1,5 +1,7 @@
 import React, { useState, useReducer } from "react";
 import "../Login/Login.css";
+import toastCreator from "../../utilities/toastCreator";
+import { ToastContainer, toast } from "react-toastify";
 
 const initialValidity = {
   inputs: {
@@ -15,15 +17,15 @@ const initialValidity = {
       value: "",
       isValid: false,
     },
-    college: {
-      type: "text",
-      id: "College",
-      value: "",
-      isValid: false,
-    },
     email: {
       type: "email",
       id: "Email",
+      value: "",
+      isValid: false,
+    },
+    college: {
+      type: "text",
+      id: "College",
       value: "",
       isValid: false,
     },
@@ -75,7 +77,6 @@ const formReducer = (state, action) => {
 
 export default function Login() {
   const [mode, setMode] = useState(0); //0->register 1->login
-  const [errorMessage, setErrorMessage] = useState("");
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
   const checkValidity = ({ type, value }) => {
     if (type === "fname" || type === "lname") {
@@ -110,19 +111,19 @@ export default function Login() {
         console.log(input);
         if (!input.isValid) {
           if (input.type === "text") {
-            setErrorMessage(`*Please write a valid ${input.id}`);
+            toastCreator(`Please write a valid ${input.id}`);
           } else if (input.type === "email") {
-            setErrorMessage("*Please write a valid email id");
+            toastCreator(`Please write a valid email id`);
           } else {
             if (input.id === "password") {
-              setErrorMessage("*length of password must be 8 characters");
-            } else setErrorMessage("*Password didn`t matches");
+              toastCreator(`length of password must be 8 characters`);            
+            } else toastCreator("Password didn`t matches");
           }
           break;
         }
       }
     } else {
-      setErrorMessage("submitted");
+      toastCreator(`submitted`,"success");
     }
   };
   const loginHandler=()=>{
@@ -130,19 +131,19 @@ export default function Login() {
         console.log(formValidity);
     }
     else if (!formValidity.inputs["email"].isValid) {
-        setErrorMessage("*Write a valid email");
+      toastCreator(`Write a valid email`);
     }
     else{
-      setErrorMessage("*Write a valid password");
+      toastCreator(`Write a valid password`);
     }
   }
   return (
     <div className="login-register" data-aos="fade-down">
+      <ToastContainer />
       <div className="switch-btns">
         <button
           className={mode ? "active" : undefined}
           onClick={() => {
-            setErrorMessage("");
             setMode(0);
             resetFields();
           }}
@@ -153,7 +154,6 @@ export default function Login() {
           className={mode ? undefined : "active"}
           onClick={() => {
             setMode(1);
-            setErrorMessage("");
             resetFields();
           }}
         >
@@ -171,11 +171,7 @@ export default function Login() {
             Register
           </h1>
         )}
-        {errorMessage.trim().length !== 0 && (
-          <h3 data-aos="flip-right" style={{ alignSelf: "center" }}>
-            {errorMessage}
-          </h3>
-        )}
+        
         {mode === 0 && (
           <div>
             <label>First Name</label>

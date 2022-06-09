@@ -13,10 +13,13 @@ import Profile from './pages/profile/Profile';
 import Mybooks from './pages/Mybooks/Mybooks';
 import Wishlist from './pages/Wishlist/Wishlist';
 import BookForm from './pages/BookForm/BookForm';
+import { ToastContainer } from "react-toastify";
+
 AOS.init();
 function App() {
   
   return (
+    
     <div className="App">
       <Navbar></Navbar>
       <Switch>
