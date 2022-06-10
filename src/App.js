@@ -20,7 +20,7 @@ import { Redirect } from "react-router-dom";
 
 AOS.init();
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [user, setUser] = useState({});
   const history= useHistory();
   const loginHandler = (userDetail) => {
@@ -33,7 +33,7 @@ function App() {
     setUser({});
     history.replace('/');
   };
-  const routes = (
+  let routes = (
     <Switch>
       <Route path="/" exact>
         <Home></Home>
@@ -71,7 +71,10 @@ function App() {
         <Wishlist></Wishlist>
       </Route>
       <Route path="/bookform">
-        <BookForm></BookForm>
+        <BookForm sell={true}></BookForm>
+      </Route>
+      <Route path="/updatebook/:bookId">
+        <BookForm sell={false}></BookForm>
       </Route>
       <Redirect to="/"></Redirect>
     </Switch>

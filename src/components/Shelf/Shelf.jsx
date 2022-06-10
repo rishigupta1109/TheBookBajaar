@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Shelf.css";
+import { useHistory } from 'react-router-dom';
 import chaticon from ".././../utilities/icons8-chat-32.png";
 import addicon from ".././../utilities/icons8-add-50.png";
 import removeicon from ".././../utilities/remove-icon-png-7132.png";
@@ -7,6 +8,7 @@ import editicon from "../../utilities/icons8-edit-48.png"
 import soldicon from "../../utilities/icons8-sold-64.png"
 const books = [
   {
+    id: 1,
     name: "RD sharma",
     subject: "maths",
     price: "150",
@@ -15,6 +17,7 @@ const books = [
     img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
   },
   {
+    id: 2,
     name: "RD sharma",
     subject: "maths",
     price: "150",
@@ -23,6 +26,7 @@ const books = [
     img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
   },
   {
+    id: 3,
     name: "RD sharma",
     subject: "maths",
     price: "150",
@@ -31,6 +35,7 @@ const books = [
     img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
   },
   {
+    id: 4,
     name: "RD sharma",
     subject: "maths",
     price: "150",
@@ -39,6 +44,7 @@ const books = [
     img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
   },
   {
+    id: 5,
     name: "RD sharma",
     subject: "maths",
     price: "150",
@@ -47,6 +53,7 @@ const books = [
     img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
   },
   {
+    id: 6,
     name: "HC Verma",
     subject: "physics",
     price: "100",
@@ -56,6 +63,7 @@ const books = [
   },
 ];
 export default function Shelf({ isBuyer, inWishlist }) {
+  const history=useHistory();
   console.log(inWishlist)
   return (
     <div className="shelf">
@@ -90,7 +98,7 @@ export default function Shelf({ isBuyer, inWishlist }) {
               </button>
             )}
             {!isBuyer && (
-              <button>
+              <button onClick={()=>{history.push(`/updatebook/${data.id}`)}}> 
                 <img src={editicon}></img>Edit
               </button>
             )}
