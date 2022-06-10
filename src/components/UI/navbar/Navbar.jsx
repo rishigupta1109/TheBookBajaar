@@ -1,10 +1,12 @@
-import React, { useState ,useRef} from "react";
+import React, { useState ,useRef,useContext} from "react";
 import "./Navbar.css";
 import logo from "../../../utilities/tbb_logo-whiteonred.png";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import DropdownTriggerExample from './Dropdown';
+import AuthContext from "../../../utilities/auth-context";
 export default function Navbar() {
+  const context = useContext(AuthContext);
   const history = useHistory();
   const [mobileview,setmobileview]=useState(window.innerWidth<900);
     let [mobilemenu, setmobilemenu] = useState(false);
@@ -55,21 +57,21 @@ export default function Navbar() {
               <NavLink to="/books" activeClassName="nav-active">
                 Books
               </NavLink>
-              <NavLink to="/chats" activeClassName="nav-active">
+              {context.isLoggedIn&& <NavLink to="/chats" activeClassName="nav-active">
                 Chats
-              </NavLink>
+              </NavLink>}
               {/* <NavLink to="/profile" activeClassName="nav-active">
                 My Profile
               </NavLink> */}
-              <DropdownTriggerExample className="dd" userName="Rishi"></DropdownTriggerExample>
-              <NavLink to="/login-register" activeClassName="nav-active">
+              {context.isLoggedIn&&<DropdownTriggerExample className="dd" userName="Rishi"></DropdownTriggerExample>}
+              {!context.isLoggedIn&&<NavLink to="/login-register" activeClassName="nav-active">
                 Login/Register
-              </NavLink>
+              </NavLink>}
             </div>
           )}
         </div>
         <div className="right">
-          {!mobileview && <button>Logout</button>}
+          {!mobileview &&context.isLoggedIn&& <button onClick={context.logout}>Logout</button>}
           {mobileview && (
             <div onClick={menuHandler} className="menubtnbox">
               <div className="line1" ref={Line1}></div>
@@ -100,7 +102,7 @@ export default function Navbar() {
           >
             Books
           </NavLink>
-          <NavLink
+          {context.isLoggedIn&&<NavLink
             onClick={() => {
               menuHandler();
             }}
@@ -108,8 +110,8 @@ export default function Navbar() {
             activeClassName="nav-active"
           >
             Chats
-          </NavLink>
-          <NavLink
+          </NavLink>}
+          {context.isLoggedIn&&<NavLink
             onClick={() => {
               menuHandler();
             }}
@@ -117,8 +119,8 @@ export default function Navbar() {
             activeClassName="nav-active"
           >
              WishList
-          </NavLink>
-          <NavLink
+          </NavLink>}
+          {context.isLoggedIn&&<NavLink
             onClick={() => {
               menuHandler();
             }}
@@ -126,8 +128,8 @@ export default function Navbar() {
             activeClassName="nav-active"
           >
              My Books
-          </NavLink>
-          <NavLink
+          </NavLink>}
+          {context.isLoggedIn&&<NavLink
             onClick={() => {
               menuHandler();
             }}
@@ -135,8 +137,8 @@ export default function Navbar() {
             activeClassName="nav-active"
           >
              Sell a book
-          </NavLink>
-          <NavLink
+          </NavLink>}
+          {context.isLoggedIn&&<NavLink
             onClick={() => {
               menuHandler();
             }}
@@ -144,8 +146,8 @@ export default function Navbar() {
             activeClassName="nav-active"
           >
              My Profile
-          </NavLink>
-          <NavLink
+          </NavLink>}
+          {!context.isLoggedIn&&<NavLink
             onClick={() => {
               menuHandler();
             }}
@@ -153,8 +155,8 @@ export default function Navbar() {
             activeClassName="nav-active"
           >
             Login/Register
-          </NavLink>
-          <button>Logout</button>
+          </NavLink>}
+          {context.isLoggedIn&& <button onClick={context.logout}>Logout</button>}
         </div>
       )}
     </div>

@@ -1,7 +1,8 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import "../Login/Login.css";
 import toastCreator from "../../utilities/toastCreator";
 import { ToastContainer, toast } from "react-toastify";
+import AuthContext from "../../utilities/auth-context";
 
 const initialValidity = {
   inputs: {
@@ -76,6 +77,7 @@ const formReducer = (state, action) => {
 };
 
 export default function Login() {
+  const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
   const checkValidity = ({ type, value }) => {
@@ -105,7 +107,7 @@ export default function Login() {
     dispatch({ type: "reset" });
   };
   const registerHandler = () => {
-    console.log(Object.values(formValidity.inputs));
+    
     if (!formValidity.isValid) {
       for (let input of Object.values(formValidity.inputs)) {
         console.log(input);
@@ -124,11 +126,13 @@ export default function Login() {
       }
     } else {
       toastCreator(`submitted`,"success");
+      context.login(formValidity.inputs);
     }
   };
   const loginHandler=()=>{
     if(formValidity.inputs["email"].isValid&&formValidity.inputs["pass"].isValid){
-        console.log(formValidity);
+      context.login(formValidity.inputs);
+      console.log(formValidity);
     }
     else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`);
