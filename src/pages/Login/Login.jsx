@@ -3,7 +3,7 @@ import "../Login/Login.css";
 import toastCreator from "../../utilities/toastCreator";
 import { ToastContainer, toast } from "react-toastify";
 import AuthContext from "../../utilities/auth-context";
-
+import useHttpClient from "./../../hooks/useHttpClient";
 const initialValidity = {
   inputs: {
     fname: {
@@ -80,6 +80,7 @@ export default function Login() {
   const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
+  const {request,toastId} = useHttpClient();
   const checkValidity = ({ type, value }) => {
     if (type === "fname" || type === "lname") {
       return value.trim().length !== 0;
@@ -106,8 +107,8 @@ export default function Login() {
   const resetFields = () => {
     dispatch({ type: "reset" });
   };
-  const registerHandler = () => {
-    
+
+  const registerHandler = async () => {
     if (!formValidity.isValid) {
       for (let input of Object.values(formValidity.inputs)) {
         console.log(input);
@@ -118,32 +119,68 @@ export default function Login() {
             toastCreator(`Please write a valid email id`);
           } else {
             if (input.id === "password") {
-              toastCreator(`length of password must be 8 characters`);            
+              toastCreator(`length of password must be 8 characters`);
             } else toastCreator("Password didn`t matches");
           }
           break;
         }
       }
     } else {
-      toastCreator(`submitted`,"success");
-      context.login(formValidity.inputs);
+      // toastCreator(`submitted`,"success");
+
+      console.log("sending post req");
+
+      let url = "http://localhost:5000/api/users/signup";
+      const responseData=await request(
+        url,
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        JSON.stringify({
+          firstName: formValidity.inputs.fname.value,
+          lastName: formValidity.inputs.lname.value,
+          college: formValidity.inputs.college.value,
+          email: formValidity.inputs.email.value,
+          password: formValidity.inputs.pass.value,
+        }),"Registered Successfully"
+      );
+        if(responseData!=null){
+          context.login(responseData.user);
+        }
     }
   };
-  const loginHandler=()=>{
-    if(formValidity.inputs["email"].isValid&&formValidity.inputs["pass"].isValid){
-      context.login(formValidity.inputs);
-      console.log(formValidity);
-    }
-    else if (!formValidity.inputs["email"].isValid) {
+  const loginHandler =async () => {
+    if (
+      formValidity.inputs["email"].isValid &&
+      formValidity.inputs["pass"].isValid
+    ) {
+      // context.login(formValidity.inputs);
+      // console.log(formValidity);
+      // const responseData=await
+       let url = "http://localhost:5000/api/users/login";
+      const responseData=await request(
+        url,
+        "POST",
+        {
+          "Content-Type": "application/json",
+        },
+        JSON.stringify({
+          email: formValidity.inputs.email.value,
+          password: formValidity.inputs.pass.value,
+        }),"Logged In Successfully"
+      );
+        if(responseData!=null){
+          context.login(responseData.user);
+        }
+    } else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`);
-    }
-    else{
+    } else {
       toastCreator(`Write a valid password`);
     }
-  }
+  };
   return (
     <div className="login-register" data-aos="fade-down">
-      <ToastContainer />
       <div className="switch-btns">
         <button
           className={mode ? "active" : undefined}
@@ -175,7 +212,7 @@ export default function Login() {
             Register
           </h1>
         )}
-        
+
         {mode === 0 && (
           <div>
             <label>First Name</label>

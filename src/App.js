@@ -17,12 +17,13 @@ import AuthContext from "./utilities/auth-context";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-
+import { ToastContainer } from 'react-toastify';
 AOS.init();
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const history= useHistory();
+  console.log(user);
   const loginHandler = (userDetail) => {
     setIsLoggedIn(true);
     setUser(userDetail);
@@ -81,8 +82,9 @@ function App() {
   );
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler ,user}}
+      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler, user }}
     >
+      <ToastContainer />
       <div className="App">
         <Navbar></Navbar>
         {routes}

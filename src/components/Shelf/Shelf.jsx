@@ -69,7 +69,7 @@ export default function Shelf({ isBuyer, inWishlist }) {
     <div className="shelf">
       {books.map((data, index) => {
         return (
-          <div className="book">
+          <div key={data.id} className="book">
             <img className="book-img" src={data.img}></img>
             <p style={{ fontSize: "larger" }}>
               {" "}

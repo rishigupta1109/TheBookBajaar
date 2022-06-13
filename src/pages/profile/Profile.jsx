@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Profile.css";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import toastCreator from "../../utilities/toastCreator";
+import AuthContext from "../../utilities/auth-context";
 export default function Profile() {
+  const context = useContext(AuthContext);
   const [neditState, nsetEditState] = useState(true);
-  const [fname,setfname]=useState("RISHI");
-  const [college,setcollege]=useState("ietdavv");
-  const [lname,setlname]=useState("GUPTA");
+  const [fname,setfname]=useState(context.user.firstName);
+  const [college, setcollege] = useState(context.user.college);
+  const [lname, setlname] = useState(context.user.lastName);
   
   const saveHandler=()=>{
     if(fname.length>0&&lname.length>0&&college.length>0){
@@ -66,7 +68,7 @@ export default function Profile() {
         </div>
         <div>
           <label>Email :</label>
-          <input type="text" value="grishi634@gmail.com" disabled></input>
+          <input type="text" value={context.user.email} disabled></input>
         </div>
         <div>
           {neditState && (
