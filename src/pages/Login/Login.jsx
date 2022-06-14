@@ -1,7 +1,6 @@
 import React, { useState, useReducer, useContext } from "react";
 import "../Login/Login.css";
 import toastCreator from "../../utilities/toastCreator";
-import { ToastContainer, toast } from "react-toastify";
 import AuthContext from "../../utilities/auth-context";
 import useHttpClient from "./../../hooks/useHttpClient";
 const initialValidity = {
@@ -129,7 +128,7 @@ export default function Login() {
       // toastCreator(`submitted`,"success");
 
       console.log("sending post req");
-
+      
       let url = "http://localhost:5000/api/users/signup";
       const responseData=await request(
         url,

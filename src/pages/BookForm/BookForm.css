@@ -1,0 +1,19 @@
+button:disabled{
+    background-color: grey;
+}
+.image-preview{
+    background-color: #fff;
+    align-self: center;
+     height: 220px;
+    width: 220px;
+    color:  #000 !important;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center !important;
+    align-items: center;
+}
+.image-preview img{
+    height: 200px;
+    width: 200px;
+}

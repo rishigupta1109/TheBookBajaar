@@ -1,105 +1,68 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import useHttpClient from "../../hooks/useHttpClient";
 import AuthContext from "../../utilities/auth-context";
 import toastCreator from "../../utilities/toastCreator";
-const books = [
-  {
-    id: 1,
-    name: "RD sharma",
-    subject: "maths",
-    price: "150",
-    seller: "Rishi",
-    college: "IET",
-    img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
-  },
-  {
-    id: 2,
-    name: "RD sharma",
-    subject: "maths",
-    price: "150",
-    seller: "Rishi",
-    college: "IET",
-    img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
-  },
-  {
-    id: 3,
-    name: "RD sharma",
-    subject: "maths",
-    price: "150",
-    seller: "Rishi",
-    college: "IET",
-    img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
-  },
-  {
-    id: 4,
-    name: "RD sharma",
-    subject: "maths",
-    price: "150",
-    seller: "Rishi",
-    college: "IET",
-    img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
-  },
-  {
-    id: 5,
-    name: "RD sharma",
-    subject: "maths",
-    price: "150",
-    seller: "Rishi",
-    college: "IET",
-    img: "https://5.imimg.com/data5/SELLER/Default/2021/4/NQ/NW/UA/74642511/rd-sharma-class-10-math-500x500.jpeg",
-  },
-  {
-    id: 6,
-    name: "HC Verma",
-    subject: "physics",
-    price: "100",
-    seller: "Rishi",
-    college: "IET",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVhJXUPr2eNac4AGMFbdOHykGFEUU6e6BpeA&usqp=CAU",
-  },
-];
+import "./BookForm.css";
 export default function BookForm({ sell }) {
   const [bookName, setBookName] = useState("");
   const [subject, setSubject] = useState("");
   const [price, setprice] = useState(0);
+  const [file, setfile] = useState();
+  const [imageisValid, setimageisValid] = useState();
+  const [imgurl, setimgurl] = useState();
+  const [disabled, setdisabled] = useState(false);
   let { bookId } = useParams();
   const history = useHistory();
+  let image = useRef();
   const context = useContext(AuthContext);
-  if (!sell) {
-    console.log(bookId);
-    const book = books.find((data) => {
-      return data.id === Number(bookId);
-    });
-    console.log(book);
-    if (bookName != book.name) {
-      setBookName(book.name);
-      setprice(book.price);
+  useEffect(() => {
+    if (!sell) {
+      const url = `http://localhost:5000/api/books/${bookId}`;
+      const fetchIt = async () => {
+        console.log("fetchit");
+        const responseData = await request(
+          url,
+          "GET",
+          {},
+          {},
+          "Book Fetched Successfully"
+        );
+        console.log(responseData);
+        if (responseData && responseData.books) {
+          setBookName(responseData.books[0].name);
+          setSubject(responseData.books[0].subject);
+          setprice(responseData.books[0].price);
+          console.log(responseData.books);
+        }
+      };
+      fetchIt();
     }
-  }
+  }, []);
+
   const { request } = useHttpClient();
-  const clickHandler = async () => {
+  const updateHandler = async (e) => {
+    setdisabled(true);
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
+    console.log("updateHandler");
     if (bookamtisValid && booknameisValid && subjectisValid) {
-      const url = "http://localhost:5000/api/books/add";
+      const url = `http://localhost:5000/api/books/${bookId}`;
       const responseData = await request(
         url,
-        "POST",
+        "PATCH",
         { "Content-Type": "application/json" },
         JSON.stringify({
           name: bookName,
           subject,
           price,
-          userid: context.user.id,
-          image: "img",
         }),
-        "Book added Successfully"
+        "Book updated Successfully"
       );
       console.log(responseData);
-      if (responseData.newBook) {
+      if (responseData.Book) {
         history.push("/mybooks");
       }
     } else if (!booknameisValid) {
@@ -110,6 +73,46 @@ export default function BookForm({ sell }) {
       toastCreator(` price cannot be 0`);
     }
   };
+  const clickHandler = async () => {
+    console.log("clicked")
+    setdisabled(false);
+    let booknameisValid = bookName.trim().length > 0;
+    let subjectisValid = subject.trim().length > 0;
+    let bookamtisValid = Number(price) > 0;
+    if (bookamtisValid && booknameisValid && subjectisValid&&imageisValid) {
+      const url = "http://localhost:5000/api/books/add";
+      const formData=new FormData();
+      formData.append("name",bookName);
+      formData.append("subject",subject);
+      formData.append("price",price);
+      formData.append("userid", context.user.id);
+      formData.append("image",file);
+      formData.append(
+        "seller",
+        context.user.firstName + " " + context.user.lastName
+      );
+      console.log(formData)
+      const responseData = await request(
+        url,
+        "POST",
+        {  },
+        formData,
+        "Book added Successfully"
+      );
+      console.log(responseData);
+      if (responseData.newBook) {
+        history.push("/mybooks");
+      }
+    } else if (!booknameisValid) {
+      toastCreator(`Write a valid name`);
+    } else if (!subjectisValid) {
+      toastCreator(` write a valid subject name`);
+    } else if(!bookamtisValid) {
+      toastCreator(` price cannot be 0`);
+    }else{
+      toastCreator(`please select a valid image`);
+    }
+  };
   const changeHandler = (e) => {
     switch (e.target.id) {
       case "bookname":
@@ -118,9 +121,33 @@ export default function BookForm({ sell }) {
         setprice(e.target.value);
     }
   };
+  const pickImageHandler = () => {
+    image.current.click();
+  };
+  const pickHandler = (e) => {
+    if (e.target.files && e.target.files.length === 1) {
+      setfile(e.target.files[0]);
+      setimageisValid(true);
+    }
+    else{
+      toastCreator(`please select a valid image`);
+      imageisValid(false);
+    }
+
+  };
+  useEffect(()=>{
+    if(!file){
+      return;
+    }
+    const fileReader=new FileReader();
+    fileReader.onload=()=>{
+      setimgurl(fileReader.result);
+    }
+    fileReader.readAsDataURL(file);
+
+  },[file])
   return (
     <div className="profile column">
-      <ToastContainer />
       <div className="profile-box column">
         {sell && <h1 style={{ alignSelf: "center" }}>Sell a Book</h1>}
         {!sell && <h1 style={{ alignSelf: "center" }}>Update the Book</h1>}
@@ -157,19 +184,43 @@ export default function BookForm({ sell }) {
             value={price}
           ></input>
         </div>
+        <div className="image-preview">
+            {imgurl&&<img src={imgurl} alt="preview"></img>}
+            {!imgurl&&<p>please pick an image</p>}
+        </div>
         <div>
           <label>Image:</label>
-          <input type="file"></input>
+          <button
+            onClick={pickImageHandler}
+            style={{ alignSelf: "center", fontSize: "15px" }}
+          >
+            Pick Image
+          </button>
+          <input
+          accept=".jpg,.png,.jpeg"
+            type="file"
+            onChange={pickHandler}
+            ref={image}
+            style={{ display: "none" }}
+          ></input>
         </div>
 
         <div>
           {sell && (
-            <button style={{ alignSelf: "center" }} onClick={clickHandler}>
+            <button
+              style={{ alignSelf: "center" }}
+              disabled={disabled}
+              onClick={clickHandler}
+            >
               Sell
             </button>
           )}
           {!sell && (
-            <button style={{ alignSelf: "center" }} onClick={clickHandler}>
+            <button
+              style={{ alignSelf: "center" }}
+              disabled={disabled}
+              onClick={updateHandler}
+            >
               Update
             </button>
           )}

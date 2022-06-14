@@ -7,6 +7,19 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    height: 80vh;
+}
+.shelf-btn{
+    background-color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    border:1px solid white;   
+    color: red;
+    margin: 0 25px;
+}
+.shelf-btn:hover{
+    background-color: red;
+    color: white;
 }
 .book{
     background-color: white;

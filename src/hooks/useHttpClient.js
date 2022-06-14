@@ -3,13 +3,26 @@ import { toast } from 'react-toastify';
  const useHttpClient=()=>{
     const toastId = useRef(null);
     const request=useCallback(async(url,method="GET",headers={},body={},successmsg) => {
-      toastId.current = toast.loading("loading...");
+       toast.dismiss();
+       console.log(url,successmsg);
+      if(url&&!toast.isActive(toastId.current)){
+        toastId.current = toast.loading("loading...",{toastId:successmsg});
+        console.log("craeting toast",toastId.current)
+      }
        try{
-        const response = await fetch(url, {
+        let response;
+        if(method==="GET"){
+            console.log("req")
+            response=await fetch(url);
+        }
+        else{
+              response = await fetch(url, {
             method,
             headers,
             body,
           });
+        }
+      
               console.log(response)
               const responseData=await response.json();
               console.log(responseData);

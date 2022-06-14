@@ -6,6 +6,8 @@
     flex-wrap: wrap;
     padding: 15px;
     font-size: larger;
+    background-color: white;
+    color: black;
 }
 .filterbar input,.filterbar select{
     margin: 10px 15px;

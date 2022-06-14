@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import "./Profile.css";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import toastCreator from "../../utilities/toastCreator";
 import AuthContext from "../../utilities/auth-context";
@@ -28,7 +27,6 @@ export default function Profile() {
   }
   return (
     <div className="profile column">
-      <ToastContainer/>
       
       <div className="profile-box column">
         <h1 style={{ alignSelf: "center" }}>My Profile</h1>
