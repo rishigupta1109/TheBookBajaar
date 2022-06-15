@@ -145,7 +145,8 @@ export default function Login() {
         }),"Registered Successfully"
       );
         if(responseData!=null){
-          context.login(responseData.user);
+          console.log(responseData.user);
+          context.login(responseData.user,responseData.token);
         }
     }
   };
@@ -170,7 +171,7 @@ export default function Login() {
         }),"Logged In Successfully"
       );
         if(responseData!=null){
-          context.login(responseData.user);
+          context.login(responseData.user,responseData.token);
         }
     } else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`);

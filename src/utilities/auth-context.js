@@ -3,6 +3,7 @@ const AuthContext=createContext({
     isLoggedIn:false,
     login:()=>{},
     logout:()=>{},
-    user:{}
+    user:{},
+    token:null
 })
 export default AuthContext;

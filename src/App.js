@@ -14,24 +14,52 @@ import Mybooks from "./pages/Mybooks/Mybooks";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import BookForm from "./pages/BookForm/BookForm";
 import AuthContext from "./utilities/auth-context";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 AOS.init();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState({});
+  const [tokenExpiry, settokenExpiry] = useState();
   const history= useHistory();
   console.log(user);
-  const loginHandler = (userDetail) => {
+  const loginHandler = (userDetail,token,expiration) => {
     setIsLoggedIn(true);
+    let expirationDate=expiration||new Date().getTime()+1000*60*60;
+    settokenExpiry(expirationDate);
+    setToken(token)
     setUser(userDetail);
+    localStorage.setItem("token",JSON.stringify({
+      token,
+      expirationDate,
+      userDetail
+    }))
     history.replace('/');
   };
+  useEffect(() => {
+    const data=JSON.parse(localStorage.getItem("token"));
+     if(data&&data.token&&new Date(data.expirationDate)>new Date()){
+       loginHandler(data.userDetail,data.token,data.expirationDate);
+     }
+  }, []);
+  let logoutTimer;
+  useEffect(()=>{
+    if(token&&tokenExpiry){
+      const remaining=tokenExpiry-new Date().getTime();
+      logoutTimer=setTimeout(logoutHandler,remaining)
+    }else{
+      clearTimeout(logoutTimer)
+    }
+  },[token,tokenExpiry]);
   const logoutHandler = () => {
     setIsLoggedIn(false);
     setUser({});
+    setToken(null);
+    settokenExpiry(null);
+    localStorage.removeItem("token")
     history.replace('/');
   };
   let routes = (
@@ -82,7 +110,7 @@ function App() {
   );
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler, user }}
+      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler, user,token }}
     >
       <ToastContainer />
       <div className="App">

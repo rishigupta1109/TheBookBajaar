@@ -53,7 +53,10 @@ export default function BookForm({ sell }) {
       const responseData = await request(
         url,
         "PATCH",
-        { "Content-Type": "application/json" },
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + context.token,
+        },
         JSON.stringify({
           name: bookName,
           subject,
@@ -95,7 +98,7 @@ export default function BookForm({ sell }) {
       const responseData = await request(
         url,
         "POST",
-        {  },
+        { Authorization:"Bearer "+ context.token },
         formData,
         "Book added Successfully"
       );
@@ -184,11 +187,11 @@ export default function BookForm({ sell }) {
             value={price}
           ></input>
         </div>
-        <div className="image-preview">
+        {sell&&<div className="image-preview">
             {imgurl&&<img src={imgurl} alt="preview"></img>}
             {!imgurl&&<p>please pick an image</p>}
-        </div>
-        <div>
+        </div>}
+        {sell&&<div>
           <label>Image:</label>
           <button
             onClick={pickImageHandler}
@@ -203,7 +206,7 @@ export default function BookForm({ sell }) {
             ref={image}
             style={{ display: "none" }}
           ></input>
-        </div>
+        </div>}
 
         <div>
           {sell && (

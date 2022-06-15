@@ -57,21 +57,32 @@ export default function Navbar() {
               <NavLink to="/books" activeClassName="nav-active">
                 Books
               </NavLink>
-              {context.isLoggedIn&& <NavLink to="/chats" activeClassName="nav-active">
-                Chats
-              </NavLink>}
+              {context.isLoggedIn && (
+                <NavLink to="/chats" activeClassName="nav-active">
+                  Chats
+                </NavLink>
+              )}
               {/* <NavLink to="/profile" activeClassName="nav-active">
                 My Profile
               </NavLink> */}
-              {context.isLoggedIn&&<DropdownTriggerExample className="dd" userName="Rishi"></DropdownTriggerExample>}
-              {!context.isLoggedIn&&<NavLink to="/login-register" activeClassName="nav-active">
-                Login/Register
-              </NavLink>}
+              {context.isLoggedIn && (
+                <DropdownTriggerExample
+                  className="dd"
+                  userName={context.user.firstName}
+                ></DropdownTriggerExample>
+              )}
+              {!context.isLoggedIn && (
+                <NavLink to="/login-register" activeClassName="nav-active">
+                  Login/Register
+                </NavLink>
+              )}
             </div>
           )}
         </div>
         <div className="right">
-          {!mobileview &&context.isLoggedIn&& <button onClick={context.logout}>Logout</button>}
+          {!mobileview && context.isLoggedIn && (
+            <button onClick={context.logout}>Logout</button>
+          )}
           {mobileview && (
             <div onClick={menuHandler} className="menubtnbox">
               <div className="line1" ref={Line1}></div>
@@ -102,61 +113,75 @@ export default function Navbar() {
           >
             Books
           </NavLink>
-          {context.isLoggedIn&&<NavLink
-            onClick={() => {
-              menuHandler();
-            }}
-            to="/chats"
-            activeClassName="nav-active"
-          >
-            Chats
-          </NavLink>}
-          {context.isLoggedIn&&<NavLink
-            onClick={() => {
-              menuHandler();
-            }}
-            to="/wishlist"
-            activeClassName="nav-active"
-          >
-             WishList
-          </NavLink>}
-          {context.isLoggedIn&&<NavLink
-            onClick={() => {
-              menuHandler();
-            }}
-            to="/mybooks"
-            activeClassName="nav-active"
-          >
-             My Books
-          </NavLink>}
-          {context.isLoggedIn&&<NavLink
-            onClick={() => {
-              menuHandler();
-            }}
-            to="/bookform"
-            activeClassName="nav-active"
-          >
-             Sell a book
-          </NavLink>}
-          {context.isLoggedIn&&<NavLink
-            onClick={() => {
-              menuHandler();
-            }}
-            to="/profile"
-            activeClassName="nav-active"
-          >
-             My Profile
-          </NavLink>}
-          {!context.isLoggedIn&&<NavLink
-            onClick={() => {
-              menuHandler();
-            }}
-            to="/login-register"
-            activeClassName="nav-active"
-          >
-            Login/Register
-          </NavLink>}
-          {context.isLoggedIn&& <button onClick={context.logout}>Logout</button>}
+          {context.isLoggedIn && (
+            <NavLink
+              onClick={() => {
+                menuHandler();
+              }}
+              to="/chats"
+              activeClassName="nav-active"
+            >
+              Chats
+            </NavLink>
+          )}
+          {context.isLoggedIn && (
+            <NavLink
+              onClick={() => {
+                menuHandler();
+              }}
+              to="/wishlist"
+              activeClassName="nav-active"
+            >
+              WishList
+            </NavLink>
+          )}
+          {context.isLoggedIn && (
+            <NavLink
+              onClick={() => {
+                menuHandler();
+              }}
+              to="/mybooks"
+              activeClassName="nav-active"
+            >
+              My Books
+            </NavLink>
+          )}
+          {context.isLoggedIn && (
+            <NavLink
+              onClick={() => {
+                menuHandler();
+              }}
+              to="/bookform"
+              activeClassName="nav-active"
+            >
+              Sell a book
+            </NavLink>
+          )}
+          {context.isLoggedIn && (
+            <NavLink
+              onClick={() => {
+                menuHandler();
+              }}
+              to="/profile"
+              activeClassName="nav-active"
+            >
+              My Profile
+            </NavLink>
+          )}
+          {!context.isLoggedIn && (
+            <NavLink
+              onClick={() => {
+                menuHandler();
+              }}
+              to="/login-register"
+              activeClassName="nav-active"
+            >
+              Login/Register
+            </NavLink>
+          )}
+          {context.isLoggedIn && (
+            <button onClick={context.logout}>Logout</button>
+          )}
         </div>
       )}
     </div>
