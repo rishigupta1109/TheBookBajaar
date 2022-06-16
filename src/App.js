@@ -18,13 +18,18 @@ import { useState,useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
+import useHttpClient from './hooks/useHttpClient';
 AOS.init();
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!JSON.parse(localStorage.getItem("token"))
+  );
   const [token, setToken] = useState(null);
   const [user, setUser] = useState({});
+  const [wishlist, setWishlist] = useState([]);
   const [tokenExpiry, settokenExpiry] = useState();
   const history= useHistory();
+  const {request}=useHttpClient();
   console.log(user);
   const loginHandler = (userDetail,token,expiration) => {
     setIsLoggedIn(true);
@@ -37,12 +42,14 @@ function App() {
       expirationDate,
       userDetail
     }))
-    history.replace('/');
+    
   };
   useEffect(() => {
     const data=JSON.parse(localStorage.getItem("token"));
      if(data&&data.token&&new Date(data.expirationDate)>new Date()){
        loginHandler(data.userDetail,data.token,data.expirationDate);
+     }else{
+      setIsLoggedIn(false)
      }
   }, []);
   let logoutTimer;
@@ -54,6 +61,26 @@ function App() {
       clearTimeout(logoutTimer)
     }
   },[token,tokenExpiry]);
+ useEffect(() => {
+   const url = `http://localhost:5000/api/users/wishlist/${user.id}`;
+   const fetchIt = async () => {
+     const responseData = await request(
+       url,
+       "GET",
+       {},
+       {},
+       "Wishlist Fetched Successfully"
+     );
+     console.log(responseData);
+     if (responseData ) {
+      setWishlist(responseData.wishlist)
+       console.log(responseData.wishlist);
+     }
+   };
+   if(token){
+     fetchIt();
+   }
+ }, [token]);
   const logoutHandler = () => {
     setIsLoggedIn(false);
     setUser({});
@@ -63,20 +90,6 @@ function App() {
     history.replace('/');
   };
   let routes = (
-    <Switch>
-      <Route path="/" exact>
-        <Home></Home>
-      </Route>
-      <Route path="/books" exact>
-        <Books></Books>
-      </Route>
-      <Route path="/login-register">
-        <Login></Login>
-      </Route>
-      <Redirect to="/"></Redirect>
-    </Switch>
-  );
-  if(isLoggedIn) routes = (
     <Switch>
       <Route path="/" exact>
         <Home></Home>
@@ -108,9 +121,24 @@ function App() {
       <Redirect to="/"></Redirect>
     </Switch>
   );
+  
+  if(!isLoggedIn) routes = (
+    <Switch>
+      <Route path="/" exact>
+        <Home></Home>
+      </Route>
+      <Route path="/books" exact>
+        <Books></Books>
+      </Route>
+      <Route path="/login-register">
+        <Login></Login>
+      </Route>
+      <Redirect to="/"></Redirect>
+    </Switch>
+  );
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler, user,token }}
+      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler, user,token,wishlist,setWishlist:setWishlist }}
     >
       <ToastContainer />
       <div className="App">

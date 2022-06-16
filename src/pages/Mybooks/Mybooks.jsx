@@ -4,6 +4,7 @@ import "./Mybooks.css";
 import Filterbar from './../../components/FilterBar/Filterbar';
 import useHttpClient from "./../../hooks/useHttpClient";
 import AuthContext from '../../utilities/auth-context';
+import useFilter from '../../hooks/useFilter';
 export default function Mybooks() {
    const { request } = useHttpClient();
    const [books, setBooks] = useState([]);
@@ -23,11 +24,21 @@ export default function Mybooks() {
        setloading(false);
        if (responseData && responseData.books) {
          setBooks(responseData.books);
+         setfilteredbooks(responseData.books);
          console.log(responseData.books);
        }
      };
      fetchIt();
    }, []);
+  const {
+    filteredbooks,
+    uniquecolleges,
+    uniquesubject,
+    setfilteredbooks,
+    sorting,
+    filter,
+    searchFilter,
+  } = useFilter({ books });
   return (
     <div
       style={{ textAlign: "center", backgroundColor: "red", color: "white" }}
@@ -36,12 +47,20 @@ export default function Mybooks() {
       <div style={{ alignSelf: "center", fontSize: "50px", padding: "30px" }}>
         My Books
       </div>
-      <Filterbar collegeFilter={false}></Filterbar>
+      <Filterbar
+        collegeFilter={false}
+        sorting={sorting}
+        filter={filter}
+        uniquecolleges={Array.from(uniquecolleges)}
+        uniquesubject={Array.from(uniquesubject)}
+        searchFilter={searchFilter}
+      ></Filterbar>
       <div className="Mybooks">
         <Shelf
           loading={loading}
           isBuyer={false}
-          books={books}
+          books={filteredbooks}
+          bookPresent={!!books.length}
           inWishlist={false}
         ></Shelf>
       </div>

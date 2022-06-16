@@ -4,6 +4,8 @@ const AuthContext=createContext({
     login:()=>{},
     logout:()=>{},
     user:{},
-    token:null
+    token:null,
+    wishlist:[],
+    setWishlist:()=>{}
 })
 export default AuthContext;
