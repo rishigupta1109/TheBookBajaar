@@ -4,13 +4,14 @@ import useHttpClient from "../../hooks/useHttpClient";
 import AuthContext from "../../utilities/auth-context";
 import toastCreator from "../../utilities/toastCreator";
 import "./BookForm.css";
+import FileBase64 from "react-file-base64";
 export default function BookForm({ sell }) {
   const [bookName, setBookName] = useState("");
   const [subject, setSubject] = useState("");
   const [price, setprice] = useState(0);
   const [file, setfile] = useState();
-  const [imageisValid, setimageisValid] = useState();
-  const [imgurl, setimgurl] = useState();
+  // const [imageisValid, setimageisValid] = useState();
+  // const [imgurl, setimgurl] = useState();
   const [disabled, setdisabled] = useState(false);
   let { bookId } = useParams();
   const history = useHistory();
@@ -76,29 +77,42 @@ export default function BookForm({ sell }) {
     }
   };
   const clickHandler = async () => {
-    console.log("clicked")
+    console.log("clicked");
     setdisabled(false);
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
-    if (bookamtisValid && booknameisValid && subjectisValid&&imageisValid) {
+    let imageisValid = file.trim().length !== 0;
+    if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
       const url = "http://localhost:5000/api/books/add";
-      const formData=new FormData();
-      formData.append("name",bookName);
-      formData.append("subject",subject);
-      formData.append("price",price);
+      const formData = new FormData();
+      formData.append("name", bookName);
+      formData.append("subject", subject);
+      formData.append("price", price);
       formData.append("userid", context.user.id);
-      formData.append("image",file);
+      formData.append("image", file);
       formData.append(
         "seller",
         context.user.firstName + " " + context.user.lastName
       );
-      console.log(formData)
+      console.log(formData);
+      let data = JSON.stringify({
+        name: bookName,
+        subject: subject,
+        price: price,
+        userid: context.user.id,
+        image: file,
+        seller: context.user.firstName + " " + context.user.lastName,
+      });
+      console.log(data);
       const responseData = await request(
         url,
         "POST",
-        { Authorization:"Bearer "+ context.token },
-        formData,
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + context.token,
+        },
+        data,
         "Book added Successfully"
       );
       console.log(responseData);
@@ -109,9 +123,9 @@ export default function BookForm({ sell }) {
       toastCreator(`Write a valid name`);
     } else if (!subjectisValid) {
       toastCreator(` write a valid subject name`);
-    } else if(!bookamtisValid) {
+    } else if (!bookamtisValid) {
       toastCreator(` price cannot be 0`);
-    }else{
+    } else {
       toastCreator(`please select a valid image`);
     }
   };
@@ -126,28 +140,29 @@ export default function BookForm({ sell }) {
   const pickImageHandler = () => {
     image.current.click();
   };
-  const pickHandler = (e) => {
-    if (e.target.files && e.target.files.length === 1) {
-      setfile(e.target.files[0]);
-      setimageisValid(true);
-    }
-    else{
-      toastCreator(`please select a valid image`);
-      imageisValid(false);
-    }
+  // const pickHandler = (e) => {
+  //   if (e.target.files && e.target.files.length === 1) {
+  //     setfile(e.target.files[0]);
+  //     setimageisValid(true);
+  //   }
+  //   else{
+  //     toastCreator(`please select a valid image`);
+  //     imageisValid(false);
+  //   }
 
-  };
-  useEffect(()=>{
-    if(!file){
-      return;
-    }
-    const fileReader=new FileReader();
-    fileReader.onload=()=>{
-      setimgurl(fileReader.result);
-    }
-    fileReader.readAsDataURL(file);
+  // };
 
-  },[file])
+  // useEffect(()=>{
+  //   if(!file){
+  //     return;
+  //   }
+  //   const fileReader=new FileReader();
+  //   fileReader.onload=()=>{
+  //     setimgurl(fileReader.result);
+  //   }
+  //   fileReader.readAsDataURL(file);
+
+  // },[file])
   return (
     <div className="profile column">
       <div className="profile-box column">
@@ -201,26 +216,32 @@ export default function BookForm({ sell }) {
         </div>
         {sell && (
           <div className="image-preview">
+            {file && <img src={file} alt="preview"></img>}
+            {!file && <p>please pick an image</p>}
+          </div>
+        )}
+        {/* {sell && (
+          <div className="image-preview">
             {imgurl && <img src={imgurl} alt="preview"></img>}
             {!imgurl && <p>please pick an image</p>}
           </div>
-        )}
+        )} */}
         {sell && (
           <div>
             <label>Image:</label>
-            <button
-              onClick={pickImageHandler}
-              style={{ alignSelf: "center", fontSize: "15px" }}
-            >
-              Pick Image
-            </button>
-            <input
+
+            <FileBase64
+              type="file"
+              multiple={false}
+              onDone={({ base64 }) => setfile(base64)}
+            />
+            {/* <input
               accept=".jpg,.png,.jpeg"
               type="file"
               onChange={pickHandler}
               ref={image}
               style={{ display: "none" }}
-            ></input>
+            ></input> */}
           </div>
         )}
 

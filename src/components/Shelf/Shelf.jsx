@@ -165,7 +165,8 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
           <div key={data.id} className="book">
             <img
               className="book-img"
-              src={`http://localhost:5000/${data.image}`}
+              // src={`http://localhost:5000/${data.image}`}
+              src={data.image}
             ></img>
             <p style={{ fontSize: "larger" }}>
               {" "}

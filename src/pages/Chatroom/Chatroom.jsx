@@ -57,7 +57,9 @@ export default function Chatroom({socket}) {
             }
             const linkTo = `chats/${data.id}`;
             let lastMsger;
-            let lstmsg=lastMessages.find((value)=>value.room===data.id);
+            let lstmsg=lastMessages.find((value)=>{
+              if(value){return value.room===data.id}
+              else {return false;}});
             if(lstmsg){
               if(lstmsg.from===recievingUser){
                 lastMsger=recievingUserName;
