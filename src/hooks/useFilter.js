@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 const useFilter=({books})=>{
      const [filteredbooks, setfilteredbooks] = useState([]);
      const [cF, scF] = useState("Select");
      const [sF, ssF] = useState("Select");
+     useEffect(()=>{
+      setfilteredbooks(books);
+     },[books])
 let uniquecolleges = new Set(books.map((data) => data.college));
 let uniquesubject = new Set(books.map((data) => data.subject));
 const sorting = (type) => {

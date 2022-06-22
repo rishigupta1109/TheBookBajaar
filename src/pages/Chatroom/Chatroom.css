@@ -20,6 +20,7 @@ html{
      height:80vh;
 }
 .chat-list-item{
+    cursor: pointer;
     text-align: left;
     font-size: larger;
     background-color: white;
@@ -28,4 +29,14 @@ html{
     border-radius: 15px;
     padding: 25px;
     margin: 10px;
+}
+.jc-sb{
+    justify-content: space-between;
+}
+.chat-list-item h3{
+    color: black;
+    font-weight: 900;
+}
+.chat-list-item p{
+    color: grey;
 }

@@ -1,0 +1,62 @@
+#modalbox{
+    position: absolute;
+    width:500px;
+    height: 40vh;
+    left:500px;
+    top:200px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    z-index: 2;
+    border:1px solid black
+}
+#message{
+    margin-bottom:25px;
+    padding: 10px 20px;
+    width: 100%;
+    border-top-left-radius:20px ;
+    border-top-right-radius:20px ;
+    background-color: red;
+    color: white;
+    /* width:500px; */
+    /* background-color: orange; */
+}
+.btn-modal{
+ padding: 10px 20px !important ;
+ color: white;
+ background-color: red;
+ border-radius: 20px;
+ border: none;
+ width:80px;
+ font-size: larger;
+ cursor: pointer;
+ border: 1px solid red;
+}
+.btn-modal:hover{
+    color:red;
+    background-color: aliceblue;
+}
+.outlined{
+    color:red;
+    background-color: aliceblue;
+}
+.outlined:hover{
+    color:white;
+    background-color: red;
+}
+#backdrop{
+    z-index: 2;
+    position: absolute;
+    top:0;
+    height:115vh;
+    width:100%;
+    background-color: rgba(0, 0, 0, 0.562);
+}
+.btn-row{
+    width: 100%;
+    justify-content: space-between;
+    padding: 20px;
+}

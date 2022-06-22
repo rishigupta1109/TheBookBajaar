@@ -14,81 +14,137 @@ import Mybooks from "./pages/Mybooks/Mybooks";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import BookForm from "./pages/BookForm/BookForm";
 import AuthContext from "./utilities/auth-context";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import useHttpClient from './hooks/useHttpClient';
+import { ToastContainer } from "react-toastify";
+import useHttpClient from "./hooks/useHttpClient";
+import { io } from "socket.io-client";
+import toastCreator from "./utilities/toastCreator";
+const socket = io.connect("http://localhost:5000");
 AOS.init();
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!JSON.parse(localStorage.getItem("token"))
   );
+  const [rooms,setRooms]=useState([]);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState({});
   const [wishlist, setWishlist] = useState([]);
   const [tokenExpiry, settokenExpiry] = useState();
-  const history= useHistory();
-  const {request}=useHttpClient();
+  const [uniqueColleges, setUniqueColleges] = useState([]);
+  const [uniqueSubjects, setUniqueSubjects] = useState([]);
+  const [uniqueBookName, setUniqueBookName] = useState([]);
+  const history = useHistory();
+  const { request } = useHttpClient();
   console.log(user);
-  const loginHandler = (userDetail,token,expiration) => {
+  const loginHandler = (userDetail, token, expiration) => {
     setIsLoggedIn(true);
-    let expirationDate=expiration||new Date().getTime()+1000*60*60;
+    let expirationDate = expiration || new Date().getTime() + 1000 * 60 * 60;
     settokenExpiry(expirationDate);
-    setToken(token)
+    setToken(token);
     setUser(userDetail);
-    localStorage.setItem("token",JSON.stringify({
-      token,
-      expirationDate,
-      userDetail
-    }))
-    
+    localStorage.setItem(
+      "token",
+      JSON.stringify({
+        token,
+        expirationDate,
+        userDetail,
+      })
+    );
   };
   useEffect(() => {
-    const data=JSON.parse(localStorage.getItem("token"));
-     if(data&&data.token&&new Date(data.expirationDate)>new Date()){
-       loginHandler(data.userDetail,data.token,data.expirationDate);
-     }else{
-      setIsLoggedIn(false)
-     }
-  }, []);
-  let logoutTimer;
-  useEffect(()=>{
-    if(token&&tokenExpiry){
-      const remaining=tokenExpiry-new Date().getTime();
-      logoutTimer=setTimeout(logoutHandler,remaining)
-    }else{
-      clearTimeout(logoutTimer)
+    const data = JSON.parse(localStorage.getItem("token"));
+    if (data && data.token && new Date(data.expirationDate) > new Date()) {
+      loginHandler(data.userDetail, data.token, data.expirationDate);
+    } else {
+      setIsLoggedIn(false);
     }
-  },[token,tokenExpiry]);
- useEffect(() => {
-   const url = `http://localhost:5000/api/users/wishlist/${user.id}`;
-   const fetchIt = async () => {
-     const responseData = await request(
-       url,
-       "GET",
-       {},
-       {},
-       "Wishlist Fetched Successfully"
-     );
+  }, []);
+
+  let logoutTimer;
+  useEffect(() => {
+    if (token && tokenExpiry) {
+      const remaining = tokenExpiry - new Date().getTime();
+      logoutTimer = setTimeout(logoutHandler, remaining);
+    } else {
+      clearTimeout(logoutTimer);
+    }
+  }, [token, tokenExpiry]);
+   const fetchIt = async (url, msg, set1, prop1, set2, prop2) => {
+     const responseData = await request(url, "GET", {}, {}, msg);
      console.log(responseData);
-     if (responseData ) {
-      setWishlist(responseData.wishlist)
-       console.log(responseData.wishlist);
+     if (responseData) {
+       set1(responseData[prop1]);
+       if (set2) {
+         set2(responseData[prop2]);
+       }
      }
+     console.log(responseData[prop1], responseData[prop2]);
    };
-   if(token){
-     fetchIt();
-   }
- }, [token]);
+  useEffect(() => {
+  
+   
+    if (token) {
+      fetchIt(
+        `http://localhost:5000/api/users/wishlist/${user.id}`,
+        "Wishlist Fetched Successfully",
+        setWishlist,"wishlist"
+      );
+    
+      
+    }
+  }, [token]);
+  useEffect(()=>{
+  fetchIt(
+    `http://localhost:5000/api/users/uniquecolleges`,
+    "",
+    setUniqueColleges,
+    "uniqueColleges"
+  );
+  fetchIt(
+    `http://localhost:5000/api/books/unique`,
+    "",
+    setUniqueBookName,
+    "uniqueBookNames",
+    setUniqueSubjects,
+    "uniqueSubjects",
+  );
+  },[])
   const logoutHandler = () => {
     setIsLoggedIn(false);
     setUser({});
     setToken(null);
     settokenExpiry(null);
-    localStorage.removeItem("token")
-    history.replace('/');
+    localStorage.removeItem("token");
+    history.replace("/");
   };
+  useEffect(() => {
+    const fetchit = async () => {
+      const url = "http://localhost:5000/api/chat/rooms";
+      let responseData = await request(
+        url,
+        "POST",
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        JSON.stringify({}),
+        ""
+      );
+      console.log("rooms", responseData);
+      if (responseData && responseData.rooms) {
+        setRooms(responseData.rooms);
+        socket.emit("join_room", responseData.rooms, user.id);
+        console.log("join room req sent");
+      }
+    };
+    if (token) {
+      fetchit();
+    }
+  }, [token]);
+
   let routes = (
     <Switch>
       <Route path="/" exact>
@@ -98,10 +154,10 @@ function App() {
         <Books></Books>
       </Route>
       <Route path="/chats" exact>
-        <Chatroom></Chatroom>
+        <Chatroom socket={socket}></Chatroom>
       </Route>
       <Route path="/chats/:CHATID" exact>
-        <Chat></Chat>
+        <Chat socket={socket}></Chat>
       </Route>
       <Route path="/profile">
         <Profile></Profile>
@@ -121,24 +177,41 @@ function App() {
       <Redirect to="/"></Redirect>
     </Switch>
   );
-  
-  if(!isLoggedIn) routes = (
-    <Switch>
-      <Route path="/" exact>
-        <Home></Home>
-      </Route>
-      <Route path="/books" exact>
-        <Books></Books>
-      </Route>
-      <Route path="/login-register">
-        <Login></Login>
-      </Route>
-      <Redirect to="/"></Redirect>
-    </Switch>
-  );
+
+  if (!isLoggedIn)
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Home></Home>
+        </Route>
+        <Route path="/books" exact>
+          <Books></Books>
+        </Route>
+        <Route path="/login-register">
+          <Login></Login>
+        </Route>
+        <Redirect to="/"></Redirect>
+      </Switch>
+    );
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login: loginHandler, logout: logoutHandler, user,token,wishlist,setWishlist:setWishlist }}
+      value={{
+        uniqueBookName,
+        uniqueColleges,
+        uniqueSubjects,
+        isLoggedIn,
+        login: loginHandler,
+        logout: logoutHandler,
+        user,
+        token,
+        wishlist,
+        setWishlist: setWishlist,
+        setUniqueBookName,
+        setUniqueColleges,
+        setUniqueSubjects,
+        rooms,
+        setRooms
+      }}
     >
       <ToastContainer />
       <div className="App">

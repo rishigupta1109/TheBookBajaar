@@ -79,7 +79,7 @@ export default function Login() {
   const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
-  const {request,toastId} = useHttpClient();
+  const {request} = useHttpClient();
   const checkValidity = ({ type, value }) => {
     if (type === "fname" || type === "lname") {
       return value.trim().length !== 0;
@@ -252,7 +252,13 @@ export default function Login() {
               type="text"
               value={formValidity.inputs["college"].value}
               id="college"
+              list="uniquecolleges"
             ></input>
+            <datalist id="uniquecolleges">
+              {context.uniqueColleges.map((data) => {
+                return <optiom>{data}</optiom>;
+              })}
+            </datalist>
           </div>
         )}
         <div>

@@ -18,8 +18,7 @@
     padding: 10px;
     overflow-y: auto;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column;   
 }
 .l{
     align-self: flex-start;
@@ -68,4 +67,20 @@
     border-left: none;
     color: red    ;
     cursor: pointer;         ;
+}
+.msg button:disabled:hover{
+    background-color: grey;
+    color: white;
+    border:1px solid white;
+}
+
+.date-string{
+    color: black;
+    font-size: smaller;
+}
+.dot{
+    height:20px;
+    width:20px;
+    border-radius: 20px;
+    margin-left: 15px ;
 }

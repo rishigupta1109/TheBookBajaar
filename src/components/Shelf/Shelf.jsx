@@ -9,19 +9,17 @@ import soldicon from "../../utilities/icons8-sold-64.png";
 import AuthContext from "../../utilities/auth-context";
 import ReactLoading from "react-loading";
 import useHttpClient from "../../hooks/useHttpClient";
-export default function Shelf({
-  isBuyer,
-  books,
-  loading,
-  inWishlist,
-  bookPresent,
-}) {
+import Modal from "./../modal/modal";
+export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent, setBooks }) {
   const history = useHistory();
   console.log(inWishlist);
   console.log(books);
+  const [modal, setModal] = useState(false);
+  const [Soldbookid, setSoldbookid] = useState(null);
   const context = useContext(AuthContext);
   const { request } = useHttpClient();
-  if (!bookPresent) {
+  console.log(books.filter((value)=>value.userid!==context.user.id).length===0)
+  if (!bookPresent||(books&&books.length===0)) {
     if (loading) {
       return (
         <div className="shelf" style={{ justifyContent: "center" }}>
@@ -47,6 +45,14 @@ export default function Shelf({
       }
     }
   }
+  if(books.filter((value)=>value.userid
+  !==context.user.id).length===0&&isBuyer){
+ return (
+   <div style={{ justifyContent: "center" }} className="shelf">
+     No Books available
+   </div>
+ );
+  }
   const addToWishlist = async (e) => {
     console.log(e.target.getAttribute("data"));
 
@@ -67,12 +73,12 @@ export default function Shelf({
           book,
         }),
         "added to Wishlist Successfully"
-        );
-        if (responseData.existingUser) {
-          console.log(responseData);
-          const wishlist=[...context.wishlist,book];
-          context.setWishlist(wishlist);
-        }
+      );
+      if (responseData.existingUser) {
+        console.log(responseData);
+        const wishlist = [...context.wishlist, book];
+        context.setWishlist(wishlist);
+      }
     } else {
       responseData = await request(
         url,
@@ -88,83 +94,141 @@ export default function Shelf({
         "removed from Wishlist Successfully"
       );
       if (responseData.existingUser) {
-        let wishlist=context.wishlist.filter((data)=>data.id!==book.id);
+        let wishlist = context.wishlist.filter((data) => data.id !== book.id);
         context.setWishlist(wishlist);
-        
       }
     }
 
     console.log(responseData);
-
   };
+  const soldHandler = async (soldOn) => {
+    let responseData;
+    const url = `http://localhost:5000/api/books/${Soldbookid}`;
+    responseData = await request(
+      url,
+      "DELETE",
+      {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + context.token,
+      },
+      JSON.stringify({
+        soldOn,
+      }),
+      "removed Successfully"
+    );
+    if (responseData.sold) {
+      console.log(responseData);
+      setBooks((data)=>{
+        let newbooks=data.filter((value)=>value.id!==Soldbookid);
+        return newbooks;
+      });
+    }
+    setModal(false);
+  };
+  const chatHandler=async(e)=>{
+    console.log(e.target.getAttribute("data"))
+    console.log(e.target.getAttribute("data-seller"))
+    const url="http://localhost:5000/api/chat/createroom";
+     let responseData = await request(
+       url,
+       "POST",
+       {
+         "Content-Type": "application/json",
+         Authorization: "Bearer " + context.token,
+       },
+       JSON.stringify({
+         user2: e.target.getAttribute("data"),
+         name1: context.user.firstName + " " + context.user.lastName,
+         name2: e.target.getAttribute("data-seller"),
+       }),
+       ""
+     );
+     console.log(responseData);
+     if (responseData.room) {
+       history.push('/chats');
+     }
+  }
   return (
     <div className="shelf">
+      {modal && (
+        <Modal
+          message="did the book sold on The Book Bajaar?"
+          sold={soldHandler}
+          closeModal={() => {
+            setModal(false);
+          }}
+        ></Modal>
+      )}
       {books.map((data, index) => {
-        if (data.userid === context.user.id)
-        return <div></div>
-          return (
-            <div key={data.id} className="book">
-              <img
-                className="book-img"
-                src={`http://localhost:5000/${data.image}`}
-              ></img>
-              <p style={{ fontSize: "larger" }}>
-                {" "}
-                <b>{data.name}</b>
-              </p>
-              <p style={{ fontSize: "larger" }}>
-                {" "}
-                <b>{data.price}₹</b>
-              </p>
-              {isBuyer && data.userid !== context.user.id && (
-                <p>Seller : {data.seller.toUpperCase()}</p>
+        if (data.userid === context.user.id && isBuyer) return <div></div>;
+        return (
+          <div key={data.id} className="book">
+            <img
+              className="book-img"
+              src={`http://localhost:5000/${data.image}`}
+            ></img>
+            <p style={{ fontSize: "larger" }}>
+              {" "}
+              <b>{data.name}</b>
+            </p>
+            <p style={{ fontSize: "larger" }}>
+              {" "}
+              <b>{data.price}₹</b>
+            </p>
+            {isBuyer && data.userid !== context.user.id && (
+              <p>Seller : {data.seller.toUpperCase()}</p>
+            )}
+
+            {isBuyer && <p>{data.college}</p>}
+            {isBuyer &&
+              !context.wishlist.find((book) => data.id === book.id) &&
+              !inWishlist &&
+              data.userid !== context.user.id && (
+                <button id={data.id} data="add" onClick={addToWishlist}>
+                  <img src={addicon}></img>Add to wishlist
+                </button>
               )}
-             
-              {isBuyer && <p>{data.college}</p>}
-              {isBuyer &&
-                !context.wishlist.find((book) => data.id === book.id) &&
-                !inWishlist &&
-                data.userid !== context.user.id && (
-                  <button id={data.id} data="add" onClick={addToWishlist}>
-                    <img src={addicon}></img>Add to wishlist
-                  </button>
-                )}
-              {isBuyer &&
-                context.wishlist.find((book) => data.id === book.id) &&
-                !inWishlist &&
-                (
-                  <button id={data.id} data="remove" onClick={addToWishlist}>
-                    <img src={removeicon}></img>remove from wishlist
-                  </button>
-                )}
-              {isBuyer && inWishlist && (
+            {isBuyer &&
+              context.wishlist.find((book) => data.id === book.id) &&
+              !inWishlist && (
                 <button id={data.id} data="remove" onClick={addToWishlist}>
-                  <img src={removeicon}></img>Remove from wishlist
+                  <img src={removeicon}></img>remove from wishlist
                 </button>
               )}
-              {isBuyer  && (
-                <button>
-                  {" "}
-                  <img src={chaticon}></img> chat
-                </button>
-              )}
-              {!isBuyer && (
-                <button
-                  onClick={() => {
-                    history.push(`/updatebook/${data.id}`);
-                  }}
-                >
-                  <img src={editicon}></img>Edit
-                </button>
-              )}
-              {!isBuyer && (
-                <button>
-                  {" "}
-                  <img src={soldicon}></img>Sold
-                </button>
-              )}
-            </div>
-          );
+            {isBuyer && inWishlist && (
+              <button id={data.id} data="remove" onClick={addToWishlist}>
+                <img src={removeicon}></img>Remove from wishlist
+              </button>
+            )}
+            {isBuyer && (
+              <button data={data.userid} data-seller={data.seller} onClick={chatHandler}>
+                {" "}
+                <img src={chaticon}></img> chat
+              </button>
+            )}
+            {!isBuyer && (
+              <button
+                onClick={() => {
+                  history.push(`/updatebook/${data.id}`);
+                }}
+              >
+                <img src={editicon}></img>Edit
+              </button>
+            )}
+            {!isBuyer && (
+              <button
+                onClick={(e) => {
+                  setModal(true);
+                  setSoldbookid(e.target.getAttribute("data"));
+                }}
+                data={data.id}
+              >
+                {" "}
+                <img src={soldicon}></img>Sold
+              </button>
+            )}
+          </div>
+        );
       })}
     </div>
   );

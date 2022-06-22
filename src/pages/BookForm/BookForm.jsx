@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import useHttpClient from "../../hooks/useHttpClient";
 import AuthContext from "../../utilities/auth-context";
 import toastCreator from "../../utilities/toastCreator";
@@ -163,7 +162,13 @@ export default function BookForm({ sell }) {
               setBookName(e.target.value);
             }}
             value={bookName}
+            list="uniqbookname"
           ></input>
+          <datalist id="uniqbookname">
+            {context.uniqueBookName.map((data) => {
+              return <option>{data}</option>;
+            })}
+          </datalist>
         </div>
         <div>
           <label>Subject :</label>
@@ -174,7 +179,14 @@ export default function BookForm({ sell }) {
               setSubject(e.target.value);
             }}
             value={subject}
+            list="uniqsubject"
           ></input>
+          <datalist id="uniqsubject">
+            {context.uniqueSubjects.map((data) => {
+              console.log(data);
+              return <option>{data}</option>;
+            })}
+          </datalist>
         </div>
         <div>
           <label>Price :</label>
@@ -187,26 +199,30 @@ export default function BookForm({ sell }) {
             value={price}
           ></input>
         </div>
-        {sell&&<div className="image-preview">
-            {imgurl&&<img src={imgurl} alt="preview"></img>}
-            {!imgurl&&<p>please pick an image</p>}
-        </div>}
-        {sell&&<div>
-          <label>Image:</label>
-          <button
-            onClick={pickImageHandler}
-            style={{ alignSelf: "center", fontSize: "15px" }}
-          >
-            Pick Image
-          </button>
-          <input
-          accept=".jpg,.png,.jpeg"
-            type="file"
-            onChange={pickHandler}
-            ref={image}
-            style={{ display: "none" }}
-          ></input>
-        </div>}
+        {sell && (
+          <div className="image-preview">
+            {imgurl && <img src={imgurl} alt="preview"></img>}
+            {!imgurl && <p>please pick an image</p>}
+          </div>
+        )}
+        {sell && (
+          <div>
+            <label>Image:</label>
+            <button
+              onClick={pickImageHandler}
+              style={{ alignSelf: "center", fontSize: "15px" }}
+            >
+              Pick Image
+            </button>
+            <input
+              accept=".jpg,.png,.jpeg"
+              type="file"
+              onChange={pickHandler}
+              ref={image}
+              style={{ display: "none" }}
+            ></input>
+          </div>
+        )}
 
         <div>
           {sell && (

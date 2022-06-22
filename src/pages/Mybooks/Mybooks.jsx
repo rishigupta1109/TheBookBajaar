@@ -10,6 +10,15 @@ export default function Mybooks() {
    const [books, setBooks] = useState([]);
    const [loading,setloading]=useState(true);
    const context = useContext(AuthContext);
+   const {
+     filteredbooks,
+     uniquecolleges,
+     uniquesubject,
+     setfilteredbooks,
+     sorting,
+     filter,
+     searchFilter,
+   } = useFilter({ books });
    useEffect(() => {
      const url = `http://localhost:5000/api/books/user/${context.user.id}`;
      const fetchIt = async () => {
@@ -28,17 +37,10 @@ export default function Mybooks() {
          console.log(responseData.books);
        }
      };
+     if(context.user.id)
      fetchIt();
-   }, []);
-  const {
-    filteredbooks,
-    uniquecolleges,
-    uniquesubject,
-    setfilteredbooks,
-    sorting,
-    filter,
-    searchFilter,
-  } = useFilter({ books });
+   }, [context.user]);
+  
   return (
     <div
       style={{ textAlign: "center", backgroundColor: "red", color: "white" }}
@@ -62,6 +64,7 @@ export default function Mybooks() {
           books={filteredbooks}
           bookPresent={!!books.length}
           inWishlist={false}
+          setBooks={setBooks}
         ></Shelf>
       </div>
     </div>

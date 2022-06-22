@@ -1,44 +1,210 @@
-import React from "react";
+import React, { useContext, useEffect, useState,useRef } from "react";
 import "./Chat.css";
 import backicon from "../../utilities/icons8-back-48.png";
-import { useHistory } from 'react-router-dom';
-export default function Chat() {
+import { useHistory, useParams } from "react-router-dom";
+import AuthContext from "../../utilities/auth-context";
+import useHttpClient from "../../hooks/useHttpClient";
+import Loading from "react-loading";
+import toastCreator from "../../utilities/toastCreator";
 
-  const history =useHistory();
+
+export default function Chat({socket}) {
+  const history = useHistory();
+  const context = useContext(AuthContext);
+  const [roomData, setRoomData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [msgLoading, setMsgLoading] = useState(false);
+  const [btnActive, setbtnActive] = useState(false);
+  const [recieverData, setRecieverData] = useState({});
+  const [message, setMesssage] = useState("");
+  const [messages, setMesssages] = useState([]);
+  const [recieverOnline, setrecieverOnline] = useState(false);
+  const { CHATID } = useParams();
+  const chatbox=useRef();
+  console.log(CHATID);
+  const { request } = useHttpClient();
+  const fetchit = async () => {
+    setLoading(true);
+    const url = `http://localhost:5000/api/chat/room/${CHATID}`;
+    let responseData = await request(url, "GET", {}, JSON.stringify({}), "");
+    console.log(responseData);
+    setLoading(false);
+    if (responseData && responseData.room) {
+      setRoomData(responseData.room);
+      let recievingUser;
+      let recievingUserName;
+     
+      if (responseData.room.user1 === context.user.id) {
+        recievingUser = responseData.room.user2;
+        recievingUserName = responseData.room.name2;
+        setRecieverData({ recievingUser, recievingUserName });
+      } else {
+        recievingUser = responseData.room.user1;
+        recievingUserName = responseData.room.name1;
+        console.log(recievingUser, recievingUserName);
+        setRecieverData({ recievingUser, recievingUserName });
+      }
+      socket.emit("check_online",recievingUser);
+
+       socket.emit("join_room", context.rooms, context.user.id);
+       console.log("join room req sent in chat",context.rooms);
+       
+    }
+  };
+  const fetchMessages=async()=>{
+setMsgLoading(true);
+const url = `http://localhost:5000/api/chat/messages/${CHATID}`;
+let responseData = await request(url, "POST", {
+  "Content-Type":"application/json",
+  Authorization:"Bearer "+context.token
+}, JSON.stringify({}), "");
+setMsgLoading(false);
+if (responseData && responseData.messages) {
+  setMesssages(responseData.messages);
+  
+  console.log(responseData.messages);
+
+}
+  }
+  useEffect(() => {
+    if (context.token&&context.rooms) {
+      fetchit();
+      fetchMessages();
+    }
+  }, [context.token]);
+  useEffect(() => {
+    if (context.token) {
+      fetchit();
+      fetchMessages();
+    }
+  }, []);
+  useEffect(()=>{
+    if(!!chatbox&&!!chatbox.current){
+      chatbox.current.scrollTop = chatbox.current.scrollHeight;
+    }
+  },[messages])
+ socket.on("room_joined", (msg) => {
+   console.log("joined", msg);
+   setrecieverOnline(true);
+ });
+  socket.on("room_left", (msg) => {
+    console.log("left",msg);
+    setrecieverOnline(false);
+  });
+ socket.on("online_status", (status) => {
+  setrecieverOnline(status);
+  console.log("receiver is ",status);
+ });
+ socket.on("message_recieved", (sandhesa) => {
+   console.log(sandhesa);
+   console.log(messages);
+   let msg = [...messages, sandhesa];
+   console.log(msg);
+   setMesssages(msg);
+ });
+  const sendHandler = () => {
+    socket.emit("message_sent", {
+      message,
+      to: recieverData.recievingUser,
+      from: context.user.id,
+      date: new Date(),
+      room: CHATID,
+    });
+    let msg = [
+      ...messages,
+      {
+        message,
+        to: recieverData.recievingUser,
+        from: context.user.id,
+        date: new Date(),
+        room: CHATID,
+      },
+    ];
+    console.log(msg);
+    setMesssages(msg);
+    setMesssage("");
+  };
   return (
     <div className="chat">
-      <div className="chat-section">
-        <div
-          style={{
-            fontSize: "large",
-            fontWeight: "bolder",
-            padding: "6px",
-            borderBottom: "1px solid gray",
-            alignItems: "center",
-          }}
-          className="user row"
-        >
-          <img
-            src={backicon}
-            onClick={()=>{history.goBack()}}
+      {loading && !msgLoading && <Loading type="spin" color="#fff"></Loading>}
+      {msgLoading && <Loading type="spin" color="#fff"></Loading>}
+
+      {!loading && (
+        <div className="chat-section">
+          <div
             style={{
-              border: "1px solid black",
-              borderRadius: "25px",
-              marginRight: "10px",
-              cursor: "pointer",
+              fontSize: "large",
+              fontWeight: "bolder",
+              padding: "6px",
+              borderBottom: "1px solid gray",
+              alignItems: "center",
             }}
-          ></img>
-          Rishi Gupta
+            className="user row"
+          >
+            <img
+              src={backicon}
+              onClick={() => {
+                history.goBack();
+              }}
+              style={{
+                border: "1px solid black",
+                borderRadius: "25px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+            ></img>
+            {recieverData.recievingUserName}
+            <div
+              className="dot"
+              style={{ backgroundColor: recieverOnline ?"green":"red"}}
+            ></div>
+          </div>
+          <div className="messages" ref={chatbox}>
+            {messages.length > 0 &&
+              messages.map((data) => {
+                if (data.to === context.user.id) {
+                  return (
+                    <div className="l row jc-sb">
+                      <p>
+                        {recieverData.recievingUserName} : {data.message}
+                      </p>
+                      <p className="date-string">
+                        {new Date(data.date).toLocaleString()}
+                      </p>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="r row jc-sb">
+                      <p>Me : {data.message}</p>
+                      <p className="date-string">
+                        {new Date(data.date).toLocaleString()}
+                      </p>
+                    </div>
+                  );
+                }
+              })}
+          </div>
+          <div className="msg">
+            <input
+              placeholder="type your message here.."
+              type="text"
+              value={message}
+              onChange={(e) => {
+                setMesssage(e.target.value);
+                if (e.target.value.trim().length !== 0 && !btnActive) {
+                  setbtnActive(true);
+                } else if (e.target.value.trim().length === 0 && btnActive) {
+                  setbtnActive(false);
+                }
+              }}
+            ></input>
+            <button onClick={sendHandler} disabled={!btnActive}>
+              Send
+            </button>
+          </div>
         </div>
-        <div className="messages">
-          <div className="l">Rishi : hi</div>
-          <div className="r">You : hello</div>
-        </div>
-        <div className="msg">
-          <input placeholder="type your message here.." type="text"></input>
-          <button>Send</button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

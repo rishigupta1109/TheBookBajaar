@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
     const request=useCallback(async(url,method="GET",headers={},body={},successmsg) => {
        toast.dismiss();
        console.log(url,successmsg);
-      if(url&&!toast.isActive(toastId.current)){
+      if(url&&!toast.isActive(toastId.current)&&successmsg!==""){
         toastId.current = toast.loading("loading...",{toastId:successmsg});
         console.log("craeting toast",toastId.current)
       }
@@ -29,6 +29,7 @@ import { toast } from 'react-toastify';
            if(!response.ok){
               throw new Error(responseData.message);
            }else{
+            if(successmsg!==""){
               toast.update(toastId.current, {
                 render: String(successmsg),
                 type: "success",
@@ -36,10 +37,11 @@ import { toast } from 'react-toastify';
                 hideProgressBar: false,
                 autoClose: 2000,
                 closeOnClick: true,
-              });
+              });}
                 return responseData;
            }
       }catch(err){
+        if(successmsg!==""){
          toast.update(toastId.current, {
            render: String(err),
            type: "error",
@@ -47,7 +49,7 @@ import { toast } from 'react-toastify';
            hideProgressBar: false,
            autoClose: 2000,
            closeOnClick: true,
-         });
+         });}
          return null;
           console.log(err);
       }
