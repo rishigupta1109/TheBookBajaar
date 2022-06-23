@@ -7,13 +7,15 @@ const AuthContext = createContext({
   token: null,
   wishlist: [],
   setWishlist: () => {},
-  setUniqueBookName: [],
-  setUniqueColleges: [],
-  setUniqueSubjects: [],
+  setUniqueBookName: () => {},
+  setUniqueColleges: () => {},
+  setUniqueSubjects: () => {},
   uniqueBookName: [],
   uniqueColleges: [],
   uniqueSubjects: [],
   rooms: [],
   setRooms: () => {},
+  notification: [],
+  setNotification: () => {},
 });
 export default AuthContext;

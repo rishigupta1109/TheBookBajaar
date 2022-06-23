@@ -58,7 +58,8 @@ export default function Navbar() {
                 Books
               </NavLink>
               {context.isLoggedIn && (
-                <NavLink to="/chats" activeClassName="nav-active">
+                <NavLink style={{position:"relative"}} to="/chats" activeClassName="nav-active">
+               {context.notification.length!==0&&<div className="ui floating circular label" style={{border:"1px solid white",color:"white",backgroundColor:"red"}}>{context.notification.length}</div>}
                   Chats
                 </NavLink>
               )}

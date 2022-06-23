@@ -79,7 +79,7 @@ export default function Login() {
   const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
-  const {request} = useHttpClient();
+  const { request } = useHttpClient();
   const checkValidity = ({ type, value }) => {
     if (type === "fname" || type === "lname") {
       return value.trim().length !== 0;
@@ -128,9 +128,9 @@ export default function Login() {
       // toastCreator(`submitted`,"success");
 
       console.log("sending post req");
-      
-      let url = "http://localhost:5000/api/users/signup";
-      const responseData=await request(
+
+      let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/signup`;
+      const responseData = await request(
         url,
         "POST",
         {
@@ -142,15 +142,16 @@ export default function Login() {
           college: formValidity.inputs.college.value,
           email: formValidity.inputs.email.value,
           password: formValidity.inputs.pass.value,
-        }),"Registered Successfully"
+        }),
+        "Registered Successfully"
       );
-        if(responseData!=null){
-          console.log(responseData.user);
-          context.login(responseData.user,responseData.token);
-        }
+      if (responseData != null) {
+        console.log(responseData.user);
+        context.login(responseData.user, responseData.token);
+      }
     }
   };
-  const loginHandler =async () => {
+  const loginHandler = async () => {
     if (
       formValidity.inputs["email"].isValid &&
       formValidity.inputs["pass"].isValid
@@ -158,8 +159,8 @@ export default function Login() {
       // context.login(formValidity.inputs);
       // console.log(formValidity);
       // const responseData=await
-       let url = "http://localhost:5000/api/users/login";
-      const responseData=await request(
+      let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/login`;
+      const responseData = await request(
         url,
         "POST",
         {
@@ -168,11 +169,12 @@ export default function Login() {
         JSON.stringify({
           email: formValidity.inputs.email.value,
           password: formValidity.inputs.pass.value,
-        }),"Logged In Successfully"
+        }),
+        "Logged In Successfully"
       );
-        if(responseData!=null){
-          context.login(responseData.user,responseData.token);
-        }
+      if (responseData != null) {
+        context.login(responseData.user, responseData.token);
+      }
     } else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`);
     } else {

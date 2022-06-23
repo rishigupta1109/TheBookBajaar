@@ -19,7 +19,7 @@ export default function BookForm({ sell }) {
   const context = useContext(AuthContext);
   useEffect(() => {
     if (!sell) {
-      const url = `http://localhost:5000/api/books/${bookId}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const fetchIt = async () => {
         console.log("fetchit");
         const responseData = await request(
@@ -49,7 +49,7 @@ export default function BookForm({ sell }) {
     let bookamtisValid = Number(price) > 0;
     console.log("updateHandler");
     if (bookamtisValid && booknameisValid && subjectisValid) {
-      const url = `http://localhost:5000/api/books/${bookId}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const responseData = await request(
         url,
         "PATCH",
@@ -84,7 +84,7 @@ export default function BookForm({ sell }) {
     let bookamtisValid = Number(price) > 0;
     let imageisValid = file.trim().length !== 0;
     if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
-      const url = "http://localhost:5000/api/books/add";
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/add`;
       const formData = new FormData();
       formData.append("name", bookName);
       formData.append("subject", subject);

@@ -10,7 +10,14 @@ import AuthContext from "../../utilities/auth-context";
 import ReactLoading from "react-loading";
 import useHttpClient from "../../hooks/useHttpClient";
 import Modal from "./../modal/modal";
-export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent, setBooks }) {
+export default function Shelf({
+  isBuyer,
+  books,
+  loading,
+  inWishlist,
+  bookPresent,
+  setBooks,
+}) {
   const history = useHistory();
   console.log(inWishlist);
   console.log(books);
@@ -18,8 +25,10 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
   const [Soldbookid, setSoldbookid] = useState(null);
   const context = useContext(AuthContext);
   const { request } = useHttpClient();
-  console.log(books.filter((value)=>value.userid!==context.user.id).length===0)
-  if (!bookPresent||(books&&books.length===0)) {
+  console.log(
+    books.filter((value) => value.userid !== context.user.id).length === 0
+  );
+  if (!bookPresent || (books && books.length === 0)) {
     if (loading) {
       return (
         <div className="shelf" style={{ justifyContent: "center" }}>
@@ -45,13 +54,15 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
       }
     }
   }
-  if(books.filter((value)=>value.userid
-  !==context.user.id).length===0&&isBuyer){
- return (
-   <div style={{ justifyContent: "center" }} className="shelf">
-     No Books available
-   </div>
- );
+  if (
+    books.filter((value) => value.userid !== context.user.id).length === 0 &&
+    isBuyer
+  ) {
+    return (
+      <div style={{ justifyContent: "center" }} className="shelf">
+        No Books available
+      </div>
+    );
   }
   const addToWishlist = async (e) => {
     console.log(e.target.getAttribute("data"));
@@ -59,7 +70,7 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
     const book = books.filter((data) => data.id === e.target.id)[0];
     console.log(book);
     let responseData;
-    const url = "http://localhost:5000/api/users/wishlist";
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/wishlist`;
     if (e.target.getAttribute("data") === "add") {
       responseData = await request(
         url,
@@ -103,7 +114,7 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
   };
   const soldHandler = async (soldOn) => {
     let responseData;
-    const url = `http://localhost:5000/api/books/${Soldbookid}`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${Soldbookid}`;
     responseData = await request(
       url,
       "DELETE",
@@ -118,36 +129,36 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
     );
     if (responseData.sold) {
       console.log(responseData);
-      setBooks((data)=>{
-        let newbooks=data.filter((value)=>value.id!==Soldbookid);
+      setBooks((data) => {
+        let newbooks = data.filter((value) => value.id !== Soldbookid);
         return newbooks;
       });
     }
     setModal(false);
   };
-  const chatHandler=async(e)=>{
-    console.log(e.target.getAttribute("data"))
-    console.log(e.target.getAttribute("data-seller"))
-    const url="http://localhost:5000/api/chat/createroom";
-     let responseData = await request(
-       url,
-       "POST",
-       {
-         "Content-Type": "application/json",
-         Authorization: "Bearer " + context.token,
-       },
-       JSON.stringify({
-         user2: e.target.getAttribute("data"),
-         name1: context.user.firstName + " " + context.user.lastName,
-         name2: e.target.getAttribute("data-seller"),
-       }),
-       ""
-     );
-     console.log(responseData);
-     if (responseData.room) {
-       history.push('/chats');
-     }
-  }
+  const chatHandler = async (e) => {
+    console.log(e.target.getAttribute("data"));
+    console.log(e.target.getAttribute("data-seller"));
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/createroom`;
+    let responseData = await request(
+      url,
+      "POST",
+      {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + context.token,
+      },
+      JSON.stringify({
+        user2: e.target.getAttribute("data"),
+        name1: context.user.firstName + " " + context.user.lastName,
+        name2: e.target.getAttribute("data-seller"),
+      }),
+      ""
+    );
+    console.log(responseData);
+    if (responseData.room) {
+      history.push("/chats");
+    }
+  };
   return (
     <div className="shelf">
       {modal && (
@@ -165,7 +176,7 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
           <div key={data.id} className="book">
             <img
               className="book-img"
-              // src={`http://localhost:5000/${data.image}`}
+              // src={`${process.env.REACT_APP_BACKEND_URL}/${data.image}`}
               src={data.image}
             ></img>
             <p style={{ fontSize: "larger" }}>
@@ -202,7 +213,11 @@ export default function Shelf({ isBuyer, books, loading, inWishlist, bookPresent
               </button>
             )}
             {isBuyer && (
-              <button data={data.userid} data-seller={data.seller} onClick={chatHandler}>
+              <button
+                data={data.userid}
+                data-seller={data.seller}
+                onClick={chatHandler}
+              >
                 {" "}
                 <img src={chaticon}></img> chat
               </button>

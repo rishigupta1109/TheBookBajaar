@@ -1,43 +1,65 @@
-import React ,{useState,useEffect, useContext} from 'react'
-import Loading from 'react-loading';
-import { Link, useHistory } from 'react-router-dom'
-import useHttpClient from '../../hooks/useHttpClient';
-import AuthContext from '../../utilities/auth-context';
-import "./Chatroom.css"
+import React, { useState, useEffect, useContext } from "react";
+import Loading from "react-loading";
+import { Link, useHistory } from "react-router-dom";
+import useHttpClient from "../../hooks/useHttpClient";
+import AuthContext from "../../utilities/auth-context";
+import "./Chatroom.css";
 
-export default function Chatroom({socket}) {
-  const [rooms,setRooms]=useState([]);
+export default function Chatroom({ socket }) {
+  const [rooms, setRooms] = useState([]);
   const [lastMessages, setlastMessages] = useState([]);
-  const {request}=useHttpClient();
-  const [loading,setLoading]=useState(true);
-  const context=useContext(AuthContext);
-  const history =useHistory();
-  useEffect(()=>{
-    const fetchit=async()=>{
-      const url="http://localhost:5000/api/chat/rooms";
-       let responseData = await request(
-         url,
-         "POST",
-         {"Content-Type":"application/json",
-           Authorization: "Bearer " + context.token,
-         },
-         JSON.stringify({}),
-         "Chats Loaded Successfully"
-       );
-       console.log("rooms",responseData);
-       setLoading(false);
-       if (responseData&&responseData.rooms) {
-         setRooms(responseData.rooms);
-         context.setRooms(responseData.rooms);
-         socket.emit("join_room", responseData.rooms,context.user.id);
-         console.log("join room req sent");
-         setlastMessages(responseData.lastMessages);
-       }
+  const { request } = useHttpClient();
+  const [loading, setLoading] = useState(true);
+  const context = useContext(AuthContext);
+  const history = useHistory();
+  useEffect(() => {
+    const fetchit = async () => {
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/rooms`;
+      let responseData = await request(
+        url,
+        "POST",
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + context.token,
+        },
+        JSON.stringify({}),
+        "Chats Loaded Successfully"
+      );
+      console.log("rooms", responseData);
+      setLoading(false);
+      if (responseData && responseData.rooms) {
+        setRooms(responseData.rooms);
+        context.setRooms(responseData.rooms);
+        socket.emit("join_room", responseData.rooms, context.user.id);
+        console.log("join room req sent");
+        setlastMessages(responseData.lastMessages);
+      }
+    };
+    if (context.token) {
+      fetchit();
     }
-    if(context.token){
-      fetchit()
+  }, [context.token]);
+  useEffect(() => {
+    console.log(context.notification, lastMessages);
+
+    if (context.notification.length !== 0) {
+      for (let room of rooms) {
+        if (
+          context.notification.find((a) => a.room === room.id) !== undefined
+        ) {
+          let msg = context.notification.filter((a) => a.room === room.id)[0];
+          let i = lastMessages.findIndex((a) => a.room === msg.room);
+          console.log(i);
+          if (i !== -1) {
+            lastMessages[i] = msg;
+            let x = [...lastMessages];
+            console.log(lastMessages);
+            setlastMessages(x);
+          }
+        }
+      }
     }
-  },[context.token]);
+  }, [context.notification]);
   return (
     <div className="chatroom">
       <h1>Your Chats</h1>
@@ -57,30 +79,58 @@ export default function Chatroom({socket}) {
             }
             const linkTo = `chats/${data.id}`;
             let lastMsger;
-            let lstmsg=lastMessages.find((value)=>{
-              if(value){return value.room===data.id}
-              else {return false;}});
-            if(lstmsg){
-              if(lstmsg.from===recievingUser){
-                lastMsger=recievingUserName;
+            let lstmsg = lastMessages.find((value) => {
+              if (value) {
+                return value.room === data.id;
+              } else {
+                return false;
               }
-              else{
-                lastMsger="Me"
+            });
+            if (lstmsg) {
+              if (lstmsg.from === recievingUser) {
+                lastMsger = recievingUserName;
+              } else {
+                lastMsger = "Me";
               }
-            }else{
-              lastMsger="";
+            } else {
+              lastMsger = "";
             }
+
             return (
-              <div className="chat-list-item" onClick={()=>{history.push(linkTo)}}>
-                <h3>{recievingUserName}</h3>
-                {lastMsger!==""&&<div className='row jc-sb'>
-                <p>
-                  {lastMsger} : {lstmsg.message}
-                </p>
-                <p>
-                  {new Date(lstmsg.date).toLocaleString()}
-                </p>
-                </div>}
+              <div
+                className="chat-list-item"
+                onClick={() => {
+                  history.push(linkTo);
+                }}
+              >
+                <div className="row jc-sb" style={{ position: "relative" }}>
+                  <h3>{recievingUserName}</h3>
+                  {context.notification.length !== 0 &&
+                    context.notification.find((a) => a.room === data.id) !==
+                      undefined && (
+                      <div
+                        className="ui floating circular label"
+                        style={{
+                          border: "1px solid white",
+                          color: "white",
+                          backgroundColor: "red",
+                        }}
+                      >
+                        {
+                          context.notification.filter((a) => a.room === data.id)
+                            .length
+                        }
+                      </div>
+                    )}
+                </div>
+                {lastMsger !== "" && (
+                  <div className="row jc-sb">
+                    <p>
+                      {lastMsger} : {lstmsg.message}
+                    </p>
+                    <p>{new Date(lstmsg.date).toLocaleString()}</p>
+                  </div>
+                )}
               </div>
             );
           })}

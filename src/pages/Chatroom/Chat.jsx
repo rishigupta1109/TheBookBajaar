@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState,useRef } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import "./Chat.css";
 import backicon from "../../utilities/icons8-back-48.png";
 import { useHistory, useParams } from "react-router-dom";
@@ -7,8 +7,7 @@ import useHttpClient from "../../hooks/useHttpClient";
 import Loading from "react-loading";
 import toastCreator from "../../utilities/toastCreator";
 
-
-export default function Chat({socket}) {
+export default function Chat({ socket }) {
   const history = useHistory();
   const context = useContext(AuthContext);
   const [roomData, setRoomData] = useState({});
@@ -20,12 +19,12 @@ export default function Chat({socket}) {
   const [messages, setMesssages] = useState([]);
   const [recieverOnline, setrecieverOnline] = useState(false);
   const { CHATID } = useParams();
-  const chatbox=useRef();
+  const chatbox = useRef();
   console.log(CHATID);
   const { request } = useHttpClient();
   const fetchit = async () => {
     setLoading(true);
-    const url = `http://localhost:5000/api/chat/room/${CHATID}`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/room/${CHATID}`;
     let responseData = await request(url, "GET", {}, JSON.stringify({}), "");
     console.log(responseData);
     setLoading(false);
@@ -33,7 +32,7 @@ export default function Chat({socket}) {
       setRoomData(responseData.room);
       let recievingUser;
       let recievingUserName;
-     
+
       if (responseData.room.user1 === context.user.id) {
         recievingUser = responseData.room.user2;
         recievingUserName = responseData.room.name2;
@@ -44,30 +43,33 @@ export default function Chat({socket}) {
         console.log(recievingUser, recievingUserName);
         setRecieverData({ recievingUser, recievingUserName });
       }
-      socket.emit("check_online",recievingUser);
-
-       socket.emit("join_room", context.rooms, context.user.id);
-       console.log("join room req sent in chat",context.rooms);
-       
+      socket.emit("check_online", recievingUser);
+      socket.emit("join_room", context.rooms, context.user.id);
+      console.log("join room req sent in chat", context.rooms);
     }
   };
-  const fetchMessages=async()=>{
-setMsgLoading(true);
-const url = `http://localhost:5000/api/chat/messages/${CHATID}`;
-let responseData = await request(url, "POST", {
-  "Content-Type":"application/json",
-  Authorization:"Bearer "+context.token
-}, JSON.stringify({}), "");
-setMsgLoading(false);
-if (responseData && responseData.messages) {
-  setMesssages(responseData.messages);
-  
-  console.log(responseData.messages);
+  const fetchMessages = async () => {
+    setMsgLoading(true);
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/messages/${CHATID}`;
+    let responseData = await request(
+      url,
+      "POST",
+      {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + context.token,
+      },
+      JSON.stringify({}),
+      ""
+    );
+    setMsgLoading(false);
+    if (responseData && responseData.messages) {
+      setMesssages(responseData.messages);
 
-}
-  }
+      console.log(responseData.messages);
+    }
+  };
   useEffect(() => {
-    if (context.token&&context.rooms) {
+    if (context.token && context.rooms) {
       fetchit();
       fetchMessages();
     }
@@ -77,31 +79,37 @@ if (responseData && responseData.messages) {
       fetchit();
       fetchMessages();
     }
+    if (context.notification.find((a) => a.room === CHATID) !== undefined) {
+      socket.emit("remove_notification", CHATID, context.user.id);
+      context.setNotification(
+        context.notification.filter((a) => a.room !== CHATID)
+      );
+    }
   }, []);
-  useEffect(()=>{
-    if(!!chatbox&&!!chatbox.current){
+  useEffect(() => {
+    if (!!chatbox && !!chatbox.current) {
       chatbox.current.scrollTop = chatbox.current.scrollHeight;
     }
-  },[messages])
- socket.on("room_joined", (msg) => {
-   console.log("joined", msg);
-   setrecieverOnline(true);
- });
+  }, [messages]);
+  socket.on("room_joined", (msg) => {
+    console.log("joined", msg);
+    setrecieverOnline(true);
+  });
   socket.on("room_left", (msg) => {
-    console.log("left",msg);
+    console.log("left", msg);
     setrecieverOnline(false);
   });
- socket.on("online_status", (status) => {
-  setrecieverOnline(status);
-  console.log("receiver is ",status);
- });
- socket.on("message_recieved", (sandhesa) => {
-   console.log(sandhesa);
-   console.log(messages);
-   let msg = [...messages, sandhesa];
-   console.log(msg);
-   setMesssages(msg);
- });
+  socket.on("online_status", (status) => {
+    setrecieverOnline(status);
+    console.log("receiver is ", status);
+  });
+  socket.on("message_recieved", (sandhesa) => {
+    console.log(sandhesa);
+    console.log(messages);
+    let msg = [...messages, sandhesa];
+    console.log(msg);
+    setMesssages(msg);
+  });
   const sendHandler = () => {
     socket.emit("message_sent", {
       message,
@@ -156,7 +164,7 @@ if (responseData && responseData.messages) {
             {recieverData.recievingUserName}
             <div
               className="dot"
-              style={{ backgroundColor: recieverOnline ?"green":"red"}}
+              style={{ backgroundColor: recieverOnline ? "green" : "red" }}
             ></div>
           </div>
           <div className="messages" ref={chatbox}>

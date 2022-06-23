@@ -21,14 +21,18 @@ import { ToastContainer } from "react-toastify";
 import useHttpClient from "./hooks/useHttpClient";
 import { io } from "socket.io-client";
 import toastCreator from "./utilities/toastCreator";
-const socket = io.connect("http://localhost:5000");
+import { CommentText } from "semantic-ui-react";
+import sound from "./utilities/message-ringtone-magic.mp3";
+import useAudio from "./hooks/useAudio";
+const socket = io.connect(process.env.REACT_APP_BACKEND_URL);
 AOS.init();
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!JSON.parse(localStorage.getItem("token"))
   );
-  const [rooms,setRooms]=useState([]);
+  const [notificationSound, togle] = useAudio(sound);
+  const [rooms, setRooms] = useState([]);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState({});
   const [wishlist, setWishlist] = useState([]);
@@ -36,6 +40,7 @@ function App() {
   const [uniqueColleges, setUniqueColleges] = useState([]);
   const [uniqueSubjects, setUniqueSubjects] = useState([]);
   const [uniqueBookName, setUniqueBookName] = useState([]);
+  const [notification, setNotification] = useState([]);
   const history = useHistory();
   const { request } = useHttpClient();
   console.log(user);
@@ -72,46 +77,43 @@ function App() {
       clearTimeout(logoutTimer);
     }
   }, [token, tokenExpiry]);
-   const fetchIt = async (url, msg, set1, prop1, set2, prop2) => {
-     const responseData = await request(url, "GET", {}, {}, msg);
-     console.log(responseData);
-     if (responseData) {
-       set1(responseData[prop1]);
-       if (set2) {
-         set2(responseData[prop2]);
-       }
-     }
-     console.log(responseData[prop1], responseData[prop2]);
-   };
+  const fetchIt = async (url, msg, set1, prop1, set2, prop2) => {
+    const responseData = await request(url, "GET", {}, {}, msg);
+    console.log(responseData);
+    if (responseData) {
+      set1(responseData[prop1]);
+      if (set2) {
+        set2(responseData[prop2]);
+      }
+    }
+    console.log(responseData[prop1], responseData[prop2]);
+  };
   useEffect(() => {
-  
-   
     if (token) {
       fetchIt(
-        `http://localhost:5000/api/users/wishlist/${user.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/wishlist/${user.id}`,
         "Wishlist Fetched Successfully",
-        setWishlist,"wishlist"
+        setWishlist,
+        "wishlist"
       );
-    
-      
     }
   }, [token]);
-  useEffect(()=>{
-  fetchIt(
-    `http://localhost:5000/api/users/uniquecolleges`,
-    "",
-    setUniqueColleges,
-    "uniqueColleges"
-  );
-  fetchIt(
-    `http://localhost:5000/api/books/unique`,
-    "",
-    setUniqueBookName,
-    "uniqueBookNames",
-    setUniqueSubjects,
-    "uniqueSubjects",
-  );
-  },[])
+  useEffect(() => {
+    fetchIt(
+      `${process.env.REACT_APP_BACKEND_URL}/api/users/uniquecolleges`,
+      "",
+      setUniqueColleges,
+      "uniqueColleges"
+    );
+    fetchIt(
+      `${process.env.REACT_APP_BACKEND_URL}/api/books/unique`,
+      "",
+      setUniqueBookName,
+      "uniqueBookNames",
+      setUniqueSubjects,
+      "uniqueSubjects"
+    );
+  }, []);
   const logoutHandler = () => {
     setIsLoggedIn(false);
     setUser({});
@@ -122,7 +124,7 @@ function App() {
   };
   useEffect(() => {
     const fetchit = async () => {
-      const url = "http://localhost:5000/api/chat/rooms";
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/rooms`;
       let responseData = await request(
         url,
         "POST",
@@ -144,6 +146,16 @@ function App() {
       fetchit();
     }
   }, [token]);
+  socket.on("message_recieved", (sandhesa) => {
+    togle();
+    setNotification([sandhesa, ...notification]);
+  });
+  socket.on("notifications", (data) => {
+    console.log(data);
+    if (data[0].notification.length !== 0) {
+      setNotification(data[0].notification);
+    }
+  });
 
   let routes = (
     <Switch>
@@ -210,7 +222,9 @@ function App() {
         setUniqueColleges,
         setUniqueSubjects,
         rooms,
-        setRooms
+        setRooms,
+        notification,
+        setNotification,
       }}
     >
       <ToastContainer />
