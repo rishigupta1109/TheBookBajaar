@@ -95,3 +95,10 @@
         padding: 40px 3%;
     }
 }
+.form a{
+    color : white;
+}
+.form a:hover{
+    color : wheat;
+    text-decoration: underline;
+}

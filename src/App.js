@@ -24,6 +24,7 @@ import toastCreator from "./utilities/toastCreator";
 import { CommentText } from "semantic-ui-react";
 import sound from "./utilities/message-ringtone-magic.mp3";
 import useAudio from "./hooks/useAudio";
+import ForgetPassword from "./pages/Login/forgetPassword";
 const socket = io.connect(process.env.REACT_APP_BACKEND_URL);
 AOS.init();
 
@@ -201,6 +202,9 @@ function App() {
         </Route>
         <Route path="/login-register">
           <Login></Login>
+        </Route>
+        <Route path="/resetpassword">
+          <ForgetPassword></ForgetPassword>
         </Route>
         <Redirect to="/"></Redirect>
       </Switch>

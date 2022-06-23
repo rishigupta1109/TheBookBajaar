@@ -3,6 +3,8 @@ import "../Login/Login.css";
 import toastCreator from "../../utilities/toastCreator";
 import AuthContext from "../../utilities/auth-context";
 import useHttpClient from "./../../hooks/useHttpClient";
+import { Link } from "react-router-dom";
+
 const initialValidity = {
   inputs: {
     fname: {
@@ -283,6 +285,7 @@ export default function Login() {
             ></input>
           </div>
         )}
+        {mode === 1 && <Link to="/resetpassword">forgot password?</Link>}
         {mode === 0 && <button onClick={registerHandler}>Register</button>}
         {mode === 1 && <button onClick={loginHandler}>Login</button>}
       </div>
