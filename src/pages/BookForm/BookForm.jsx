@@ -43,12 +43,12 @@ export default function BookForm({ sell }) {
 
   const { request } = useHttpClient();
   const updateHandler = async (e) => {
-    setdisabled(true);
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
     console.log("updateHandler");
     if (bookamtisValid && booknameisValid && subjectisValid) {
+      setdisabled(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const responseData = await request(
         url,
@@ -69,21 +69,21 @@ export default function BookForm({ sell }) {
         history.push("/mybooks");
       }
     } else if (!booknameisValid) {
-      toastCreator(`Write a valid name`);
+      toastCreator(`Write a valid name`,"warning");
     } else if (!subjectisValid) {
-      toastCreator(` write a valid subject name`);
+      toastCreator(` write a valid subject name`, "warning");
     } else {
-      toastCreator(` price cannot be 0`);
+      toastCreator(` price cannot be 0`, "warning");
     }
   };
   const clickHandler = async () => {
     console.log("clicked");
-    setdisabled(false);
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
-    let imageisValid = file.trim().length !== 0;
+    let imageisValid = !!file;
     if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
+      setdisabled(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/add`;
       const formData = new FormData();
       formData.append("name", bookName);
@@ -120,13 +120,13 @@ export default function BookForm({ sell }) {
         history.push("/mybooks");
       }
     } else if (!booknameisValid) {
-      toastCreator(`Write a valid name`);
+      toastCreator(`Write a valid name`, "warning");
     } else if (!subjectisValid) {
-      toastCreator(` write a valid subject name`);
+      toastCreator(` write a valid subject name`, "warning");
     } else if (!bookamtisValid) {
-      toastCreator(` price cannot be 0`);
+      toastCreator(` price cannot be 0`, "warning");
     } else {
-      toastCreator(`please select a valid image`);
+      toastCreator(`please select a valid image`,"warning");
     }
   };
   const changeHandler = (e) => {
