@@ -93,7 +93,7 @@ function App() {
     if (token) {
       fetchIt(
         `${process.env.REACT_APP_BACKEND_URL}/api/users/wishlist/${user.id}`,
-        "Wishlist Fetched Successfully",
+        "",
         setWishlist,
         "wishlist"
       );

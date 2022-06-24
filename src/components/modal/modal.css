@@ -1,9 +1,9 @@
 #modalbox{
     position: absolute;
-    width:500px;
+    width:max(30vw,400px);
     height: 40vh;
-    left:500px;
-    top:200px;
+    left:30vw;
+    top:30vh;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -59,4 +59,16 @@
     width: 100%;
     justify-content: space-between;
     padding: 20px;
+}
+@media (max-width:600px) {
+    #modalbox{
+        left: 15vw;
+      width:   max(300px,20vw);
+    }
+}
+@media (max-width:400px) {
+    #modalbox{
+        left: 10vw;
+      width:   max(250px,20vw);
+    }
 }

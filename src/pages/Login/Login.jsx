@@ -81,6 +81,7 @@ export default function Login() {
   const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
+  const [pvisible,setpvisible]=useState(false);
   const { request } = useHttpClient();
   const checkValidity = ({ type, value }) => {
     if (type === "fname" || type === "lname") {
@@ -115,13 +116,13 @@ export default function Login() {
         console.log(input);
         if (!input.isValid) {
           if (input.type === "text") {
-            toastCreator(`Please write a valid ${input.id}`);
+            toastCreator(`Please write a valid ${input.id}`,"warning");
           } else if (input.type === "email") {
-            toastCreator(`Please write a valid email id`);
+            toastCreator(`Please write a valid email id`, "warning");
           } else {
             if (input.id === "password") {
               toastCreator(`length of password must be 8 characters`);
-            } else toastCreator("Password didn`t matches");
+            } else toastCreator("Password didn`t matches", "warning");
           }
           break;
         }
@@ -150,6 +151,8 @@ export default function Login() {
       if (responseData != null) {
         console.log(responseData.user);
         context.login(responseData.user, responseData.token);
+      }else{
+        toastCreator("something went wrong please check your connection")
       }
     }
   };
@@ -176,11 +179,13 @@ export default function Login() {
       );
       if (responseData != null) {
         context.login(responseData.user, responseData.token);
+      }else{
+        toastCreator("something went wrong please check your connection");
       }
     } else if (!formValidity.inputs["email"].isValid) {
-      toastCreator(`Write a valid email`);
+      toastCreator(`Write a valid email`, "warning");
     } else {
-      toastCreator(`Write a valid password`);
+      toastCreator(`Write a valid password`, "warning");
     }
   };
   return (
@@ -260,7 +265,7 @@ export default function Login() {
             ></input>
             <datalist id="uniquecolleges">
               {context.uniqueColleges.map((data) => {
-                return <optiom>{data}</optiom>;
+                return <option key={Math.random()}>{data}</option>;
               })}
             </datalist>
           </div>
@@ -269,7 +274,7 @@ export default function Login() {
           <label>Password</label>
           <input
             onChange={inputChangeHandler}
-            type="text"
+            type={pvisible ? "text" : "password"}
             id="pass"
             value={formValidity.inputs["pass"].value}
           ></input>
@@ -278,13 +283,18 @@ export default function Login() {
           <div>
             <label>Confirm Password</label>
             <input
-              type="text"
+              type={pvisible ? "text" : "password"}
               onChange={inputChangeHandler}
               id="cpass"
               value={formValidity.inputs["cpass"].value}
             ></input>
           </div>
         )}
+        <div style={{justifyContent:"flex-start"}}>
+          <input style={{width:"15px",height:"15px"}} onChange={()=>{setpvisible(!pvisible)}} type="checkbox" className="checkbox"></input>
+          <label>Show password</label>
+        </div>
+
         {mode === 1 && <Link to="/resetpassword">forgot password?</Link>}
         {mode === 0 && <button onClick={registerHandler}>Register</button>}
         {mode === 1 && <button onClick={loginHandler}>Login</button>}

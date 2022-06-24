@@ -98,3 +98,6 @@
 .dd{
     border-radius: 25px;
 }
+.mobilemenu a:hover{
+    color: wheat;
+}

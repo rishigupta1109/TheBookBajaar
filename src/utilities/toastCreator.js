@@ -21,4 +21,15 @@ export default function toastCreator (msg,type){
         progress: undefined,
       });
   }
+  else if(type==="warning"){
+    toast.warning(msg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
 };

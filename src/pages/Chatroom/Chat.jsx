@@ -172,7 +172,7 @@ export default function Chat({ socket }) {
               messages.map((data) => {
                 if (data.to === context.user.id) {
                   return (
-                    <div className="l row jc-sb">
+                    <div key={Math.random()} className="l row jc-sb">
                       <p>
                         {recieverData.recievingUserName} : {data.message}
                       </p>
@@ -183,7 +183,7 @@ export default function Chat({ socket }) {
                   );
                 } else {
                   return (
-                    <div className="r row jc-sb">
+                    <div key={Math.random()} className="r row jc-sb">
                       <p>Me : {data.message}</p>
                       <p className="date-string">
                         {new Date(data.date).toLocaleString()}

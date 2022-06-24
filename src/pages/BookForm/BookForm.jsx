@@ -181,7 +181,7 @@ export default function BookForm({ sell }) {
           ></input>
           <datalist id="uniqbookname">
             {context.uniqueBookName.map((data) => {
-              return <option>{data}</option>;
+              return <option key={Math.random()}>{data}</option>;
             })}
           </datalist>
         </div>
@@ -199,7 +199,7 @@ export default function BookForm({ sell }) {
           <datalist id="uniqsubject">
             {context.uniqueSubjects.map((data) => {
               console.log(data);
-              return <option>{data}</option>;
+              return <option key={Math.random()}>{data}</option>;
             })}
           </datalist>
         </div>

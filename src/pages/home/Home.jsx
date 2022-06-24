@@ -22,7 +22,7 @@ export default function Home() {
             <h1 style={{alignSelf:"center"}}>Feautures</h1>
             <div className='feautures'>
             {feautures.map((feauture,index)=>{
-                return <div className="feauture-box">
+                return <div key={index} className="feauture-box">
                     <img src={feauturesIcon[index]}></img>
                     <h2>{feauture}</h2>
                 </div>;

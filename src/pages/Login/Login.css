@@ -12,6 +12,7 @@
 .row{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .form{
     background-color: red;
@@ -96,9 +97,14 @@
     }
 }
 .form a{
-    color : white;
+   color: white;
+    font-size: initial;
+    margin-top: 10px;
 }
 .form a:hover{
     color : wheat;
     text-decoration: underline;
+}
+input[type="checkbox"]:hover{
+    cursor: pointer;
 }

@@ -20,7 +20,7 @@ export default function Filterbar({ collegeFilter, uniquecolleges, uniquesubject
             <option>Select</option>
             {uniquecolleges.length !== 0 &&
               uniquecolleges.map((data) => {
-                return <option>{data}</option>;
+                return <option key={Math.random()}>{data}</option>;
               })}
           </select>
         </div>
@@ -36,7 +36,7 @@ export default function Filterbar({ collegeFilter, uniquecolleges, uniquesubject
           <option>Select</option>
           {uniquesubject.length !== 0 &&
             uniquesubject.map((data) => {
-              return <option>{data}</option>;
+              return <option key={Math.random()}>{data}</option>;
             })}
         </select>
       </div>

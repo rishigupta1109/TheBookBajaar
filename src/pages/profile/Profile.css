@@ -45,15 +45,16 @@
     border: 1px solid white;
     cursor: pointer;
 }
-@media (max-width:600px) {
+@media (max-width:700px) {
     .profile{
         padding: 20%;
     }
     .profile-box{
-        padding: 70px 5px;
+            padding: 70px 5px;
+    width: 90vw;
     }
     .profile-box div{
-        font-size: large;
+        font-size: medium;
         padding: 10px;
     }
     .profile-box div input{

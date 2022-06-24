@@ -50,7 +50,7 @@ export default function ForgetPassword() {
       
 
     } else {
-      toastCreator("please write a valid email");
+      toastCreator("please write a valid email","warning");
     }
   };
   const resetPasswordHandler = async () => {
@@ -78,11 +78,11 @@ export default function ForgetPassword() {
       if ((responseData.status ==="success")) history.push("/");
 
     } else if (password.trim().length < 5) {
-      toastCreator("password must be 5 character long");
+      toastCreator("password must be 5 character long", "warning");
     } else if (password !== cpassword) {
-      toastCreator("passwords doesnt matches");
+      toastCreator("passwords doesnt matches", "warning");
     } else {
-      toastCreator("incorrect otp");
+      toastCreator("incorrect otp", "warning");
     }
   };
   return (

@@ -98,6 +98,7 @@ export default function Chatroom({ socket }) {
 
             return (
               <div
+                key={Math.random()}
                 className="chat-list-item"
                 onClick={() => {
                   history.push(linkTo);

@@ -10,6 +10,7 @@ import AuthContext from "../../utilities/auth-context";
 import ReactLoading from "react-loading";
 import useHttpClient from "../../hooks/useHttpClient";
 import Modal from "./../modal/modal";
+import toastCreator from "../../utilities/toastCreator";
 export default function Shelf({
   isBuyer,
   books,
@@ -66,7 +67,11 @@ export default function Shelf({
   }
   const addToWishlist = async (e) => {
     console.log(e.target.getAttribute("data"));
-
+    if (!context.isLoggedIn) {
+      toastCreator("please Login to proceed", "warning");
+      history.push("/login-register");
+      return;
+    }
     const book = books.filter((data) => data.id === e.target.id)[0];
     console.log(book);
     let responseData;
@@ -139,6 +144,11 @@ export default function Shelf({
   const chatHandler = async (e) => {
     console.log(e.target.getAttribute("data"));
     console.log(e.target.getAttribute("data-seller"));
+    if (!context.isLoggedIn) {
+      toastCreator("please Login to proceed", "warning");
+      history.push("/login-register");
+      return;
+    }
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/createroom`;
     let responseData = await request(
       url,
@@ -157,6 +167,8 @@ export default function Shelf({
     console.log(responseData);
     if (responseData.room) {
       history.push("/chats");
+    }else{
+        toastCreator("something went wrong please check your connection");
     }
   };
   return (
@@ -171,7 +183,7 @@ export default function Shelf({
         ></Modal>
       )}
       {books.map((data, index) => {
-        if (data.userid === context.user.id && isBuyer) return <div></div>;
+        if (data.userid === context.user.id && isBuyer) return <div key={Math.random()}></div>;
         return (
           <div key={data.id} className="book">
             <img
