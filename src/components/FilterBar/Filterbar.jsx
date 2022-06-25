@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import "./Filterbar.css";
 export default function Filterbar({ collegeFilter, uniquecolleges, uniquesubject,filter,sorting,searchFilter }) {
-  
+  const [subject,setSubject]=useState("Select");
+  const [college,setcollege]=useState("Select");
   return (
     <div className="filterbar">
       <div className="searchbar">
@@ -13,13 +14,17 @@ export default function Filterbar({ collegeFilter, uniquecolleges, uniquesubject
           <label>College</label>
           <select
             onChange={(e) => {
+              setcollege(e.target.value);
               filter("C", e.target.value);
             }}
             className="college"
           >
-            <option>Select</option>
+            <option >Select</option>
             {uniquecolleges.length !== 0 &&
               uniquecolleges.map((data) => {
+                if(data===college){
+                return <option selected={true} key={Math.random()}>{data}</option>;
+                }
                 return <option key={Math.random()}>{data}</option>;
               })}
           </select>
@@ -30,12 +35,16 @@ export default function Filterbar({ collegeFilter, uniquecolleges, uniquesubject
         <select
           className="subject"
           onChange={(e) => {
+            setSubject(e.target.value);
             filter("S", e.target.value);
           }}
         >
           <option>Select</option>
           {uniquesubject.length !== 0 &&
             uniquesubject.map((data) => {
+              if(data===subject){
+              return <option selected={true} key={Math.random()}>{data}</option>;
+              }
               return <option key={Math.random()}>{data}</option>;
             })}
         </select>

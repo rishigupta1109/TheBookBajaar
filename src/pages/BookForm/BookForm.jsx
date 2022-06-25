@@ -65,6 +65,7 @@ export default function BookForm({ sell }) {
         "Book updated Successfully"
       );
       console.log(responseData);
+        setdisabled(false);
       if (responseData.Book) {
         history.push("/mybooks");
       }
@@ -85,17 +86,7 @@ export default function BookForm({ sell }) {
     if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
       setdisabled(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/add`;
-      const formData = new FormData();
-      formData.append("name", bookName);
-      formData.append("subject", subject);
-      formData.append("price", price);
-      formData.append("userid", context.user.id);
-      formData.append("image", file);
-      formData.append(
-        "seller",
-        context.user.firstName + " " + context.user.lastName
-      );
-      console.log(formData);
+      
       let data = JSON.stringify({
         name: bookName,
         subject: subject,
@@ -114,9 +105,10 @@ export default function BookForm({ sell }) {
         },
         data,
         "Book added Successfully"
-      );
-      console.log(responseData);
-      if (responseData.newBook) {
+        );
+        console.log(responseData);
+        setdisabled(false);
+        if (responseData.newBook) {
         history.push("/mybooks");
       }
     } else if (!booknameisValid) {
