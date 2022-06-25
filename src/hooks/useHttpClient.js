@@ -50,8 +50,8 @@ import { toast } from 'react-toastify';
            autoClose: 2000,
            closeOnClick: true,
          });}
+         console.log(err);
          return null;
-          console.log(err);
       }
     })
     return {request,toastId};

@@ -151,8 +151,6 @@ export default function Login() {
       if (responseData != null) {
         console.log(responseData.user);
         context.login(responseData.user, responseData.token);
-      }else{
-        toastCreator("something went wrong please check your connection")
       }
     }
   };
@@ -179,8 +177,6 @@ export default function Login() {
       );
       if (responseData != null) {
         context.login(responseData.user, responseData.token);
-      }else{
-        toastCreator("something went wrong please check your connection");
       }
     } else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`, "warning");
