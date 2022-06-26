@@ -225,10 +225,27 @@ export default function BookForm({ sell }) {
             <FileBase64
               type="file"
               multiple={false}
-              onDone={({ base64 }) => setfile(base64)}
+              accept=".jpg,.png,.jpeg"
+              onDone={({ base64 }) => {
+                      console.log(
+                        base64.length,
+                        new Blob([base64]).size,
+                        
+                      );
+                    if (
+                      !(base64.startsWith("data:image/jpeg") ||
+                      base64.startsWith("data:image/jpg") ||
+                      base64.startsWith("data:image/png"))
+                    ) {
+                      toastCreator("please select a valid image", "warning");
+                    } else if (new Blob([base64]).size > 100000) {
+                      toastCreator("image is too large", "warning");
+                    } else {
+                      setfile(base64);
+                    }
+                }}
             />
             {/* <input
-              accept=".jpg,.png,.jpeg"
               type="file"
               onChange={pickHandler}
               ref={image}

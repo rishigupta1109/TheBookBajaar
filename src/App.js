@@ -45,6 +45,7 @@ function App() {
   const history = useHistory();
   const { request } = useHttpClient();
   console.log(user);
+  
   const loginHandler = (userDetail, token, expiration) => {
     setIsLoggedIn(true);
     let expirationDate = expiration || new Date().getTime() + 1000 * 60 * 60;
@@ -148,8 +149,16 @@ function App() {
     }
   }, [token]);
   socket.on("message_recieved", (sandhesa) => {
-    togle();
-    setNotification([sandhesa, ...notification]);
+    if (
+      window.location.pathname.startsWith("/chats/") &&
+      window.location.pathname!=='/chats/'
+      ) {
+        
+      }else{
+      togle();
+       console.log("not in chat");
+       setNotification([sandhesa, ...notification]);
+    }
   });
   socket.on("notifications", (data) => {
     console.log(data);

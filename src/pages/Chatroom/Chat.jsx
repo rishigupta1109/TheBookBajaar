@@ -109,6 +109,8 @@ export default function Chat({ socket }) {
     let msg = [...messages, sandhesa];
     console.log(msg);
     setMesssages(msg);
+  socket.emit("remove_notification", CHATID, context.user.id);
+
   });
   const sendHandler = () => {
     socket.emit("message_sent", {
@@ -131,6 +133,7 @@ export default function Chat({ socket }) {
     console.log(msg);
     setMesssages(msg);
     setMesssage("");
+    setbtnActive(false)
   };
   return (
     <div className="chat">
@@ -198,6 +201,11 @@ export default function Chat({ socket }) {
               placeholder="type your message here.."
               type="text"
               value={message}
+              onKeyDown={(e)=>{
+                if(e.key==="Enter"&&btnActive){
+                  sendHandler()
+                }
+              }}
               onChange={(e) => {
                 setMesssage(e.target.value);
                 if (e.target.value.trim().length !== 0 && !btnActive) {

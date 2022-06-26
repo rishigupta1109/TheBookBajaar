@@ -20,7 +20,13 @@ export default function Wishlist() {
   }, [context.wishlist]);
 
   return (
-    <div className="books">
+    <div
+      className="books"
+      style={{ textAlign: "center", backgroundColor: "red", color: "white" }}
+    >
+      <div style={{ alignSelf: "center", fontSize: "50px", padding: "30px" }}>
+        Wishlist
+      </div>
       <Filterbar
         sorting={sorting}
         filter={filter}

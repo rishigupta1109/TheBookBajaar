@@ -118,6 +118,7 @@ export default function Shelf({
     console.log(responseData);
   };
   const soldHandler = async (soldOn) => {
+    console.log(Soldbookid)
     let responseData;
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${Soldbookid}`;
     responseData = await request(
@@ -132,7 +133,7 @@ export default function Shelf({
       }),
       "removed Successfully"
     );
-    if (responseData.sold) {
+    if (responseData&&responseData.sold) {
       console.log(responseData);
       setBooks((data) => {
         let newbooks = data.filter((value) => value.id !== Soldbookid);
@@ -162,13 +163,11 @@ export default function Shelf({
         name1: context.user.firstName + " " + context.user.lastName,
         name2: e.target.getAttribute("data-seller"),
       }),
-      ""
+      "Rooms Loaded successfully."
     );
     console.log(responseData);
     if (responseData.room) {
-      history.push("/chats");
-    }else{
-        toastCreator("something went wrong please check your connection");
+      history.push(`/chats/${responseData.room.id}`);
     }
   };
   return (

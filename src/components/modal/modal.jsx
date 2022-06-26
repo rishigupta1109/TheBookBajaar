@@ -2,6 +2,7 @@ import Backdrop from "./backdrop";
 import reactDom from "react-dom";
 import "./modal.css";
 const ModalBox = (props) => {
+  window.scroll(0,0);
   return (
     <div id="modalbox">
       <div id="message">

@@ -47,8 +47,14 @@ export default function Chatroom({ socket }) {
         if (
           context.notification.find((a) => a.room === room.id) !== undefined
         ) {
-          let msg = context.notification.filter((a) => a.room === room.id)[0];
-          let i = lastMessages.findIndex((a) => a.room === msg.room);
+          let msg = context.notification.filter((a) =>{
+            if (a) return a.room === room.id;
+            else return false;
+          })[0];
+          let i = lastMessages.findIndex((a) => {
+            if (a) return a.room === msg.room;
+            else return false;
+          });
           console.log(i);
           if (i !== -1) {
             lastMessages[i] = msg;
@@ -118,7 +124,9 @@ export default function Chatroom({ socket }) {
                         }}
                       >
                         {
-                          context.notification.filter((a) => a.room === data.id)
+                          context.notification.filter((a) => {
+                            if(a) return a.room === data.id
+                            else return false;})
                             .length
                         }
                       </div>
