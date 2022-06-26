@@ -53,7 +53,7 @@ export default function BookForm({ sell }) {
       const responseData = await request(
         url,
         "PATCH",
-        {
+        { 
           "Content-Type": "application/json",
           Authorization: "Bearer " + context.token,
         },
