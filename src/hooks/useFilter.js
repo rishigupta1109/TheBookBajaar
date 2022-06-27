@@ -36,7 +36,7 @@ const filter = (type, value) => {
 };
 const searchFilter = (keyword) => {
   let filterdArray = books.filter((data) => {
-    return data.name.startsWith(keyword);
+    return data.name.toUpperCase().startsWith(keyword.toUpperCase());
   });
   setfilteredbooks(filterdArray);
 };

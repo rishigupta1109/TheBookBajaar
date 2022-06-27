@@ -197,41 +197,65 @@ export default function Shelf({
               src={data.image}
             ></img>
             <div className="column">
-              <div className="row" style={{alignItems:"center",justifyContent:"space-between"}}>
+              <div
+                className="row"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <p style={{ fontSize: "30px", fontWeight: "bold" }}>
+                  {" "}
+                  <b>{data.name}</b>
+                </p>
                 <p style={{ fontSize: "30px" }}>
                   {" "}
                   <b>{data.price}₹</b>
                 </p>
-                <p style={{ fontSize: "large",fontWeight:"bold" }}>
-                  {" "}
-                  <b>{data.name}</b>
-                </p>
               </div>
               <div className="row">
-              {isBuyer && data.userid !== context.user.id && (
-                <p>{data.seller.toUpperCase()} ,</p>
-              )}
-                
-              {isBuyer && <p>{data.college}</p>}
+                {isBuyer && data.userid !== context.user.id && (
+                  <p>{data.seller.toUpperCase()} ,</p>
+                )}
+
+                {isBuyer && <p>{data.college}</p>}
               </div>
-              <div className="row">
+              <div className="row" style={{ justifyContent: "center" }}>
                 {isBuyer &&
                   !context.wishlist.find((book) => data.id === book.id) &&
                   !inWishlist &&
                   data.userid !== context.user.id && (
-                    <button id={data.id} data="add" onClick={(e)=>{addToWishlist({id:data.id,data:"add"})}}>
+                    <button
+                      id={data.id}
+                      data="add"
+                      onClick={(e) => {
+                        addToWishlist({ id: data.id, data: "add" });
+                      }}
+                    >
                       <img src={addicon}></img>
                     </button>
                   )}
                 {isBuyer &&
                   context.wishlist.find((book) => data.id === book.id) &&
                   !inWishlist && (
-                    <button id={data.id} data="remove" onClick={(e)=>{addToWishlist({id:data.id,data:"remove"})}}>
+                    <button
+                      id={data.id}
+                      data="remove"
+                      onClick={(e) => {
+                        addToWishlist({ id: data.id, data: "remove" });
+                      }}
+                    >
                       <img src={removeicon}></img>
                     </button>
                   )}
                 {isBuyer && inWishlist && (
-                  <button id={data.id} data="remove" onClick={(e)=>{addToWishlist({id:data.id,data:"remove"})}}>
+                  <button
+                    id={data.id}
+                    data="remove"
+                    onClick={(e) => {
+                      addToWishlist({ id: data.id, data: "remove" });
+                    }}
+                  >
                     <img src={removeicon}></img>
                   </button>
                 )}
@@ -239,7 +263,9 @@ export default function Shelf({
                   <button
                     data={data.userid}
                     data-seller={data.seller}
-                    onClick={()=>{chatHandler({data:data.userid,seller:data.seller})}}
+                    onClick={() => {
+                      chatHandler({ data: data.userid, seller: data.seller });
+                    }}
                   >
                     {" "}
                     <img src={chaticon}></img>
@@ -260,7 +286,6 @@ export default function Shelf({
                       setModal(true);
                       setSoldbookid(data.id);
                     }}
-                    
                   >
                     {" "}
                     <img src={soldicon}></img>
