@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: baseline;
 }
 .form{
     background-color:  #ff3b3b;
