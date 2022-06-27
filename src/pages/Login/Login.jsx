@@ -92,7 +92,7 @@ export default function Login() {
       }
       return value.trim().length !== 0 && value.trim().length >= 5;
     } else if (type == "email") {
-      console.log(type, typeof value);
+      // console.log(type, typeof value);
       return value.includes("@") && value.includes(".") && value.length !== 0;
     } else {
       return value.trim().length > 0;
@@ -113,7 +113,7 @@ export default function Login() {
   const registerHandler = async () => {
     if (!formValidity.isValid) {
       for (let input of Object.values(formValidity.inputs)) {
-        console.log(input);
+        // console.log(input);
         if (!input.isValid) {
           if (input.type === "text") {
             toastCreator(`Please write a valid ${input.id}`,"warning");
@@ -130,7 +130,7 @@ export default function Login() {
     } else {
       // toastCreator(`submitted`,"success");
 
-      console.log("sending post req");
+      // console.log("sending post req");
 
       let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/signup`;
       const responseData = await request(
@@ -149,7 +149,7 @@ export default function Login() {
         "Registered Successfully"
       );
       if (responseData != null) {
-        console.log(responseData.user);
+        // console.log(responseData.user);
         context.login(responseData.user, responseData.token);
       }
     }
@@ -222,6 +222,8 @@ export default function Login() {
           <div>
             <label>First Name</label>
             <input
+              title="Please write your first name"
+              placeholder="Ex. Philip"
               onChange={inputChangeHandler}
               value={formValidity.inputs["fname"].value}
               type="text"
@@ -233,6 +235,8 @@ export default function Login() {
           <div>
             <label>Last Name</label>
             <input
+              title="Please write your last name"
+              placeholder="Ex. Coulson"
               onChange={inputChangeHandler}
               type="text"
               value={formValidity.inputs["lname"].value}
@@ -243,6 +247,8 @@ export default function Login() {
         <div>
           <label>Email</label>
           <input
+            title="Please write your email"
+            placeholder="Ex. Philip@gmail.com"
             type="text"
             onChange={inputChangeHandler}
             id="email"
@@ -253,6 +259,8 @@ export default function Login() {
           <div>
             <label>College</label>
             <input
+              title="Please write your college name"
+              placeholder="Ex. Institute of engineering and technology"
               onChange={inputChangeHandler}
               type="text"
               value={formValidity.inputs["college"].value}
@@ -269,6 +277,8 @@ export default function Login() {
         <div>
           <label>Password</label>
           <input
+            title="length of password should be greater than 5 characters"
+            placeholder="Ex. admin@123"
             onChange={inputChangeHandler}
             type={pvisible ? "text" : "password"}
             id="pass"
@@ -279,6 +289,8 @@ export default function Login() {
           <div>
             <label>Confirm Password</label>
             <input
+              title="Confirm your password"
+              placeholder="Ex. admin@123"
               type={pvisible ? "text" : "password"}
               onChange={inputChangeHandler}
               id="cpass"
@@ -286,8 +298,15 @@ export default function Login() {
             ></input>
           </div>
         )}
-        <div style={{justifyContent:"flex-start"}}>
-          <input style={{width:"15px",height:"15px"}} onChange={()=>{setpvisible(!pvisible)}} type="checkbox" className="checkbox"></input>
+        <div style={{ justifyContent: "flex-start" }}>
+          <input
+            style={{ width: "15px", height: "15px" }}
+            onChange={() => {
+              setpvisible(!pvisible);
+            }}
+            type="checkbox"
+            className="checkbox"
+          ></input>
           <label>Show password</label>
         </div>
 

@@ -2,7 +2,7 @@
     background-color: white;
     color:black;
     font-size: large;
-    padding: 25px;
+    
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -57,7 +57,7 @@
     border-radius: 100%;
 }
 .book button:hover{
-    background-color: #ffb4b4;
+    background-color: #fe5555c4;
     color: white;
   
 }

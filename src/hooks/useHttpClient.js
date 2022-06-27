@@ -4,15 +4,15 @@ import { toast } from 'react-toastify';
     const toastId = useRef(null);
     const request=useCallback(async(url,method="GET",headers={},body={},successmsg) => {
        toast.dismiss();
-       console.log(url,successmsg);
+      //  console.log(url,successmsg);
       if(url&&!toast.isActive(toastId.current)&&successmsg!==""){
         toastId.current = toast.loading("loading...",{toastId:successmsg});
-        console.log("craeting toast",toastId.current)
+        // console.log("craeting toast",toastId.current)
       }
        try{
         let response;
         if(method==="GET"){
-            console.log("req")
+            // console.log("req")
             response=await fetch(url);
         }
         else{
@@ -23,9 +23,9 @@ import { toast } from 'react-toastify';
           });
         }
       
-              console.log(response)
+              // console.log(response)
               const responseData=await response.json();
-              console.log(responseData);
+              // console.log(responseData);
            if(!response.ok){
               throw new Error(responseData.message);
            }else{

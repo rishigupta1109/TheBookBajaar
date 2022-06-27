@@ -45,7 +45,7 @@ function App() {
   const [notification, setNotification] = useState([]);
   const history = useHistory();
   const { request } = useHttpClient();
-  console.log(user);
+ // console.log(user);
   
   const loginHandler = (userDetail, token, expiration) => {
     setIsLoggedIn(true);
@@ -82,14 +82,14 @@ function App() {
   }, [token, tokenExpiry]);
   const fetchIt = async (url, msg, set1, prop1, set2, prop2) => {
     const responseData = await request(url, "GET", {}, {}, msg);
-    console.log(responseData);
+    // console.log(responseData);
     if (responseData) {
       set1(responseData[prop1]);
       if (set2) {
         set2(responseData[prop2]);
       }
     }
-    console.log(responseData[prop1], responseData[prop2]);
+    // console.log(responseData[prop1], responseData[prop2]);
   };
   useEffect(() => {
     if (token) {
@@ -138,11 +138,11 @@ function App() {
         JSON.stringify({}),
         ""
       );
-      console.log("rooms", responseData);
+      // console.log("rooms", responseData);
       if (responseData && responseData.rooms) {
         setRooms(responseData.rooms);
         socket.emit("join_room", responseData.rooms, user.id);
-        console.log("join room req sent");
+        // console.log("join room req sent");
       }
     };
     if (token) {
@@ -157,12 +157,12 @@ function App() {
         
       }else{
       togle();
-       console.log("not in chat");
+      //  console.log("not in chat");
        setNotification([sandhesa, ...notification]);
     }
   });
   socket.on("notifications", (data) => {
-    console.log(data);
+    // console.log(data);
     if (data[0].notification.length !== 0) {
       setNotification(data[0].notification);
     }
@@ -172,30 +172,38 @@ function App() {
     <Switch>
       <Route path="/" exact>
         <Home></Home>
+        <Footer></Footer>
       </Route>
       <Route path="/books" exact>
         <Books></Books>
+        <Footer></Footer>
       </Route>
       <Route path="/chats" exact>
         <Chatroom socket={socket}></Chatroom>
+        <Footer></Footer>
       </Route>
       <Route path="/chats/:CHATID" exact>
         <Chat socket={socket}></Chat>
       </Route>
       <Route path="/profile">
         <Profile></Profile>
+        <Footer></Footer>
       </Route>
       <Route path="/mybooks">
         <Mybooks></Mybooks>
+        <Footer></Footer>
       </Route>
       <Route path="/wishlist">
         <Wishlist></Wishlist>
+        <Footer></Footer>
       </Route>
       <Route path="/bookform">
         <BookForm sell={true}></BookForm>
+        <Footer></Footer>
       </Route>
       <Route path="/updatebook/:bookId">
         <BookForm sell={false}></BookForm>
+        <Footer></Footer>
       </Route>
       <Redirect to="/"></Redirect>
     </Switch>
@@ -206,15 +214,19 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <Home></Home>
+          <Footer></Footer>
         </Route>
         <Route path="/books" exact>
           <Books></Books>
+          <Footer></Footer>
         </Route>
         <Route path="/login-register">
           <Login></Login>
+          <Footer></Footer>
         </Route>
         <Route path="/resetpassword">
           <ForgetPassword></ForgetPassword>
+          <Footer></Footer>
         </Route>
         <Redirect to="/"></Redirect>
       </Switch>
@@ -245,7 +257,7 @@ function App() {
       <div className="App">
         <Navbar></Navbar>
         {routes}
-        <Footer></Footer>
+       
       </div>
     </AuthContext.Provider>
   );

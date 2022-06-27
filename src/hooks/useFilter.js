@@ -15,7 +15,7 @@ const sorting = (type) => {
     else if (type === -1) return b.price - a.price;
     else return true;
   });
-  console.log(filterdArray);
+  // console.log(filterdArray);
   setfilteredbooks(filterdArray);
 };
 const filter = (type, value) => {

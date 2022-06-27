@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import "./Shelf.css";
 import { Link, useHistory } from "react-router-dom";
 import chaticon from ".././../utilities/icons8-chat-32.png";
-import addicon from ".././../utilities/icons8-add-50.png";
-import removeicon from ".././../utilities/remove-icon-png-7132.png";
+import addicon from ".././../utilities/icons8-heart-90-black.png";
+import removeicon from ".././../utilities/icons8-heart-90.png";
 import editicon from "../../utilities/icons8-edit-48.png";
 import soldicon from "../../utilities/icons8-sold-64.png";
 import AuthContext from "../../utilities/auth-context";
@@ -20,15 +20,15 @@ export default function Shelf({
   setBooks,
 }) {
   const history = useHistory();
-  console.log(inWishlist);
-  console.log(books);
+  // console.log(inWishlist);
+  // console.log(books);
   const [modal, setModal] = useState(false);
   const [Soldbookid, setSoldbookid] = useState(null);
   const context = useContext(AuthContext);
   const { request } = useHttpClient();
-  console.log(
-    books.filter((value) => value.userid !== context.user.id).length === 0
-  );
+  // console.log(
+  //   books.filter((value) => value.userid !== context.user.id).length === 0
+  // );
   if (!bookPresent || (books && books.length === 0)) {
     if (loading) {
       return (
@@ -72,14 +72,14 @@ export default function Shelf({
     );
   }
   const addToWishlist = async ({id,data}) => {
-    console.log(data);
+    // console.log(data);
     if (!context.isLoggedIn) {
       toastCreator("please Login to proceed", "warning");
       history.push("/login-register");
       return;
     }
     const book = books.filter((data) => data.id === id)[0];
-    console.log(book);
+    // console.log(book);
     let responseData;
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/wishlist`;
     if (data === "add") {
@@ -97,7 +97,7 @@ export default function Shelf({
         "added to Wishlist Successfully"
       );
       if (responseData.existingUser) {
-        console.log(responseData);
+        // console.log(responseData);
         const wishlist = [...context.wishlist, book];
         context.setWishlist(wishlist);
       }
@@ -121,10 +121,10 @@ export default function Shelf({
       }
     }
 
-    console.log(responseData);
+    // console.log(responseData);
   };
   const soldHandler = async (soldOn) => {
-    console.log(Soldbookid)
+    // console.log(Soldbookid)
     let responseData;
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${Soldbookid}`;
     responseData = await request(
@@ -140,7 +140,7 @@ export default function Shelf({
       "removed Successfully"
     );
     if (responseData&&responseData.sold) {
-      console.log(responseData);
+      // console.log(responseData);
       setBooks((data) => {
         let newbooks = data.filter((value) => value.id !== Soldbookid);
         return newbooks;
@@ -149,8 +149,8 @@ export default function Shelf({
     setModal(false);
   };
   const chatHandler = async ({data,seller}) => {
-    console.log(data);
-    console.log(seller);
+    // console.log(data);
+    // console.log(seller);
     if (!context.isLoggedIn) {
       toastCreator("please Login to proceed", "warning");
       history.push("/login-register");
@@ -171,7 +171,7 @@ export default function Shelf({
       }),
       "Rooms Loaded successfully."
     );
-    console.log(responseData);
+    // console.log(responseData);
     if (responseData.room) {
       history.push(`/chats/${responseData.room.id}`);
     }
@@ -197,22 +197,16 @@ export default function Shelf({
               src={data.image}
             ></img>
             <div className="column">
-              <div
-                className="row"
-                style={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
+            
                 <p style={{ fontSize: "30px", fontWeight: "bold" }}>
                   {" "}
                   <b>{data.name}</b>
                 </p>
+              
                 <p style={{ fontSize: "30px" }}>
                   {" "}
                   <b>{data.price}₹</b>
                 </p>
-              </div>
               <div className="row">
                 {isBuyer && data.userid !== context.user.id && (
                   <p>{data.seller.toUpperCase()} ,</p>

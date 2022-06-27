@@ -12,7 +12,7 @@ export default function ForgetPassword() {
   const { request } = useHttpClient();
   const history=useHistory();
   const inputChangeHandler = (e) => {
-    console.log(e.target.id,e.target.value)
+    // console.log(e.target.id,e.target.value)
     if (e.target.id === "email") {
       setEmail(e.target.value);
     } else if (e.target.id === "pass") {
@@ -45,7 +45,7 @@ export default function ForgetPassword() {
         }),
         "Otp sent to your email"
       );
-      console.log(responseData);
+      // console.log(responseData);
        if (responseData.status === "success") setmode(1);
       
 
@@ -74,7 +74,7 @@ export default function ForgetPassword() {
         }),
         "password changed successfully"
       );
-      console.log(responseData);
+      // console.log(responseData);
       if ((responseData.status ==="success")) history.push("/");
 
     } else if (password.trim().length < 5) {
@@ -86,7 +86,11 @@ export default function ForgetPassword() {
     }
   };
   return (
-    <div className="login-register" style={{height:"90vh"}} data-aos="fade-down">
+    <div
+      className="login-register"
+      style={{ height: "90vh" }}
+      data-aos="fade-down"
+    >
       <div className="column form">
         <h1 data-aos="flip-right" style={{ alignSelf: "center" }}>
           Reset Password
@@ -105,6 +109,8 @@ export default function ForgetPassword() {
           <div>
             <label>Password</label>
             <input
+              title="length of password should be greater than 5 characters"
+              placeholder="Ex. admin@123"
               onChange={inputChangeHandler}
               type="text"
               id="pass"
@@ -116,6 +122,8 @@ export default function ForgetPassword() {
           <div>
             <label>Confirm Password</label>
             <input
+              title="Confirm your password"
+              placeholder="Ex. admin@123"
               type="text"
               onChange={inputChangeHandler}
               id="cpass"
@@ -127,6 +135,7 @@ export default function ForgetPassword() {
           <div>
             <label>Otp</label>
             <input
+            title="Write the 4 digit otp"
               type="number"
               onChange={inputChangeHandler}
               id="otp"
@@ -135,7 +144,7 @@ export default function ForgetPassword() {
           </div>
         )}
         {mode === 1 && (
-          <p>*if otp not showing in emails, please check in spam also</p>
+          <p>*If otp not visible in primary emails, please check in spam also</p>
         )}
         {mode === 0 && <button onClick={getOtpHandler}>get otp</button>}
         {mode === 1 && <button onClick={resetPasswordHandler}>submit</button>}

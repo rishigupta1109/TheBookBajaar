@@ -20,13 +20,13 @@ export default function Chat({ socket }) {
   const [recieverOnline, setrecieverOnline] = useState(false);
   const { CHATID } = useParams();
   const chatbox = useRef();
-  console.log(CHATID);
+  // console.log(CHATID);
   const { request } = useHttpClient();
   const fetchit = async () => {
     setLoading(true);
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/room/${CHATID}`;
     let responseData = await request(url, "GET", {}, JSON.stringify({}), "");
-    console.log(responseData);
+    // console.log(responseData);
     setLoading(false);
     if (responseData && responseData.room) {
       setRoomData(responseData.room);
@@ -40,12 +40,12 @@ export default function Chat({ socket }) {
       } else {
         recievingUser = responseData.room.user1;
         recievingUserName = responseData.room.name1;
-        console.log(recievingUser, recievingUserName);
+        // console.log(recievingUser, recievingUserName);
         setRecieverData({ recievingUser, recievingUserName });
       }
       socket.emit("check_online", recievingUser);
       socket.emit("join_room", context.rooms, context.user.id);
-      console.log("join room req sent in chat", context.rooms);
+      // console.log("join room req sent in chat", context.rooms);
     }
   };
   const fetchMessages = async () => {
@@ -65,7 +65,7 @@ export default function Chat({ socket }) {
     if (responseData && responseData.messages) {
       setMesssages(responseData.messages);
 
-      console.log(responseData.messages);
+      // console.log(responseData.messages);
     }
   };
   useEffect(() => {
@@ -92,22 +92,22 @@ export default function Chat({ socket }) {
     }
   }, [messages]);
   socket.on("room_joined", (msg) => {
-    console.log("joined", msg);
+    // console.log("joined", msg);
     setrecieverOnline(true);
   });
   socket.on("room_left", (msg) => {
-    console.log("left", msg);
+    // console.log("left", msg);
     setrecieverOnline(false);
   });
   socket.on("online_status", (status) => {
     setrecieverOnline(status);
-    console.log("receiver is ", status);
+    // console.log("receiver is ", status);
   });
   socket.on("message_recieved", (sandhesa) => {
-    console.log(sandhesa);
-    console.log(messages);
+    // console.log(sandhesa);
+    // console.log(messages);
     let msg = [...messages, sandhesa];
-    console.log(msg);
+    // console.log(msg);
     setMesssages(msg);
   socket.emit("remove_notification", CHATID, context.user.id);
 
@@ -130,7 +130,7 @@ export default function Chat({ socket }) {
         room: CHATID,
       },
     ];
-    console.log(msg);
+    // console.log(msg);
     setMesssages(msg);
     setMesssage("");
     setbtnActive(false)

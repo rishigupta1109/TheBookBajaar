@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../../utilities/tbb_logo-redonwhote.jpg";
 import "./Home.css";
 import chaticon from "../../utilities/chat_bubble_outline_white_24dp.svg";
-import freeicon from "../../utilities/icons8-free-60.png";
+import freeicon from "../../utilities/free (1).png";
 import filtericon from "../../utilities/filter_alt_white_24dp.svg";
 import "@animxyz/core";
 export default function Home() {

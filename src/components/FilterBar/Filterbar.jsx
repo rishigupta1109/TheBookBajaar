@@ -53,7 +53,7 @@ export default function Filterbar({ collegeFilter, uniquecolleges, uniquesubject
         <label>Sortby</label>
         <select
           onChange={(e) => {
-            console.log("sorting..")
+            // console.log("sorting..")
             if (e.target.value === "ascending") {
               sorting(1);
             } else if (e.target.value === "desending") {

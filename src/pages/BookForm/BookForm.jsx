@@ -21,7 +21,7 @@ export default function BookForm({ sell }) {
     if (!sell) {
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const fetchIt = async () => {
-        console.log("fetchit");
+        // console.log("fetchit");
         const responseData = await request(
           url,
           "GET",
@@ -29,12 +29,13 @@ export default function BookForm({ sell }) {
           {},
           "Book Fetched Successfully"
         );
-        console.log(responseData);
+        // console.log(responseData);
         if (responseData && responseData.books) {
           setBookName(responseData.books[0].name);
           setSubject(responseData.books[0].subject);
           setprice(responseData.books[0].price);
-          console.log(responseData.books);
+          setfile(responseData.books[0].image);
+          // console.log(responseData.books);
         }
       };
       fetchIt();
@@ -46,8 +47,9 @@ export default function BookForm({ sell }) {
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
-    console.log("updateHandler");
-    if (bookamtisValid && booknameisValid && subjectisValid) {
+    let imageisValid=file.length!==0;
+    // console.log("updateHandler");
+    if (bookamtisValid && booknameisValid && subjectisValid&&imageisValid) {
       setdisabled(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const responseData = await request(
@@ -61,10 +63,11 @@ export default function BookForm({ sell }) {
           name: bookName,
           subject,
           price,
+          image:file
         }),
         "Book updated Successfully"
       );
-      console.log(responseData);
+      // console.log(responseData);
         setdisabled(false);
       if (responseData.Book) {
         history.push("/mybooks");
@@ -73,12 +76,14 @@ export default function BookForm({ sell }) {
       toastCreator(`Write a valid name`,"warning");
     } else if (!subjectisValid) {
       toastCreator(` write a valid subject name`, "warning");
-    } else {
+    } else if(!bookamtisValid) {
       toastCreator(` price cannot be 0`, "warning");
+    }else{
+      toastCreator(`Please select a valid image`, "warning");
     }
   };
   const clickHandler = async () => {
-    console.log("clicked");
+    // console.log("clicked");
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
@@ -95,7 +100,7 @@ export default function BookForm({ sell }) {
         image: file,
         seller: context.user.firstName + " " + context.user.lastName,
       });
-      console.log(data);
+      // console.log(data);
       const responseData = await request(
         url,
         "POST",
@@ -106,7 +111,7 @@ export default function BookForm({ sell }) {
         data,
         "Book added Successfully"
         );
-        console.log(responseData);
+        // console.log(responseData);
         setdisabled(false);
         if (responseData.newBook) {
         history.push("/mybooks");
@@ -190,7 +195,7 @@ export default function BookForm({ sell }) {
           ></input>
           <datalist id="uniqsubject">
             {context.uniqueSubjects.map((data) => {
-              console.log(data);
+              {/* console.log(data); */}
               return <option key={Math.random()}>{data}</option>;
             })}
           </datalist>
@@ -206,19 +211,19 @@ export default function BookForm({ sell }) {
             value={price}
           ></input>
         </div>
-        {sell && (
+         
           <div className="image-preview">
             {file && <img src={file} alt="preview"></img>}
             {!file && <p>please pick an image</p>}
           </div>
-        )}
+        
         {/* {sell && (
           <div className="image-preview">
             {imgurl && <img src={imgurl} alt="preview"></img>}
             {!imgurl && <p>please pick an image</p>}
           </div>
         )} */}
-        {sell && (
+         
           <div>
             <label>Image:</label>
 
@@ -227,11 +232,11 @@ export default function BookForm({ sell }) {
               multiple={false}
               accept=".jpg,.png,.jpeg"
               onDone={({ base64 }) => {
-                      console.log(
-                        base64.length,
-                        new Blob([base64]).size,
+                      // console.log(
+                      //   base64.length,
+                      //   new Blob([base64]).size,
                         
-                      );
+                      // );
                     if (
                       !(base64.startsWith("data:image/jpeg") ||
                       base64.startsWith("data:image/jpg") ||
@@ -252,7 +257,7 @@ export default function BookForm({ sell }) {
               style={{ display: "none" }}
             ></input> */}
           </div>
-        )}
+        
 
         <div>
           {sell && (

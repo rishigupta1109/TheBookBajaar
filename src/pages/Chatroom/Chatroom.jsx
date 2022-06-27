@@ -25,13 +25,13 @@ export default function Chatroom({ socket }) {
         JSON.stringify({}),
         "Chats Loaded Successfully"
       );
-      console.log("rooms", responseData);
+      // console.log("rooms", responseData);
       setLoading(false);
       if (responseData && responseData.rooms) {
         setRooms(responseData.rooms);
         context.setRooms(responseData.rooms);
         socket.emit("join_room", responseData.rooms, context.user.id);
-        console.log("join room req sent");
+        // console.log("join room req sent");
         setlastMessages(responseData.lastMessages);
       }
     };
@@ -40,7 +40,7 @@ export default function Chatroom({ socket }) {
     }
   }, [context.token]);
   useEffect(() => {
-    console.log(context.notification, lastMessages);
+    // console.log(context.notification, lastMessages);
 
     if (context.notification.length !== 0) {
       for (let room of rooms) {
@@ -55,11 +55,11 @@ export default function Chatroom({ socket }) {
             if (a) return a.room === msg.room;
             else return false;
           });
-          console.log(i);
+          // console.log(i);
           if (i !== -1) {
             lastMessages[i] = msg;
             let x = [...lastMessages];
-            console.log(lastMessages);
+            // console.log(lastMessages);
             setlastMessages(x);
           }
         }

@@ -52,7 +52,7 @@
     border-bottom-right-radius: 0;
     padding: 8px;
     font-size: larger;
-    border:1px solid rgba(128, 128, 128, 0.226);
+    border:1px solid gray;
     width:70%;
 }
 .msg button{

@@ -27,12 +27,12 @@ export default function Books() {
         {},
         "Books Fetched Successfully"
       );
-      console.log(responseData);
+      // console.log(responseData);
       setloading(false);
       if (responseData && responseData.books) {
         setBooks(responseData.books);
         setfilteredbooks(responseData.books);
-        console.log(responseData.books);
+        // console.log(responseData.books);
       }
     };
     fetchIt();

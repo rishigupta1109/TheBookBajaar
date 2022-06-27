@@ -10,7 +10,7 @@
 }
 .nav{position: sticky;top:0;z-index: 100;}
 .nav-logo{
-    height: 80px;
+    height: 90px;
     border-radius: 100%;
     cursor: pointer;
 }
@@ -37,7 +37,7 @@
 .right button,.mobilemenu button{
         background-color: rgb(255 0 0);
     color: white;
-    padding: 15px;
+    padding: 15px 25px;
     margin: 10px;
     border: white 2px solid;
     border-radius: 25px;
