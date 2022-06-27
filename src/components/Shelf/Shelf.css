@@ -1,6 +1,6 @@
 .shelf{
-    background-color: red;
-    color:white;
+    background-color: white;
+    color:black;
     font-size: large;
     padding: 25px;
     display: flex;
@@ -14,50 +14,52 @@
     padding: 15px 30px;
     border-radius: 25px;
     border:1px solid white;   
-    color: red;
+    color: #ff0000c4;
     margin: 0 25px;
 }
 .shelf-btn:hover{
-    background-color: red;
+    background-color: #ff0000c4;
     color: white;
 }
 .book{
     background-color: white;
+    border: 1px solid rgba(86, 82, 82, 0.532);
+    padding: 20px 10px;
+    width:300px;
     color:black;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    border:2px solid white;
-    padding: 15px 45px;
-    border-radius: 20px; 
     margin:20px;
 }
 .book img{
-    height:150px;
-    width:150px;
+    
+    height:250px;
+    width:100%;
 }
 .book p{
     margin : 5px;
 }
 .book button {
-      background-color: #f1f0f095;
+      background-color: white;
     color: black;
-    padding: 15px;
     margin: 10px;
-    border: black 1px solid;
-    border-radius: 25px;
+   border:1px solid black;
+     height: 65px;
+    width: 65px;
     cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    border-radius: 100%;
 }
 .book button:hover{
-    background-color: red;
+    background-color: #ffb4b4;
     color: white;
-    border-color: white;
+  
 }
 .book button img {
     height: 30px;

@@ -5,8 +5,8 @@ html{
     height: 100%;
 }
 .chatroom{
-    background-color: red;
-    color:white;
+    background-color: white;
+    color:black;
     text-align: center;
    height:100%;
 }
@@ -20,11 +20,12 @@ html{
      height:80vh;
 }
 .chat-list-item{
+    border:1px solid  rgba(86, 82, 82, 0.532);
     cursor: pointer;
     text-align: left;
     font-size: larger;
     background-color: white;
-    color: red;
+    color: #ff0000c4;
     width: 80%;
     border-radius: 15px;
     padding: 25px;
@@ -39,4 +40,11 @@ html{
 }
 .chat-list-item p{
     color: grey;
+}
+.chat-head{
+    align-self: center;
+    font-size: 40px;
+    padding: 20px;
+    color:rgb(80, 79, 79);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.226);
 }

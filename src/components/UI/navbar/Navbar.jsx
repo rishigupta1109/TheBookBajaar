@@ -1,6 +1,6 @@
 import React, { useState ,useRef,useContext} from "react";
 import "./Navbar.css";
-import logo from "../../../utilities/tbb_logo-whiteonred.png";
+import logo from "../../../utilities/tbb_logo-redonwhote.jpg";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import DropdownTriggerExample from './Dropdown';

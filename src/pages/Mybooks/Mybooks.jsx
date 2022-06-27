@@ -42,7 +42,11 @@ export default function Mybooks() {
 
   return (
     <div
-      style={{ textAlign: "center", backgroundColor: "red", color: "white" }}
+      style={{
+        textAlign: "center",
+        backgroundColor: "white",
+        color: "rgb(80 79 79)",
+      }}
       className="books"
     >
       <div style={{ alignSelf: "center", fontSize: "50px", padding: "30px" }}>

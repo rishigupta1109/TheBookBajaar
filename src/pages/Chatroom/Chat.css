@@ -1,5 +1,5 @@
 .chat{
-    background-color: red;
+    background-color: white;
     height:90vh;
     display: flex;
     flex-direction: column;
@@ -12,6 +12,7 @@
     height:80vh;
     width:80vw;
     background-color: white;
+    border:1px solid rgba(128, 128, 128, 0.226);
 }
 .messages{
     height: 80%;
@@ -22,13 +23,16 @@
 }
 .l{
     align-self: flex-start;
-    background-color: aqua;
+    background-color: white;
+     border:1px solid  rgba(86, 82, 82, 0.532);
 }
 .r{
     align-self: flex-end;
-    background-color: orange;
+    background-color:     white;
+; border: 1px solid  rgba(86, 82, 82, 0.532);
 }
 .l,.r{
+    font-size: 15px;
     padding: 15px 15px;
     margin: 5px;
     width: 60%;
@@ -40,6 +44,7 @@
    flex-direction: row;
    justify-content: center;
    align-items: center;
+       padding: 10px 0;
 }
 .msg input{
     border-radius: 15px;
@@ -47,13 +52,13 @@
     border-bottom-right-radius: 0;
     padding: 8px;
     font-size: larger;
-    border:1px solid red;
+    border:1px solid rgba(128, 128, 128, 0.226);
     width:70%;
 }
 .msg button{
     width:20%;
     font-size: large;
-    background-color: red;
+    background-color: #ff0000c4;
     color: white;
     border:1px solid white;
     padding: 9px;
@@ -63,9 +68,9 @@
 }
 .msg button:hover{
     background-color: white;
-    border: 1px solid red;
+    border: 1px solid #ff0000c4;
     border-left: none;
-    color: red    ;
+    color: #ff0000c4    ;
     cursor: pointer;         ;
 }
 .msg button:disabled:hover{
@@ -75,7 +80,7 @@
 }
 
 .date-string{
-    color: black;
+    color: gray;
     font-size: smaller;
 }
 .dot{

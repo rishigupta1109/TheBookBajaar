@@ -137,8 +137,8 @@ export default function Chat({ socket }) {
   };
   return (
     <div className="chat">
-      {loading && !msgLoading && <Loading type="spin" color="#fff"></Loading>}
-      {msgLoading && <Loading type="spin" color="#fff"></Loading>}
+      {loading && !msgLoading && <Loading type="spin" color="#f00"></Loading>}
+      {msgLoading && <Loading type="spin" color="#f00"></Loading>}
 
       {!loading && (
         <div className="chat-section">
@@ -175,7 +175,7 @@ export default function Chat({ socket }) {
               messages.map((data) => {
                 if (data.to === context.user.id) {
                   return (
-                    <div key={Math.random()} className="l row jc-sb">
+                    <div key={Math.random()} className="l ">
                       <p>
                         {recieverData.recievingUserName} : {data.message}
                       </p>
@@ -186,7 +186,7 @@ export default function Chat({ socket }) {
                   );
                 } else {
                   return (
-                    <div key={Math.random()} className="r row jc-sb">
+                    <div key={Math.random()} className="r ">
                       <p>Me : {data.message}</p>
                       <p className="date-string">
                         {new Date(data.date).toLocaleString()}

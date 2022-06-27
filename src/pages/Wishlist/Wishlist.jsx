@@ -5,7 +5,7 @@ import Shelf from "./../../components/Shelf/Shelf";
 import useFilter from "../../hooks/useFilter";
 import AuthContext from "../../utilities/auth-context";
 export default function Wishlist() {
-  const context=useContext(AuthContext);
+  const context = useContext(AuthContext);
   const {
     filteredbooks,
     uniquecolleges,
@@ -14,7 +14,7 @@ export default function Wishlist() {
     sorting,
     filter,
     searchFilter,
-  } = useFilter({books:context.wishlist});
+  } = useFilter({ books: context.wishlist });
   useEffect(() => {
     setfilteredbooks(context.wishlist);
   }, [context.wishlist]);
@@ -22,7 +22,11 @@ export default function Wishlist() {
   return (
     <div
       className="books"
-      style={{ textAlign: "center", backgroundColor: "red", color: "white" }}
+      style={{
+        textAlign: "center",
+        backgroundColor: "white",
+        color: "rgb(80 79 79)",
+      }}
     >
       <div style={{ alignSelf: "center", fontSize: "50px", padding: "30px" }}>
         Wishlist

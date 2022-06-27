@@ -1,9 +1,9 @@
 import React from 'react'
 import logo from "../../utilities/tbb_logo-redonwhote.jpg"
 import "./Home.css"
-import chaticon from "../../utilities/chats.png";
-import freeicon from "../../utilities/free.png"
-import filtericon from "../../utilities/filter.png"
+import chaticon from "../../utilities/chat_bubble_outline_white_24dp.svg";
+import freeicon from "../../utilities/icons8-free-60.png"
+import filtericon from "../../utilities/filter_alt_white_24dp.svg"
 export default function Home() {
     const feautures=["College Filter","Chat Room","Free to use"]
     const feauturesIcon=[filtericon,chaticon,freeicon]
@@ -19,7 +19,7 @@ export default function Home() {
         </p>
       </div>
       <div className='home-s2'>
-            <h1 style={{alignSelf:"center"}}>Feautures</h1>
+            <h1 style={{alignSelf:"center"}} className="head">Feautures</h1>
             <div className='feautures'>
             {feautures.map((feauture,index)=>{
                 return <div key={index} className="feauture-box">

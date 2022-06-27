@@ -25,6 +25,7 @@ import { CommentText } from "semantic-ui-react";
 import sound from "./utilities/message-ringtone-magic.mp3";
 import useAudio from "./hooks/useAudio";
 import ForgetPassword from "./pages/Login/forgetPassword";
+import Footer from "./components/UI/navbar/Footer";
 const socket = io.connect(process.env.REACT_APP_BACKEND_URL);
 AOS.init();
 
@@ -244,6 +245,7 @@ function App() {
       <div className="App">
         <Navbar></Navbar>
         {routes}
+        <Footer></Footer>
       </div>
     </AuthContext.Provider>
   );

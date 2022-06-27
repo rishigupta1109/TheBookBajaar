@@ -68,9 +68,9 @@ export default function Chatroom({ socket }) {
   }, [context.notification]);
   return (
     <div className="chatroom">
-      <h1>Your Chats</h1>
+      <p className="chat-head">Your Chats</p>
       <div className="chat-list">
-        {loading && <Loading type="spin" color="#fff"></Loading>}
+        {loading && <Loading type="spin" color="#f00"></Loading>}
         {rooms &&
           !loading &&
           rooms.map((data) => {
@@ -125,19 +125,21 @@ export default function Chatroom({ socket }) {
                       >
                         {
                           context.notification.filter((a) => {
-                            if(a) return a.room === data.id
-                            else return false;})
-                            .length
+                            if (a) return a.room === data.id;
+                            else return false;
+                          }).length
                         }
                       </div>
                     )}
                 </div>
                 {lastMsger !== "" && (
-                  <div className="row jc-sb">
-                    <p>
+                  <div>
+                    <p style={{ margin: "0" }}>
                       {lastMsger} : {lstmsg.message}
                     </p>
-                    <p>{new Date(lstmsg.date).toLocaleString()}</p>
+                    <p style={{ fontSize: "small" }}>
+                      {new Date(lstmsg.date).toLocaleString()}
+                    </p>
                   </div>
                 )}
               </div>

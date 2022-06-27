@@ -40,10 +40,14 @@ export default function Books() {
 
   return (
     <div
-      style={{ textAlign: "center", backgroundColor: "red", color: "white" }}
+      style={{
+        textAlign: "center",
+        backgroundColor: "white",
+        color: "rgb(80 79 79)",
+      }}
       className="books"
     >
-      <div style={{ alignSelf: "center", fontSize: "50px", padding: "30px" }}>
+      <div style={{ alignSelf: "center", fontSize: "40px", padding: "30px" }}>
         Books
       </div>
       <Filterbar

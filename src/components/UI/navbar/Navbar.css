@@ -1,14 +1,16 @@
-.navbar{
+.navbar,.footer{
     display: flex;
     flex-direction: row;
-    background-color: red;
-    color: white;
+    background-color: white;
+    color: gray;
     margin: 0;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    align-items: center;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.226);
 }
+.nav{position: sticky;top:0;z-index: 100;}
 .nav-logo{
-    height: 100px;
+    height: 80px;
     border-radius: 100%;
     cursor: pointer;
 }
@@ -26,7 +28,7 @@
     margin-right: 25px;
 }
 .left a,.right a,.right button,.mobilemenu a,.mobilemenu button,.dd{
-    color:white;
+    color: gray;
     text-decoration: none;
     font-size: larger;
     padding: 15px;
@@ -42,14 +44,14 @@
     cursor: pointer;
 }
 .right button:hover,.mobilemenu button:hover{
-    color: red;
+    color: #ff0000c4;
+    border:1px solid #ff0000c4;
     background-color: white;
 }
 .nav-active{
     background-color: white !important;
-    color: red !important;
+    color: #ff0000c4 !important;
     border-radius: 30px !important;
-    
 }
 .menubtnbox{
     height:50px;
@@ -63,7 +65,7 @@
 .line1, .line2 ,.line3{
     height:10px;
     width:40px;
-    background-color: white;
+    background-color: #ff0000c4;
     margin: 5px 0;
     border-radius: 15px;
     -webkit-border-radius: 15px;
@@ -77,27 +79,30 @@
     -o-transition: ease-in-out 1s;
 }
 .mobilemenu{
-    background-color: rgb(255, 0, 0);
+    background-color: white;
+    color:gray;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 102px;
+    top: 80px;
     left: 0;
     z-index: 5;
     width: 100%;
     padding: 20px 0;
+    border-top:1px solid rgba(128, 128, 128, 0.226);
+    border-bottom:1px solid rgba(128, 128, 128, 0.226);
 }
 .right a:hover,.left a:hover,.dd:hover{
-    color:wheat
+    color:#ff0000c4;
 }
 .text{
-    color:red;
+    color:#ff0000c4;
 }
 .dd{
     border-radius: 25px;
 }
 .mobilemenu a:hover{
-    color: wheat;
+    color: #ff0000c4;
 }

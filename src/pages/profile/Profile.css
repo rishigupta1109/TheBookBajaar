@@ -5,7 +5,7 @@
 }
 .profile-box{
     padding: 5% 20%;
-    background-color: red;
+    background-color: #ff0000c4;
     color:white;
     justify-content: center;
     border-radius: 25px;
@@ -34,13 +34,13 @@
     padding: 4% 10%;
     border-radius: 15px;
     background-color: white;
-    color: red;
-    border: red;
+    color: #ff0000c4;
+    border: #ff0000c4;
     font-size: large;
     border: 1px solid white;
 }
 .profile-box div button:hover{
-    background-color: red;
+    background-color: #ff0000c4;
     color: white;
     border: 1px solid white;
     cursor: pointer;

@@ -32,20 +32,26 @@ export default function Shelf({
   if (!bookPresent || (books && books.length === 0)) {
     if (loading) {
       return (
-        <div className="shelf" style={{ justifyContent: "center" }}>
-          <ReactLoading type="spin" color="#fff"></ReactLoading>
+        <div className="shelf" style={{ justifyContent: "center",height:"76vh" }}>
+          <ReactLoading type="spin" color="#f00"></ReactLoading>
         </div>
       );
     } else {
       if (isBuyer) {
         return (
-          <div style={{ justifyContent: "center" }} className="shelf">
+          <div
+            style={{ justifyContent: "center", height: "76vh" }}
+            className="shelf"
+          >
             No Books available
           </div>
         );
       } else {
         return (
-          <div style={{ justifyContent: "center" }} className="shelf">
+          <div
+            style={{ justifyContent: "center", height: "76vh" }}
+            className="shelf"
+          >
             No Books available
             <Link to="/bookform" className="shelf-btn">
               Add One
@@ -190,70 +196,78 @@ export default function Shelf({
               // src={`${process.env.REACT_APP_BACKEND_URL}/${data.image}`}
               src={data.image}
             ></img>
-            <p style={{ fontSize: "larger" }}>
-              {" "}
-              <b>{data.name}</b>
-            </p>
-            <p style={{ fontSize: "larger" }}>
-              {" "}
-              <b>{data.price}₹</b>
-            </p>
-            {isBuyer && data.userid !== context.user.id && (
-              <p>Seller : {data.seller.toUpperCase()}</p>
-            )}
-
-            {isBuyer && <p>{data.college}</p>}
-            {isBuyer &&
-              !context.wishlist.find((book) => data.id === book.id) &&
-              !inWishlist &&
-              data.userid !== context.user.id && (
-                <button id={data.id} data="add" onClick={addToWishlist}>
-                  <img src={addicon}></img>Add to wishlist
-                </button>
+            <div className="column">
+              <div className="row" style={{alignItems:"center",justifyContent:"space-between"}}>
+                <p style={{ fontSize: "30px" }}>
+                  {" "}
+                  <b>{data.price}₹</b>
+                </p>
+                <p style={{ fontSize: "large",fontWeight:"bold" }}>
+                  {" "}
+                  <b>{data.name}</b>
+                </p>
+              </div>
+              <div className="row">
+              {isBuyer && data.userid !== context.user.id && (
+                <p>{data.seller.toUpperCase()} ,</p>
               )}
-            {isBuyer &&
-              context.wishlist.find((book) => data.id === book.id) &&
-              !inWishlist && (
-                <button id={data.id} data="remove" onClick={addToWishlist}>
-                  <img src={removeicon}></img>remove from wishlist
-                </button>
-              )}
-            {isBuyer && inWishlist && (
-              <button id={data.id} data="remove" onClick={addToWishlist}>
-                <img src={removeicon}></img>Remove from wishlist
-              </button>
-            )}
-            {isBuyer && (
-              <button
-                data={data.userid}
-                data-seller={data.seller}
-                onClick={chatHandler}
-              >
-                {" "}
-                <img src={chaticon}></img> chat
-              </button>
-            )}
-            {!isBuyer && (
-              <button
-                onClick={() => {
-                  history.push(`/updatebook/${data.id}`);
-                }}
-              >
-                <img src={editicon}></img>Edit
-              </button>
-            )}
-            {!isBuyer && (
-              <button
-                onClick={(e) => {
-                  setModal(true);
-                  setSoldbookid(e.target.getAttribute("data"));
-                }}
-                data={data.id}
-              >
-                {" "}
-                <img src={soldicon}></img>Sold
-              </button>
-            )}
+                
+              {isBuyer && <p>{data.college}</p>}
+              </div>
+              <div className="row">
+                {isBuyer &&
+                  !context.wishlist.find((book) => data.id === book.id) &&
+                  !inWishlist &&
+                  data.userid !== context.user.id && (
+                    <button id={data.id} data="add" onClick={addToWishlist}>
+                      <img src={addicon}></img>
+                    </button>
+                  )}
+                {isBuyer &&
+                  context.wishlist.find((book) => data.id === book.id) &&
+                  !inWishlist && (
+                    <button id={data.id} data="remove" onClick={addToWishlist}>
+                      <img src={removeicon}></img>
+                    </button>
+                  )}
+                {isBuyer && inWishlist && (
+                  <button id={data.id} data="remove" onClick={addToWishlist}>
+                    <img src={removeicon}></img>
+                  </button>
+                )}
+                {isBuyer && (
+                  <button
+                    data={data.userid}
+                    data-seller={data.seller}
+                    onClick={chatHandler}
+                  >
+                    {" "}
+                    <img src={chaticon}></img>
+                  </button>
+                )}
+                {!isBuyer && (
+                  <button
+                    onClick={() => {
+                      history.push(`/updatebook/${data.id}`);
+                    }}
+                  >
+                    <img src={editicon}></img>
+                  </button>
+                )}
+                {!isBuyer && (
+                  <button
+                    onClick={(e) => {
+                      setModal(true);
+                      setSoldbookid(e.target.getAttribute("data"));
+                    }}
+                    data={data.id}
+                  >
+                    {" "}
+                    <img src={soldicon}></img>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         );
       })}

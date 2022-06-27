@@ -15,11 +15,11 @@
     flex-wrap: wrap;
 }
 .form{
-    background-color: red;
+    background-color:  #ff3b3b;
     border-radius: 15px;
     color:white;
     padding: 4% 20% 4% 16%;
-    border:1px solid red;
+    border:1px solid  #ff3b3b;
     transition: cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 .form div{
@@ -43,13 +43,13 @@
     padding: 4% 10%;
     border-radius: 15px;
     background-color: white;
-    color: red;
-    border: red;
+    color: #ff0000c4;
+    border: #ff0000c4;
     font-size: large;
     border: 1px solid white;
 }
 .form button:hover{
-    background-color: red;
+    background-color: #ff0000c4;
     color: white;
     border: 1px solid white;
     cursor: pointer;
@@ -57,20 +57,20 @@
 
 .switch-btns{
     width: 22%;
-    background-color: red;
+    background-color: #ff3b3b;
 }
 .switch-btns button{
-    background-color: red;
+    background-color:  #ff3b3b;
     font-size: larger;
     border: none;
     color: white;
     padding: 5% 16%;
     width: 50%;
     cursor: pointer;
-     border: 1px solid red;
+     border: 1px solid  #ff3b3b;
 }
 .active{
-    color: red !important;
+    color:  #ff3b3b !important;
     background-color: white !important;
 }
 @media (max-width:1405px) {
@@ -102,7 +102,7 @@
     margin-top: 10px;
 }
 .form a:hover{
-    color : wheat;
+    color : whitesmoke;
     text-decoration: underline;
 }
 input[type="checkbox"]:hover{
