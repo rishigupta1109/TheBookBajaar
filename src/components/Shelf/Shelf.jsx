@@ -71,18 +71,18 @@ export default function Shelf({
       </div>
     );
   }
-  const addToWishlist = async (e) => {
-    console.log(e.target.getAttribute("data"));
+  const addToWishlist = async ({id,data}) => {
+    console.log(data);
     if (!context.isLoggedIn) {
       toastCreator("please Login to proceed", "warning");
       history.push("/login-register");
       return;
     }
-    const book = books.filter((data) => data.id === e.target.id)[0];
+    const book = books.filter((data) => data.id === id)[0];
     console.log(book);
     let responseData;
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/wishlist`;
-    if (e.target.getAttribute("data") === "add") {
+    if (data === "add") {
       responseData = await request(
         url,
         "POST",
@@ -148,9 +148,9 @@ export default function Shelf({
     }
     setModal(false);
   };
-  const chatHandler = async (e) => {
-    console.log(e.target.getAttribute("data"));
-    console.log(e.target.getAttribute("data-seller"));
+  const chatHandler = async ({data,seller}) => {
+    console.log(data);
+    console.log(seller);
     if (!context.isLoggedIn) {
       toastCreator("please Login to proceed", "warning");
       history.push("/login-register");
@@ -165,9 +165,9 @@ export default function Shelf({
         Authorization: "Bearer " + context.token,
       },
       JSON.stringify({
-        user2: e.target.getAttribute("data"),
+        user2: data,
         name1: context.user.firstName + " " + context.user.lastName,
-        name2: e.target.getAttribute("data-seller"),
+        name2: seller,
       }),
       "Rooms Loaded successfully."
     );
@@ -190,7 +190,7 @@ export default function Shelf({
       {books.map((data, index) => {
         if (data.userid === context.user.id && isBuyer) return <div key={Math.random()}></div>;
         return (
-          <div key={data.id} className="book">
+          <div key={data.id} className="book" data-aos="fade-up">
             <img
               className="book-img"
               // src={`${process.env.REACT_APP_BACKEND_URL}/${data.image}`}
@@ -219,19 +219,19 @@ export default function Shelf({
                   !context.wishlist.find((book) => data.id === book.id) &&
                   !inWishlist &&
                   data.userid !== context.user.id && (
-                    <button id={data.id} data="add" onClick={addToWishlist}>
+                    <button id={data.id} data="add" onClick={(e)=>{addToWishlist({id:data.id,data:"add"})}}>
                       <img src={addicon}></img>
                     </button>
                   )}
                 {isBuyer &&
                   context.wishlist.find((book) => data.id === book.id) &&
                   !inWishlist && (
-                    <button id={data.id} data="remove" onClick={addToWishlist}>
+                    <button id={data.id} data="remove" onClick={(e)=>{addToWishlist({id:data.id,data:"remove"})}}>
                       <img src={removeicon}></img>
                     </button>
                   )}
                 {isBuyer && inWishlist && (
-                  <button id={data.id} data="remove" onClick={addToWishlist}>
+                  <button id={data.id} data="remove" onClick={(e)=>{addToWishlist({id:data.id,data:"remove"})}}>
                     <img src={removeicon}></img>
                   </button>
                 )}
@@ -239,7 +239,7 @@ export default function Shelf({
                   <button
                     data={data.userid}
                     data-seller={data.seller}
-                    onClick={chatHandler}
+                    onClick={()=>{chatHandler({data:data.userid,seller:data.seller})}}
                   >
                     {" "}
                     <img src={chaticon}></img>
@@ -258,9 +258,9 @@ export default function Shelf({
                   <button
                     onClick={(e) => {
                       setModal(true);
-                      setSoldbookid(e.target.getAttribute("data"));
+                      setSoldbookid(data.id);
                     }}
-                    data={data.id}
+                    
                   >
                     {" "}
                     <img src={soldicon}></img>

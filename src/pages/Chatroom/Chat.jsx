@@ -175,7 +175,7 @@ export default function Chat({ socket }) {
               messages.map((data) => {
                 if (data.to === context.user.id) {
                   return (
-                    <div key={Math.random()} className="l ">
+                    <div key={Math.random()} className="l">
                       <p>
                         {recieverData.recievingUserName} : {data.message}
                       </p>

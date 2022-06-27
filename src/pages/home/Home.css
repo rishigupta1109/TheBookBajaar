@@ -5,6 +5,7 @@
     align-items: center;
     color: #ff0000c4;
     padding: 4% 20% 8% 20%;
+  
 }
 .s1_logo{
     height:300px;
@@ -20,7 +21,6 @@
     flex-direction: column;
 }
 .feautures{
-    
      display: flex;
     flex-direction: row;
     justify-content: center;
@@ -60,4 +60,22 @@ body{
     padding: 20px;
     color:rgb(80, 79, 79);
     border-bottom: 1px solid rgba(128, 128, 128, 0.226);
+}
+.title_s1{
+        font-size: 40px;
+    }
+@media(max-width:500px) {
+    .home_s1{
+            padding: 3% 7% 8%;
+    }
+    .s1_p{
+        font-size: 20px;
+    }
+    .title_s1{
+        font-size: 30px;
+    }
+    
+    .feautures img{
+        height: 150px;
+    }
 }

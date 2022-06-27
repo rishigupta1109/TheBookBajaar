@@ -86,10 +86,10 @@ export default function ForgetPassword() {
     }
   };
   return (
-    <div className="login-register" data-aos="fade-down">
+    <div className="login-register" style={{height:"90vh"}} data-aos="fade-down">
       <div className="column form">
         <h1 data-aos="flip-right" style={{ alignSelf: "center" }}>
-          Reset Pssword
+          Reset Password
         </h1>
         <div>
           <label>Email</label>

@@ -90,7 +90,7 @@ export default function Login() {
       if (type === "cpass") {
         return value === formValidity.inputs["pass"].value;
       }
-      return value.trim().length !== 0 && value.trim().length > 7;
+      return value.trim().length !== 0 && value.trim().length >= 5;
     } else if (type == "email") {
       console.log(type, typeof value);
       return value.includes("@") && value.includes(".") && value.length !== 0;

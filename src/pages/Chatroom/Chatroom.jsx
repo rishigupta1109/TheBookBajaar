@@ -104,6 +104,7 @@ export default function Chatroom({ socket }) {
 
             return (
               <div
+              data-aos="fade-right"
                 key={Math.random()}
                 className="chat-list-item"
                 onClick={() => {

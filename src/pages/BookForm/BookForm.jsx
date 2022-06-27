@@ -156,7 +156,7 @@ export default function BookForm({ sell }) {
 
   // },[file])
   return (
-    <div className="profile column">
+    <div className="profile column" data-aos="fade-down">
       <div className="profile-box column">
         {sell && <h1 style={{ alignSelf: "center" }}>Sell a Book</h1>}
         {!sell && <h1 style={{ alignSelf: "center" }}>Update the Book</h1>}

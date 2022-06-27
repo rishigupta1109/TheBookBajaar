@@ -58,7 +58,7 @@ export default function Profile() {
     }
   };
   return (
-    <div className="profile column">
+    <div className="profile column" data-aos="fade-down">
       <div className="profile-box column">
         <h1 style={{ alignSelf: "center" }}>My Profile</h1>
 
