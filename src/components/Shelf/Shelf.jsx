@@ -198,16 +198,16 @@ export default function Shelf({
             ></img>
             <div className="column">
             
-                <p style={{ fontSize: "30px", fontWeight: "bold" }}>
+                <p style={{ fontSize: "30px" }}>
                   {" "}
-                  <b>{data.name}</b>
+                 {data.name}
                 </p>
               
                 <p style={{ fontSize: "30px" }}>
                   {" "}
-                  <b>{data.price}₹</b>
+                 {data.price}₹
                 </p>
-              <div className="row">
+              <div className="row" style={{color:"gray"}}>
                 {isBuyer && data.userid !== context.user.id && (
                   <p>{data.seller.toUpperCase()} ,</p>
                 )}
