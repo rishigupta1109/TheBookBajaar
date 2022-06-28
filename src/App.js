@@ -163,7 +163,7 @@ function App() {
   });
   socket.on("notifications", (data) => {
     // console.log(data);
-    if (data[0].notification.length !== 0) {
+    if (data&&data[0]&&data[0].notification.length !== 0) {
       setNotification(data[0].notification);
     }
   });
