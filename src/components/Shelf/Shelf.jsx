@@ -66,7 +66,10 @@ export default function Shelf({
     isBuyer
   ) {
     return (
-      <div style={{ justifyContent: "center" }} className="shelf">
+      <div
+        style={{ justifyContent: "center", height: "76vh" }}
+        className="shelf"
+      >
         No Books available
       </div>
     );

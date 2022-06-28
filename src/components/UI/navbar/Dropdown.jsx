@@ -6,12 +6,15 @@ styleLink.rel = "stylesheet";
 styleLink.href =
   "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
 document.head.appendChild(styleLink);
-
+const capitalizeFirst=(str)=>{
+  if(!str) return;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 const DropdownTriggerExample = (props) => {
   let history = useHistory();
   const trigger = (
     <span>
-      <Icon name="user" /> Hello,{props.userName}
+      <Icon name="user" /> Hello,{capitalizeFirst(props.userName)}
     </span>
   );
 
@@ -20,7 +23,7 @@ const DropdownTriggerExample = (props) => {
       key: "user",
       text: (
         <span>
-          Signed in as <strong>{props.userName}</strong>
+          Signed in as <strong>{capitalizeFirst(props.userName)}</strong>
         </span>
       ),
       disabled: true,
