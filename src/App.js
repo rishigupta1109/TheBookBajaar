@@ -167,6 +167,9 @@ function App() {
       setNotification(data[0].notification);
     }
   });
+  socket.on("joining_req", (room) => {
+    socket.emit("join_room_id",user.id,room);
+  });
 
   let routes = (
     <Switch>

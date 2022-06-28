@@ -45,6 +45,7 @@ export default function Chat({ socket }) {
       }
       socket.emit("check_online", recievingUser);
       socket.emit("join_room", context.rooms, context.user.id);
+      socket.emit("request_join", recievingUser, responseData.room);
       // console.log("join room req sent in chat", context.rooms);
     }
   };
