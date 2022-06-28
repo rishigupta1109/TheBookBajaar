@@ -207,7 +207,7 @@ export default function Shelf({
                   {" "}
                  {data.price}₹
                 </p>
-              <div className="row" style={{color:"gray"}}>
+              <div className="row" style={{color:"gray",justifyContent:"center"}}>
                 {isBuyer && data.userid !== context.user.id && (
                   <p>{data.seller.toUpperCase()} ,</p>
                 )}
