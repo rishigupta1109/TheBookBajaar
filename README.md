@@ -1,12 +1,5 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -36,7 +29,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![The Book Bajaar][product-screenshot]](https://github.com/rishigupta1109/TheBookBajaar/blob/master/src/utilities/ss.png?raw=true)
+<img src="https://github.com/rishigupta1109/TheBookBajaar/blob/master/src/utilities/ss.png?raw=true" alt="ss"  >
 
 The book Bajaar acts as a mediator between the buyer and the seller. It is the best place to come when you need a book or a buyer for your book. 
 
