@@ -195,7 +195,9 @@ export default function BookForm({ sell }) {
           ></input>
           <datalist id="uniqsubject">
             {context.uniqueSubjects.map((data) => {
-              {/* console.log(data); */}
+              {
+                /* console.log(data); */
+              }
               return <option key={Math.random()}>{data}</option>;
             })}
           </datalist>
@@ -211,53 +213,58 @@ export default function BookForm({ sell }) {
             value={price}
           ></input>
         </div>
-         
-          <div className="image-preview">
-            {file && <img src={file} alt="preview"></img>}
-            {!file && <p>please pick an image</p>}
-          </div>
-        
+
+        <div>
+          <label>Image:</label>
+
+          <FileBase64
+            type="file"
+            multiple={false}
+            accept=".jpg,.png,.jpeg"
+            onDone={({ base64 }) => {
+              // console.log(
+              //   base64.length,
+              //   new Blob([base64]).size,
+
+              // );
+              if (
+                !(
+                  base64.startsWith("data:image/jpeg") ||
+                  base64.startsWith("data:image/jpg") ||
+                  base64.startsWith("data:image/png")
+                )
+              ) {
+                toastCreator("please select a valid image", "warning");
+              } else if (new Blob([base64]).size > 100000) {
+                toastCreator("image is too large", "warning");
+              } else {
+                setfile(base64);
+              }
+            }}
+          />
+          {/* <input
+              type="file"
+              onChange={pickHandler}
+              ref={image}
+              style={{ display: "none" }}
+            ></input> */}
+        </div>
+        <div>
+          * Image size should be less than 70 kb <br></br>
+          * Image type - .jpg,.png or .jpeg 
+        </div>
+
+        <div className="image-preview">
+          {file && <img src={file} alt="preview"></img>}
+          {!file && <p>please pick an image</p>}
+        </div>
+
         {/* {sell && (
           <div className="image-preview">
             {imgurl && <img src={imgurl} alt="preview"></img>}
             {!imgurl && <p>please pick an image</p>}
           </div>
         )} */}
-         
-          <div>
-            <label>Image:</label>
-
-            <FileBase64
-              type="file"
-              multiple={false}
-              accept=".jpg,.png,.jpeg"
-              onDone={({ base64 }) => {
-                      // console.log(
-                      //   base64.length,
-                      //   new Blob([base64]).size,
-                        
-                      // );
-                    if (
-                      !(base64.startsWith("data:image/jpeg") ||
-                      base64.startsWith("data:image/jpg") ||
-                      base64.startsWith("data:image/png"))
-                    ) {
-                      toastCreator("please select a valid image", "warning");
-                    } else if (new Blob([base64]).size > 100000) {
-                      toastCreator("image is too large", "warning");
-                    } else {
-                      setfile(base64);
-                    }
-                }}
-            />
-            {/* <input
-              type="file"
-              onChange={pickHandler}
-              ref={image}
-              style={{ display: "none" }}
-            ></input> */}
-          </div>
-        
 
         <div>
           {sell && (
