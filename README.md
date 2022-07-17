@@ -1,7 +1,7 @@
 <div id="top"></div>
 
 
-<!-- PROJECT LOGO -->
+<!-- PROJECT LOGO-->
 <br />
 <div align="center">
   <a href="https://github.com/rishigupta1109/TheBookBajaar">
