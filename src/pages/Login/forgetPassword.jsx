@@ -132,10 +132,13 @@ export default function ForgetPassword() {
           </div>
         )}
         {mode === 1 && (
+          <p>*Password length must be greater than 5 characters</p>
+        )}
+        {mode === 1 && (
           <div>
             <label>Otp</label>
             <input
-            title="Write the 4 digit otp"
+              title="Write the 4 digit otp"
               type="number"
               onChange={inputChangeHandler}
               id="otp"
@@ -144,7 +147,9 @@ export default function ForgetPassword() {
           </div>
         )}
         {mode === 1 && (
-          <p>*If otp not visible in primary emails, please check in spam also</p>
+          <p>
+            *If otp not visible in primary emails, please check in spam also
+          </p>
         )}
         {mode === 0 && <button onClick={getOtpHandler}>get otp</button>}
         {mode === 1 && <button onClick={resetPasswordHandler}>submit</button>}

@@ -298,6 +298,7 @@ export default function Login() {
             ></input>
           </div>
         )}
+        {mode===0&&<p>*Password length must be greater than 5 characters</p>}
         <div style={{ justifyContent: "flex-start" }}>
           <input
             style={{ width: "15px", height: "15px" }}
