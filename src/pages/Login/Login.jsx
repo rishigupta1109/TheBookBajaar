@@ -81,7 +81,7 @@ export default function Login() {
   const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
-  const [pvisible,setpvisible]=useState(false);
+  const [pvisible, setpvisible] = useState(false);
   const { request } = useHttpClient();
   const checkValidity = ({ type, value }) => {
     if (type === "fname" || type === "lname") {
@@ -116,7 +116,7 @@ export default function Login() {
         // console.log(input);
         if (!input.isValid) {
           if (input.type === "text") {
-            toastCreator(`Please write a valid ${input.id}`,"warning");
+            toastCreator(`Please write a valid ${input.id}`, "warning");
           } else if (input.type === "email") {
             toastCreator(`Please write a valid email id`, "warning");
           } else {
@@ -208,12 +208,18 @@ export default function Login() {
       </div>
       <div className="column form">
         {mode === 1 && (
-          <h1 data-aos="flip-right" style={{ alignSelf: "center" }}>
+          <h1
+            data-aos="flip-right"
+            style={{ alignSelf: "center", color: "white" }}
+          >
             Login
           </h1>
         )}
         {mode === 0 && (
-          <h1 data-aos="flip-left" style={{ alignSelf: "center" }}>
+          <h1
+            data-aos="flip-left"
+            style={{ alignSelf: "center", color: "white" }}
+          >
             Register
           </h1>
         )}
@@ -298,7 +304,9 @@ export default function Login() {
             ></input>
           </div>
         )}
-        {mode===0&&<p>*Password length must be greater than 5 characters</p>}
+        {mode === 0 && (
+          <p>*Password length must be greater than 5 characters</p>
+        )}
         <div style={{ justifyContent: "flex-start" }}>
           <input
             style={{ width: "15px", height: "15px" }}
