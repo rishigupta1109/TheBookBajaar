@@ -5,13 +5,46 @@ import chaticon from "../../utilities/chat_bubble_outline_white_24dp.svg";
 import freeicon from "../../utilities/free (1).png";
 import filtericon from "../../utilities/filter_alt_white_24dp.svg";
 import "@animxyz/core";
+import "antd/dist/antd.css";
+import { Carousel } from "antd";
+import hero1 from "../../utilities/hero1.webp";
+import hero2 from "../../utilities/hero2.jpg";
+import hero3 from "../../utilities/hero3.jpg";
+const contentStyle = {
+  height: "88vh",
+  color: "#fff",
+  lineHeight: "160px",
+  textAlign: "center",
+  background: "white",
+  width: "100%",
+  objectFit: "cover",
+  transition: ".5s ease",
+  backfaceVisibility: " hidden",
+};
 export default function Home() {
   const feautures = ["College Filter", "Chat Room", "Free to use"];
   const feauturesIcon = [filtericon, chaticon, freeicon];
-
+  const heroes = [hero1, hero2, hero3];
   return (
     <div className="home">
+      <div className="home_s0">
+        <Carousel autoplay>
+          {heroes.length !== 0 &&
+            heroes.map((hero) => (
+              <div className="container">
+                <img
+                  style={contentStyle}
+                  className="heroimage"
+                  src={hero}
+                ></img>
+              </div>
+            ))}
+        </Carousel>
+      </div>
       <div className="home_s1">
+        <h1 style={{ alignSelf: "center" }} className="head">
+          What is Book Bajaar?
+        </h1>
         <img
           src={logo}
           className="s1_logo "
@@ -27,7 +60,7 @@ export default function Home() {
       </div>
       <div className="home-s2">
         <h1 style={{ alignSelf: "center" }} className="head">
-          Feautures
+          Why choose us?
         </h1>
 
         <div className="feautures">

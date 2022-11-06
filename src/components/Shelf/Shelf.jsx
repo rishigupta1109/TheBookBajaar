@@ -11,6 +11,7 @@ import ReactLoading from "react-loading";
 import useHttpClient from "../../hooks/useHttpClient";
 import Modal from "./../modal/modal";
 import toastCreator from "../../utilities/toastCreator";
+import { Tooltip } from "antd";
 export default function Shelf({
   isBuyer,
   books,
@@ -32,7 +33,10 @@ export default function Shelf({
   if (!bookPresent || (books && books.length === 0)) {
     if (loading) {
       return (
-        <div className="shelf" style={{ justifyContent: "center",height:"76vh" }}>
+        <div
+          className="shelf"
+          style={{ justifyContent: "center", height: "76vh" }}
+        >
           <ReactLoading type="spin" color="#f00"></ReactLoading>
         </div>
       );
@@ -74,7 +78,7 @@ export default function Shelf({
       </div>
     );
   }
-  const addToWishlist = async ({id,data}) => {
+  const addToWishlist = async ({ id, data }) => {
     // console.log(data);
     if (!context.isLoggedIn) {
       toastCreator("please Login to proceed", "warning");
@@ -142,7 +146,7 @@ export default function Shelf({
       }),
       "removed Successfully"
     );
-    if (responseData&&responseData.sold) {
+    if (responseData && responseData.sold) {
       // console.log(responseData);
       setBooks((data) => {
         let newbooks = data.filter((value) => value.id !== Soldbookid);
@@ -151,7 +155,7 @@ export default function Shelf({
     }
     setModal(false);
   };
-  const chatHandler = async ({data,seller}) => {
+  const chatHandler = async ({ data, seller }) => {
     // console.log(data);
     // console.log(seller);
     if (!context.isLoggedIn) {
@@ -191,7 +195,8 @@ export default function Shelf({
         ></Modal>
       )}
       {books.map((data, index) => {
-        if (data.userid === context.user.id && isBuyer) return <div key={Math.random()}></div>;
+        if (data.userid === context.user.id && isBuyer)
+          return <div key={Math.random()}></div>;
         return (
           <div key={data.id} className="book" data-aos="fade-up">
             <img
@@ -200,17 +205,23 @@ export default function Shelf({
               src={data.image}
             ></img>
             <div className="column">
-            
-                <p style={{ fontSize: "30px" }}>
+              <Tooltip title={data.name}>
+                <p
+                  style={{
+                    fontSize: "2rem",
+                    textOverflow: "ellipsis",
+                    width: "100%",
+                  }}
+                >
                   {" "}
-                 {data.name}
+                  {data.name}
                 </p>
-              
-                <p style={{ fontSize: "30px" }}>
-                  {" "}
-                 {data.price}₹
-                </p>
-              <div className="row" style={{color:"gray",justifyContent:"center"}}>
+              </Tooltip>
+              <p style={{ fontSize: "1.8rem" }}> {data.price}₹</p>
+              <div
+                className="row"
+                style={{ color: "gray", justifyContent: "center" }}
+              >
                 {isBuyer && data.userid !== context.user.id && (
                   <p>{data.seller.toUpperCase()} ,</p>
                 )}
@@ -222,19 +233,35 @@ export default function Shelf({
                   !context.wishlist.find((book) => data.id === book.id) &&
                   !inWishlist &&
                   data.userid !== context.user.id && (
-                    <button
-                      id={data.id}
-                      data="add"
-                      onClick={(e) => {
-                        addToWishlist({ id: data.id, data: "add" });
-                      }}
-                    >
-                      <img src={addicon}></img>
-                    </button>
+                    <Tooltip title="Add to wishlist">
+                      <button
+                        id={data.id}
+                        data="add"
+                        onClick={(e) => {
+                          addToWishlist({ id: data.id, data: "add" });
+                        }}
+                      >
+                        <img src={addicon}></img>
+                      </button>
+                    </Tooltip>
                   )}
                 {isBuyer &&
                   context.wishlist.find((book) => data.id === book.id) &&
                   !inWishlist && (
+                    <Tooltip title="Remove from wishlist">
+                      <button
+                        id={data.id}
+                        data="remove"
+                        onClick={(e) => {
+                          addToWishlist({ id: data.id, data: "remove" });
+                        }}
+                      >
+                        <img src={removeicon}></img>
+                      </button>
+                    </Tooltip>
+                  )}
+                {isBuyer && inWishlist && (
+                  <Tooltip title="Remove from wishlist">
                     <button
                       id={data.id}
                       data="remove"
@@ -244,49 +271,45 @@ export default function Shelf({
                     >
                       <img src={removeicon}></img>
                     </button>
-                  )}
-                {isBuyer && inWishlist && (
-                  <button
-                    id={data.id}
-                    data="remove"
-                    onClick={(e) => {
-                      addToWishlist({ id: data.id, data: "remove" });
-                    }}
-                  >
-                    <img src={removeicon}></img>
-                  </button>
+                  </Tooltip>
                 )}
                 {isBuyer && (
-                  <button
-                    data={data.userid}
-                    data-seller={data.seller}
-                    onClick={() => {
-                      chatHandler({ data: data.userid, seller: data.seller });
-                    }}
-                  >
-                    {" "}
-                    <img src={chaticon}></img>
-                  </button>
+                  <Tooltip title={`Chat with ${data.seller}`}>
+                    <button
+                      data={data.userid}
+                      data-seller={data.seller}
+                      onClick={() => {
+                        chatHandler({ data: data.userid, seller: data.seller });
+                      }}
+                    >
+                      {" "}
+                      <img src={chaticon}></img>
+                    </button>
+                  </Tooltip>
                 )}
                 {!isBuyer && (
-                  <button
-                    onClick={() => {
-                      history.push(`/updatebook/${data.id}`);
-                    }}
-                  >
-                    <img src={editicon}></img>
-                  </button>
+                  <Tooltip title={`Edit Book`}>
+                    <button
+                      onClick={() => {
+                        history.push(`/updatebook/${data.id}`);
+                      }}
+                    >
+                      <img src={editicon}></img>
+                    </button>
+                  </Tooltip>
                 )}
                 {!isBuyer && (
-                  <button
-                    onClick={(e) => {
-                      setModal(true);
-                      setSoldbookid(data.id);
-                    }}
-                  >
-                    {" "}
-                    <img src={soldicon}></img>
-                  </button>
+                  <Tooltip title={`Mark Sold`}>
+                    <button
+                      onClick={(e) => {
+                        setModal(true);
+                        setSoldbookid(data.id);
+                      }}
+                    >
+                      {" "}
+                      <img src={soldicon}></img>
+                    </button>
+                  </Tooltip>
                 )}
               </div>
             </div>

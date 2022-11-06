@@ -47,15 +47,15 @@ export default function BookForm({ sell }) {
     let booknameisValid = bookName.trim().length > 0;
     let subjectisValid = subject.trim().length > 0;
     let bookamtisValid = Number(price) > 0;
-    let imageisValid=file.length!==0;
+    let imageisValid = file.length !== 0;
     // console.log("updateHandler");
-    if (bookamtisValid && booknameisValid && subjectisValid&&imageisValid) {
+    if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
       setdisabled(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const responseData = await request(
         url,
         "PATCH",
-        { 
+        {
           "Content-Type": "application/json",
           Authorization: "Bearer " + context.token,
         },
@@ -63,22 +63,22 @@ export default function BookForm({ sell }) {
           name: bookName,
           subject,
           price,
-          image:file
+          image: file,
         }),
         "Book updated Successfully"
       );
       // console.log(responseData);
-        setdisabled(false);
+      setdisabled(false);
       if (responseData.Book) {
         history.push("/mybooks");
       }
     } else if (!booknameisValid) {
-      toastCreator(`Write a valid name`,"warning");
+      toastCreator(`Write a valid name`, "warning");
     } else if (!subjectisValid) {
       toastCreator(` write a valid subject name`, "warning");
-    } else if(!bookamtisValid) {
+    } else if (!bookamtisValid) {
       toastCreator(` price cannot be 0`, "warning");
-    }else{
+    } else {
       toastCreator(`Please select a valid image`, "warning");
     }
   };
@@ -91,7 +91,7 @@ export default function BookForm({ sell }) {
     if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
       setdisabled(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/add`;
-      
+
       let data = JSON.stringify({
         name: bookName,
         subject: subject,
@@ -110,10 +110,10 @@ export default function BookForm({ sell }) {
         },
         data,
         "Book added Successfully"
-        );
-        // console.log(responseData);
-        setdisabled(false);
-        if (responseData.newBook) {
+      );
+      // console.log(responseData);
+      setdisabled(false);
+      if (responseData.newBook) {
         history.push("/mybooks");
       }
     } else if (!booknameisValid) {
@@ -123,7 +123,7 @@ export default function BookForm({ sell }) {
     } else if (!bookamtisValid) {
       toastCreator(` price cannot be 0`, "warning");
     } else {
-      toastCreator(`please select a valid image`,"warning");
+      toastCreator(`please select a valid image`, "warning");
     }
   };
   const changeHandler = (e) => {
@@ -163,8 +163,22 @@ export default function BookForm({ sell }) {
   return (
     <div className="profile column" data-aos="fade-down">
       <div className="profile-box column">
-        {sell && <h1 style={{ alignSelf: "center" }}>Sell a Book</h1>}
-        {!sell && <h1 style={{ alignSelf: "center" }}>Update the Book</h1>}
+        {sell && (
+          <h1 style={{ alignSelf: "center", color: "grey" }}>Sell a Book</h1>
+        )}
+        {!sell && (
+          <h1 style={{ alignSelf: "center", color: "grey" }}>
+            Update the Book
+          </h1>
+        )}
+        <hr
+          style={{
+            height: "0.5px",
+            backgroundColor: "#8080804d",
+            width: "100%",
+            border: "none",
+          }}
+        />
         <div>
           <label>Book Name :</label>
           <input
@@ -250,8 +264,8 @@ export default function BookForm({ sell }) {
             ></input> */}
         </div>
         <div>
-          * Image size should be less than 70 kb <br></br>
-          * Image type - .jpg,.png or .jpeg 
+          * Image size should be less than 70 kb <br></br>* Image type -
+          .jpg,.png or .jpeg
         </div>
 
         <div className="image-preview">
@@ -266,7 +280,13 @@ export default function BookForm({ sell }) {
           </div>
         )} */}
 
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
           {sell && (
             <button
               style={{ alignSelf: "center" }}

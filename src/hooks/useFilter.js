@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
 const useFilter=({books})=>{
      const [filteredbooks, setfilteredbooks] = useState([]);
-     const [cF, scF] = useState("Select");
-     const [sF, ssF] = useState("Select");
+     const [cF, scF] = useState("Select"); //collg filter
+     const [sF, ssF] = useState("Select"); //sub filter
      useEffect(()=>{
       setfilteredbooks(books);
      },[books])

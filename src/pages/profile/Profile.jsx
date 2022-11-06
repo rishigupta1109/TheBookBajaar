@@ -60,8 +60,22 @@ export default function Profile() {
   return (
     <div className="profile column" data-aos="fade-down">
       <div className="profile-box column">
-        <h1 style={{ alignSelf: "center" }}>My Profile</h1>
-
+        <h1
+          style={{
+            alignSelf: "center",
+            color: "gray",
+          }}
+        >
+          My Profile
+        </h1>
+        <hr
+          style={{
+            height: "0.5px",
+            backgroundColor: "#8080804d",
+            width: "100%",
+            border: "none",
+          }}
+        />
         <div>
           <label>First Name :</label>
           <input
@@ -99,7 +113,13 @@ export default function Profile() {
           <label>Email :</label>
           <input type="text" value={context.user.email} disabled></input>
         </div>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
           {neditState && (
             <button
               onClick={() => {

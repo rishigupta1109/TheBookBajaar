@@ -35,17 +35,19 @@
     margin: 0 15px;
 }
 .right button,.mobilemenu button{
-        background-color: rgb(255 0 0);
+    background-color: rgb(255 0 0);
     color: white;
-    padding: 15px 25px;
+    padding: 10px 25px; 
     margin: 10px;
-    border: white 2px solid;
+    transition: all 300ms ease-in-out;
     border-radius: 25px;
+    border: none;
     cursor: pointer;
+    box-shadow: 5px 1px 15px rgba(0, 0, 0, 0.241);
 }
 .right button:hover,.mobilemenu button:hover{
     color: #ff0000c4;
-    border:1px solid #ff0000c4;
+    transform: translate(0,-3px);
     background-color: white;
 }
 .nav-active{

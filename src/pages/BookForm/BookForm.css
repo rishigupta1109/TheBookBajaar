@@ -12,6 +12,8 @@ button:disabled{
     flex-direction: row;
     justify-content: center !important;
     align-items: center;
+        box-shadow: 5px 1px 15px rgba(0, 0, 0, 0.241);
+
 }
 .image-preview img{
     height: 200px;
