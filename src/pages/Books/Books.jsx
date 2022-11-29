@@ -4,6 +4,7 @@ import Filterbar from "../../components/FilterBar/Filterbar";
 import Shelf from "../../components/Shelf/Shelf";
 import useHttpClient from "./../../hooks/useHttpClient";
 import useFilter from "../../hooks/useFilter";
+import toastCreator from "./../../utilities/toastCreator";
 export default function Books() {
   const { request } = useHttpClient();
   const [books, setBooks] = useState([]);
@@ -33,6 +34,8 @@ export default function Books() {
         setBooks(responseData.books);
         setfilteredbooks(responseData.books);
         // console.log(responseData.books);
+      } else {
+        toastCreator("Some Error Ocurred", "warning");
       }
     };
     fetchIt();

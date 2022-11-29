@@ -100,10 +100,15 @@
     color:#ff0000c4;
 }
 .text{
+    color:gray;
+}
+.text:hover{
     color:#ff0000c4;
+    
 }
 .dd{
     border-radius: 25px;
+    color: grey;
 }
 .mobilemenu a:hover{
     color: #ff0000c4;

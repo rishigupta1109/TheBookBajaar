@@ -11,6 +11,9 @@ import ReactLoading from "react-loading";
 import useHttpClient from "../../hooks/useHttpClient";
 import Modal from "./../modal/modal";
 import toastCreator from "../../utilities/toastCreator";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { Tooltip } from "antd";
 export default function Shelf({
   isBuyer,
@@ -199,25 +202,27 @@ export default function Shelf({
           return <div key={Math.random()}></div>;
         return (
           <div key={data.id} className="book" data-aos="fade-up">
-            <img
-              className="book-img"
-              // src={`${process.env.REACT_APP_BACKEND_URL}/${data.image}`}
-              src={data.image}
-            ></img>
-            <div className="column">
+            <img className="book-img" src={data.image}></img>
+            <div className="column" style={{ width: "100%" }}>
+              <p style={{ fontSize: "2.5rem" }}> {data.price}₹</p>
               <Tooltip title={data.name}>
                 <p
                   style={{
                     fontSize: "2rem",
                     textOverflow: "ellipsis",
                     width: "100%",
+                    overflow: " hidden",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {" "}
                   {data.name}
                 </p>
               </Tooltip>
-              <p style={{ fontSize: "1.8rem" }}> {data.price}₹</p>
+              <p style={{ fontSize: "1.5rem", color: "gray" }}>
+                {" "}
+                {data.subject}
+              </p>
               <div
                 className="row"
                 style={{ color: "gray", justifyContent: "center" }}

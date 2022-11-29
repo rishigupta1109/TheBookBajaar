@@ -1,8 +1,8 @@
 #modalbox{
     position: absolute;
     width:max(30vw,400px);
-    height: 40vh;
-    left:30vw;
+    height: max(200px,20vh);
+    left:35vw;
     top:30vh;
     border-radius: 20px;
     display: flex;
@@ -11,10 +11,13 @@
     align-items: center;
     background-color: white;
     z-index: 2;
-    border:1px solid black
 }
 #message{
-    margin-bottom:25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* margin-bottom:25px; */
     padding: 10px 20px;
     width: 100%;
     border-top-left-radius:20px ;
@@ -24,20 +27,27 @@
     /* width:500px; */
     /* background-color: orange; */
 }
+#message p{ 
+    margin: 0;
+    color:white;
+    font-size: 20px;
+}
 .btn-modal{
  padding: 10px 20px !important ;
  color: white;
  background-color: red;
  border-radius: 20px;
  border: none;
- width:80px;
+ width:120px;
  font-size: larger;
  cursor: pointer;
  border: 1px solid red;
+ transition: all 200ms ease-in-out;
 }
 .btn-modal:hover{
     color:red;
     background-color: aliceblue;
+    transform: translate(0,-1px);
 }
 .outlined{
     color:red;
@@ -51,7 +61,7 @@
     z-index: 2;
     position: absolute;
     top:0;
-    height:115vh;
+    height:100%;
     width:100%;
     background-color: rgba(0, 0, 0, 0.562);
 }
@@ -60,6 +70,16 @@
     justify-content: space-between;
     padding: 20px;
 }
+.close-btn{
+    width: 40px;
+    height: 40px;
+    border: 0px;
+    padding: 10px;
+    background-color: transparent;
+    color:white;
+    cursor: pointer;
+}
+
 @media (max-width:600px) {
     #modalbox{
         left: 15vw;

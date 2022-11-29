@@ -24,7 +24,7 @@ const contentStyle = {
 export default function Home() {
   const feautures = ["College Filter", "Chat Room", "Free to use"];
   const feauturesIcon = [filtericon, chaticon, freeicon];
-  const heroes = [hero1, hero2, hero3];
+  const heroes = [hero3];
   return (
     <div className="home">
       <div className="home_s0">
@@ -43,7 +43,7 @@ export default function Home() {
       </div>
       <div className="home_s1">
         <h1 style={{ alignSelf: "center" }} className="head">
-          What is Book Bajaar?
+          What is The Book Bajaar?
         </h1>
         <img
           src={logo}
