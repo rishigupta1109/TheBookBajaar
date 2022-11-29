@@ -35,7 +35,7 @@ export default function Books() {
         setfilteredbooks(responseData.books);
         // console.log(responseData.books);
       } else {
-        toastCreator("Some Error Ocurred", "warning");
+        toastCreator("Some Error Ocurred", "error");
       }
     };
     fetchIt();

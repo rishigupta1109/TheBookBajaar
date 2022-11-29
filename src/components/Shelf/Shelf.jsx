@@ -128,6 +128,8 @@ export default function Shelf({
       if (responseData.existingUser) {
         let wishlist = context.wishlist.filter((data) => data.id !== book.id);
         context.setWishlist(wishlist);
+      } else {
+        toastCreator("Some error occured", "error");
       }
     }
 
