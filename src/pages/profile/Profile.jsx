@@ -5,12 +5,15 @@ import "react-toastify/dist/ReactToastify.css";
 import toastCreator from "../../utilities/toastCreator";
 import AuthContext from "../../utilities/auth-context";
 import useHttpClient from "./../../hooks/useHttpClient";
+import Backdrop from "../../components/modal/backdrop";
+import Loading from "./../../components/UI/navbar/Loading";
 export default function Profile() {
   const context = useContext(AuthContext);
   const [neditState, nsetEditState] = useState(true);
   const [fname, setfname] = useState(context.user.firstName);
   const [college, setcollege] = useState(context.user.college);
   const [lname, setlname] = useState(context.user.lastName);
+  const [loading, setLoading] = useState(false);
   const { request } = useHttpClient();
   useEffect(() => {
     setfname(context.user.firstName);
@@ -19,6 +22,8 @@ export default function Profile() {
   }, [context.user]);
   const saveHandler = async () => {
     if (fname.length > 0 && lname.length > 0 && college.length > 0) {
+      window.scrollTo(0, 0);
+      setLoading(true);
       let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/update`;
       const responseData = await request(
         url,
@@ -48,6 +53,8 @@ export default function Profile() {
           college: college,
         };
         localStorage.setItem("token", JSON.stringify(details));
+      } else {
+        toastCreator("some Error occurred", "error");
       }
     } else if (fname.length === 0) {
       toastCreator("write a valid first name");
@@ -56,10 +63,13 @@ export default function Profile() {
     } else {
       toastCreator("Write a valid college name");
     }
+    setLoading(false);
   };
   return (
     <div className="profile column" data-aos="fade-down">
       <div className="profile-box column">
+        <Loading loading={loading} />
+
         <h1
           style={{
             alignSelf: "center",

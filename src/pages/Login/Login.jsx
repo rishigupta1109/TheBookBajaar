@@ -4,7 +4,8 @@ import toastCreator from "../../utilities/toastCreator";
 import AuthContext from "../../utilities/auth-context";
 import useHttpClient from "./../../hooks/useHttpClient";
 import { Link } from "react-router-dom";
-
+import Backdrop from "../../components/modal/backdrop";
+import Loading from "../../components/UI/navbar/Loading";
 const initialValidity = {
   inputs: {
     fname: {
@@ -81,6 +82,7 @@ export default function Login() {
   const context = useContext(AuthContext);
   const [mode, setMode] = useState(0); //0->register 1->login
   const [formValidity, dispatch] = useReducer(formReducer, initialValidity);
+  const [loading, setLoading] = useState(false);
   const [pvisible, setpvisible] = useState(false);
   const { request } = useHttpClient();
   const checkValidity = ({ type, value }) => {
@@ -109,7 +111,7 @@ export default function Login() {
   const resetFields = () => {
     dispatch({ type: "reset" });
   };
-
+  console.log(loading);
   const registerHandler = async () => {
     if (!formValidity.isValid) {
       for (let input of Object.values(formValidity.inputs)) {
@@ -128,6 +130,7 @@ export default function Login() {
         }
       }
     } else {
+      setLoading(true);
       // toastCreator(`submitted`,"success");
 
       // console.log("sending post req");
@@ -148,10 +151,13 @@ export default function Login() {
         }),
         "Registered Successfully"
       );
-      if (responseData != null) {
+      if (responseData && responseData.user && responseData.token) {
         // console.log(responseData.user);
         context.login(responseData.user, responseData.token);
+      } else {
+        toastCreator("some error occured", "error");
       }
+      setLoading(false);
     }
   };
   const loginHandler = async () => {
@@ -162,6 +168,7 @@ export default function Login() {
       // context.login(formValidity.inputs);
       // console.log(formValidity);
       // const responseData=await
+      setLoading(true);
       let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/login`;
       const responseData = await request(
         url,
@@ -175,14 +182,18 @@ export default function Login() {
         }),
         "Logged In Successfully"
       );
-      if (responseData != null) {
+      if (responseData && responseData.user && responseData.token) {
+        // console.log(responseData.user);
         context.login(responseData.user, responseData.token);
+      } else {
+        toastCreator("some error occured", "error");
       }
     } else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`, "warning");
     } else {
       toastCreator(`Write a valid password`, "warning");
     }
+    setLoading(false);
   };
   return (
     <div className="login-register" data-aos="fade-down">
@@ -207,6 +218,8 @@ export default function Login() {
         </button>
       </div>
       <div className="column form">
+        <Loading loading={loading} />
+
         {mode === 1 && (
           <h1
             data-aos="flip-right"

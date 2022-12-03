@@ -111,3 +111,6 @@
 input[type="checkbox"]:hover{
     cursor: pointer;
 }
+.loadingIcon{
+    border-radius: 100%;
+}

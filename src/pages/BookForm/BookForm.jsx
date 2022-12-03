@@ -5,6 +5,7 @@ import AuthContext from "../../utilities/auth-context";
 import toastCreator from "../../utilities/toastCreator";
 import "./BookForm.css";
 import FileBase64 from "react-file-base64";
+import Loading from "./../../components/UI/navbar/Loading";
 export default function BookForm({ sell }) {
   const [bookName, setBookName] = useState("");
   const [subject, setSubject] = useState("");
@@ -13,13 +14,20 @@ export default function BookForm({ sell }) {
   // const [imageisValid, setimageisValid] = useState();
   // const [imgurl, setimgurl] = useState();
   const [disabled, setdisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   let { bookId } = useParams();
   const history = useHistory();
   let image = useRef();
   const context = useContext(AuthContext);
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [loading]);
+  useEffect(() => {
     if (!sell) {
+      setLoading(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
+      window.scrollTo(0, 0);
       const fetchIt = async () => {
         // console.log("fetchit");
         const responseData = await request(
@@ -36,7 +44,10 @@ export default function BookForm({ sell }) {
           setprice(responseData.books[0].price);
           setfile(responseData.books[0].image);
           // console.log(responseData.books);
+        } else {
+          toastCreator("some Error occurred", "error");
         }
+        setLoading(false);
       };
       fetchIt();
     }
@@ -51,6 +62,8 @@ export default function BookForm({ sell }) {
     // console.log("updateHandler");
     if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
       setdisabled(true);
+      window.scrollTo(0, 0);
+      setLoading(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${bookId}`;
       const responseData = await request(
         url,
@@ -69,8 +82,11 @@ export default function BookForm({ sell }) {
       );
       // console.log(responseData);
       setdisabled(false);
+      setLoading(false);
       if (responseData.Book) {
         history.push("/mybooks");
+      } else {
+        toastCreator("some Error occurred", "error");
       }
     } else if (!booknameisValid) {
       toastCreator(`Write a valid name`, "warning");
@@ -90,6 +106,9 @@ export default function BookForm({ sell }) {
     let imageisValid = !!file;
     if (bookamtisValid && booknameisValid && subjectisValid && imageisValid) {
       setdisabled(true);
+      window.scrollTo(0, 0);
+
+      setLoading(true);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/add`;
 
       let data = JSON.stringify({
@@ -113,8 +132,11 @@ export default function BookForm({ sell }) {
       );
       // console.log(responseData);
       setdisabled(false);
+      setLoading(false);
       if (responseData.newBook) {
         history.push("/mybooks");
+      } else {
+        toastCreator("some Error occurred", "error");
       }
     } else if (!booknameisValid) {
       toastCreator(`Write a valid name`, "warning");
@@ -162,6 +184,8 @@ export default function BookForm({ sell }) {
   // },[file])
   return (
     <div className="profile column" data-aos="fade-down">
+      <Loading loading={loading} />
+
       <div className="profile-box column">
         {sell && (
           <h1 style={{ alignSelf: "center", color: "grey" }}>Sell a Book</h1>
