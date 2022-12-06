@@ -110,6 +110,8 @@ export default function Shelf({
         // console.log(responseData);
         const wishlist = [...context.wishlist, book];
         context.setWishlist(wishlist);
+      } else {
+        toastCreator(String(responseData), "error");
       }
     } else {
       responseData = await request(
@@ -129,7 +131,7 @@ export default function Shelf({
         let wishlist = context.wishlist.filter((data) => data.id !== book.id);
         context.setWishlist(wishlist);
       } else {
-        toastCreator("Some error occured", "error");
+        toastCreator(String(responseData), "error");
       }
     }
 
@@ -157,6 +159,8 @@ export default function Shelf({
         let newbooks = data.filter((value) => value.id !== Soldbookid);
         return newbooks;
       });
+    } else {
+      toastCreator(String(responseData), "error");
     }
     setModal(false);
   };
@@ -186,6 +190,8 @@ export default function Shelf({
     // console.log(responseData);
     if (responseData.room) {
       history.push(`/chats/${responseData.room.id}`);
+    } else {
+      toastCreator(String(responseData), "error");
     }
   };
   return (

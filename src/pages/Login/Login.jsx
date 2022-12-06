@@ -155,7 +155,7 @@ export default function Login() {
         // console.log(responseData.user);
         context.login(responseData.user, responseData.token);
       } else {
-        toastCreator("some error occured", "error");
+        toastCreator(String(responseData), "error");
       }
       setLoading(false);
     }
@@ -186,7 +186,7 @@ export default function Login() {
         // console.log(responseData.user);
         context.login(responseData.user, responseData.token);
       } else {
-        toastCreator("some error occured", "error");
+        toastCreator(String(responseData), "error");
       }
     } else if (!formValidity.inputs["email"].isValid) {
       toastCreator(`Write a valid email`, "warning");
