@@ -8,7 +8,11 @@ export default function Loading({ loading }) {
       {" "}
       {loading && (
         <Backdrop>
-          <img src={LoadingIcon} className="loadingIcon"></img>
+          <img
+            alt="loading-icon"
+            src={LoadingIcon}
+            className="loadingIcon"
+          ></img>
         </Backdrop>
       )}
     </>

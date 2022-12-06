@@ -7,9 +7,9 @@ import filtericon from "../../utilities/filter_alt_white_24dp.svg";
 import "@animxyz/core";
 import "antd/dist/antd.css";
 import { Carousel } from "antd";
-import hero1 from "../../utilities/hero1.webp";
-import hero2 from "../../utilities/hero2.jpg";
-import hero3 from "../../utilities/hero3.jpg";
+// import hero1 from "../../utilities/hero1.webp";
+// import hero2 from "../../utilities/hero2.jpg";
+import hero3 from "../../utilities/hero3-utilised.jpg";
 const contentStyle = {
   height: "88vh",
   color: "#fff",
@@ -33,6 +33,7 @@ export default function Home() {
             heroes.map((hero) => (
               <div className="container">
                 <img
+                  alt="hero"
                   style={contentStyle}
                   className="heroimage"
                   src={hero}
@@ -47,6 +48,7 @@ export default function Home() {
         </h1>
         <img
           src={logo}
+          alt="logo-icon"
           className="s1_logo "
           data-aos="flip-left"
           data-aos-duration="1000"
@@ -72,7 +74,7 @@ export default function Home() {
                 data-aos="flip-left"
                 data-aos-duration="1000"
               >
-                <img src={feauturesIcon[index]}></img>
+                <img alt="feauture-icon" src={feauturesIcon[index]}></img>
                 <h2>{feauture}</h2>
               </div>
             );

@@ -110,8 +110,7 @@ export default function Chat({ socket }) {
     let msg = [...messages, sandhesa];
     // console.log(msg);
     setMesssages(msg);
-  socket.emit("remove_notification", CHATID, context.user.id);
-
+    socket.emit("remove_notification", CHATID, context.user.id);
   });
   const sendHandler = () => {
     socket.emit("message_sent", {
@@ -134,7 +133,7 @@ export default function Chat({ socket }) {
     // console.log(msg);
     setMesssages(msg);
     setMesssage("");
-    setbtnActive(false)
+    setbtnActive(false);
   };
   return (
     <div className="chat">
@@ -158,6 +157,7 @@ export default function Chat({ socket }) {
               onClick={() => {
                 history.goBack();
               }}
+              alt="back-icon"
               style={{
                 border: "1px solid black",
                 borderRadius: "25px",
@@ -202,9 +202,9 @@ export default function Chat({ socket }) {
               placeholder="type your message here.."
               type="text"
               value={message}
-              onKeyDown={(e)=>{
-                if(e.key==="Enter"&&btnActive){
-                  sendHandler()
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && btnActive) {
+                  sendHandler();
                 }
               }}
               onChange={(e) => {

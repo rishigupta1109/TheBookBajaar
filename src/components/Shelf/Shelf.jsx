@@ -210,7 +210,7 @@ export default function Shelf({
           return <div key={Math.random()}></div>;
         return (
           <div key={data.id} className="book" data-aos="fade-up">
-            <img className="book-img" src={data.image}></img>
+            <img alt="book-img" className="book-img" src={data.image}></img>
             <div className="column" style={{ width: "100%" }}>
               <p style={{ fontSize: "2.5rem" }}> {data.price}₹</p>
               <Tooltip title={data.name}>
@@ -254,7 +254,7 @@ export default function Shelf({
                           addToWishlist({ id: data.id, data: "add" });
                         }}
                       >
-                        <img src={addicon}></img>
+                        <img alt="add-icon" src={addicon}></img>
                       </button>
                     </Tooltip>
                   )}
@@ -269,7 +269,7 @@ export default function Shelf({
                           addToWishlist({ id: data.id, data: "remove" });
                         }}
                       >
-                        <img src={removeicon}></img>
+                        <img alt="remove-icon" src={removeicon}></img>
                       </button>
                     </Tooltip>
                   )}
@@ -282,7 +282,7 @@ export default function Shelf({
                         addToWishlist({ id: data.id, data: "remove" });
                       }}
                     >
-                      <img src={removeicon}></img>
+                      <img alt="remove-icon" src={removeicon}></img>
                     </button>
                   </Tooltip>
                 )}
@@ -296,7 +296,7 @@ export default function Shelf({
                       }}
                     >
                       {" "}
-                      <img src={chaticon}></img>
+                      <img alt="chat-icon" src={chaticon}></img>
                     </button>
                   </Tooltip>
                 )}
@@ -307,7 +307,7 @@ export default function Shelf({
                         history.push(`/updatebook/${data.id}`);
                       }}
                     >
-                      <img src={editicon}></img>
+                      <img alt="edit-icon" src={editicon}></img>
                     </button>
                   </Tooltip>
                 )}
@@ -320,7 +320,7 @@ export default function Shelf({
                       }}
                     >
                       {" "}
-                      <img src={soldicon}></img>
+                      <img alt="sold-icon" src={soldicon}></img>
                     </button>
                   </Tooltip>
                 )}

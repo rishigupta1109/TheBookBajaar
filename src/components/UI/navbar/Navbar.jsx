@@ -1,43 +1,42 @@
-import React, { useState ,useRef,useContext} from "react";
+import React, { useState, useRef, useContext } from "react";
 import "./Navbar.css";
 import logo from "../../../utilities/tbb_logo-redonwhote.jpg";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import DropdownTriggerExample from './Dropdown';
+import DropdownTriggerExample from "./Dropdown";
 import AuthContext from "../../../utilities/auth-context";
 export default function Navbar() {
   const context = useContext(AuthContext);
   const history = useHistory();
-  const [mobileview,setmobileview]=useState(window.innerWidth<900);
-    let [mobilemenu, setmobilemenu] = useState(false);
-      let Line1 = useRef();
-      let Line2 = useRef();
-      let Line3 = useRef();
-      const menuHandler = () => {
-        if (!mobilemenu) {
-          setmobilemenu(true);
-          Line3.current.style.transform = ` rotate(
+  const [mobileview, setmobileview] = useState(window.innerWidth < 900);
+  let [mobilemenu, setmobilemenu] = useState(false);
+  let Line1 = useRef();
+  let Line2 = useRef();
+  let Line3 = useRef();
+  const menuHandler = () => {
+    if (!mobilemenu) {
+      setmobilemenu(true);
+      Line3.current.style.transform = ` rotate(
             45deg) translate(-12px, -11px)`;
-          Line1.current.style.transform = ` rotate( 
+      Line1.current.style.transform = ` rotate( 
             135deg) translate(13px, -11px)`;
-          Line2.current.style.transform = ` translate(-55px, 0px)`;
-        } else {
-          setmobilemenu(false);
-          Line3.current.style.transform = ` rotate(
+      Line2.current.style.transform = ` translate(-55px, 0px)`;
+    } else {
+      setmobilemenu(false);
+      Line3.current.style.transform = ` rotate(
                 0deg) translate(0px, 0px)`;
-          Line1.current.style.transform = ` rotate( 
+      Line1.current.style.transform = ` rotate( 
                 0deg) translate(0px, 0px)`;
-          Line2.current.style.transform = ` translate(0px, 0px)`;
-        }
-      };
-  window.onresize=()=>{
-      if(mobileview&&window.innerWidth>900){
-          setmobileview(false);
-      }
-      else if(!mobileview&&window.innerWidth<900){
-        setmobileview(true);
-      }
-  }
+      Line2.current.style.transform = ` translate(0px, 0px)`;
+    }
+  };
+  window.onresize = () => {
+    if (mobileview && window.innerWidth > 900) {
+      setmobileview(false);
+    } else if (!mobileview && window.innerWidth < 900) {
+      setmobileview(true);
+    }
+  };
   return (
     <div className="nav">
       <div className="navbar">
@@ -47,6 +46,7 @@ export default function Navbar() {
             onClick={() => {
               history.push("/");
             }}
+            alt="logo-icon"
             className="nav-logo"
           ></img>
           {!mobileview && (
@@ -58,8 +58,23 @@ export default function Navbar() {
                 Books
               </NavLink>
               {context.isLoggedIn && (
-                <NavLink style={{position:"relative"}} to="/chats" activeClassName="nav-active">
-               {context.notification.length!==0&&<div className="ui floating circular label" style={{border:"1px solid white",color:"white",backgroundColor:"red"}}>{context.notification.length}</div>}
+                <NavLink
+                  style={{ position: "relative" }}
+                  to="/chats"
+                  activeClassName="nav-active"
+                >
+                  {context.notification.length !== 0 && (
+                    <div
+                      className="ui floating circular label"
+                      style={{
+                        border: "1px solid white",
+                        color: "white",
+                        backgroundColor: "red",
+                      }}
+                    >
+                      {context.notification.length}
+                    </div>
+                  )}
                   Chats
                 </NavLink>
               )}
