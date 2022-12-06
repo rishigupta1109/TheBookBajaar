@@ -51,7 +51,7 @@ const useHttpClient = () => {
         //    closeOnClick: true,
         //  });}
         //  console.log(err);
-        return null;
+        return err;
       }
     }
   );

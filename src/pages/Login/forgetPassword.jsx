@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import useHttpClient from "../../hooks/useHttpClient";
 import toastCreator from "../../utilities/toastCreator";
-import { useHistory } from 'react-router-dom';
-
+import { useHistory } from "react-router-dom";
+import Loading from "./../../components/UI/navbar/Loading";
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
   const [otp, setotp] = useState("");
   const [mode, setmode] = useState(0);
+  const [loading, setLoading] = useState(false);
   const { request } = useHttpClient();
-  const history=useHistory();
+  const history = useHistory();
   const inputChangeHandler = (e) => {
     // console.log(e.target.id,e.target.value)
     if (e.target.id === "email") {
@@ -20,7 +21,7 @@ export default function ForgetPassword() {
     } else if (e.target.id === "cpass") {
       setcpassword(e.target.value);
     } else if (e.target.id === "otp") {
-      if (Number(e.target.id )> 9999) {
+      if (Number(e.target.id) > 9999) {
         setotp(9999);
       } else {
         setotp(e.target.value);
@@ -33,6 +34,7 @@ export default function ForgetPassword() {
       email.includes("@") &&
       email.includes(".")
     ) {
+      setLoading(true);
       let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/reset`;
       const responseData = await request(
         url,
@@ -46,11 +48,13 @@ export default function ForgetPassword() {
         "Otp sent to your email"
       );
       // console.log(responseData);
-       if (responseData.status === "success") setmode(1);
-      
-
+      if (responseData?.status === "success") setmode(1);
+      else {
+        toastCreator(String(responseData), "error");
+      }
+      setLoading(false);
     } else {
-      toastCreator("please write a valid email","warning");
+      toastCreator("please write a valid email", "warning");
     }
   };
   const resetPasswordHandler = async () => {
@@ -60,6 +64,7 @@ export default function ForgetPassword() {
       Number(otp) > 999 &&
       Number(otp) < 10000
     ) {
+      setLoading(true);
       let url = `${process.env.REACT_APP_BACKEND_URL}/api/users/otpverify`;
       const responseData = await request(
         url,
@@ -75,8 +80,11 @@ export default function ForgetPassword() {
         "password changed successfully"
       );
       // console.log(responseData);
-      if ((responseData.status ==="success")) history.push("/");
-
+      if (responseData?.status === "success") history.push("/");
+      else {
+        toastCreator(String(responseData), "error");
+      }
+      setLoading(false);
     } else if (password.trim().length < 5) {
       toastCreator("password must be 5 character long", "warning");
     } else if (password !== cpassword) {
@@ -91,8 +99,12 @@ export default function ForgetPassword() {
       style={{ height: "90vh" }}
       data-aos="fade-down"
     >
+      <Loading loading={loading} />
       <div className="column form">
-        <h1 data-aos="flip-right" style={{ alignSelf: "center" }}>
+        <h1
+          data-aos="flip-right"
+          style={{ alignSelf: "center", color: "white" }}
+        >
           Reset Password
         </h1>
         <div>
