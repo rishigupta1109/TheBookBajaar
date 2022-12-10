@@ -43,6 +43,7 @@
 }
 .book p{
     margin : 5px;
+    font-weight: 500;
 }
 .book button {
     background-color: white;
