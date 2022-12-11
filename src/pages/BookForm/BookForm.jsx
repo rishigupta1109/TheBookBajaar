@@ -260,23 +260,50 @@ export default function BookForm({ sell }) {
             multiple={false}
             accept=".jpg,.png,.jpeg"
             onDone={({ base64 }) => {
-              // console.log(
-              //   base64.length,
-              //   new Blob([base64]).size,
+              let image = base64;
+              let i = 200;
 
-              // );
               if (
                 !(
-                  base64.startsWith("data:image/jpeg") ||
-                  base64.startsWith("data:image/jpg") ||
-                  base64.startsWith("data:image/png")
+                  image.startsWith("data:image/jpeg") ||
+                  image.startsWith("data:image/jpg") ||
+                  image.startsWith("data:image/png")
                 )
               ) {
                 toastCreator("please select a valid image", "warning");
-              } else if (new Blob([base64]).size > 100000) {
-                toastCreator("image is too large", "warning");
+              } else if (new Blob([image]).size > 100000) {
+                console.log(image.length, new Blob([image]).size / 1024);
+                const imgEl = document.createElement("img");
+                imgEl.src = image;
+                imgEl.onload = function (e) {
+                  const canvas = document.createElement("canvas");
+                  const maxWidth = i;
+                  const scaleSize = maxWidth / e.target.width;
+                  canvas.width = maxWidth;
+                  canvas.height = e.target.height * scaleSize;
+                  const canvasCtx = canvas.getContext("2d");
+                  canvasCtx.drawImage(
+                    e.target,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                  );
+                  console.log(image);
+                  const srcEncoded = canvasCtx.canvas.toDataURL(
+                    e.target,
+                    "image/jpeg"
+                  );
+                  console.log(srcEncoded, new Blob([srcEncoded]).size);
+                  image = srcEncoded;
+                  if (new Blob([image]).size > 100000) {
+                    toastCreator("image is too large", "warning");
+                  } else {
+                    setfile(image);
+                  }
+                };
               } else {
-                setfile(base64);
+                setfile(image);
               }
             }}
           />
@@ -288,8 +315,8 @@ export default function BookForm({ sell }) {
             ></input> */}
         </div>
         <div>
-          * Image size should be less than 70 kb <br></br>* Image type -
-          .jpg,.png or .jpeg
+          * Image size should be less than 1mb<br></br>* Image type - .jpg,.png
+          or .jpeg
         </div>
 
         <div className="image-preview">

@@ -10,7 +10,7 @@ const Backdrop = (props) => {
     };
   }, []);
   return (
-    <div id="backdrop" onClick={clickHandler}>
+    <div id="backdrop" style={{ zIndex: props.zIndex }} onClick={clickHandler}>
       {props?.children}
     </div>
   );

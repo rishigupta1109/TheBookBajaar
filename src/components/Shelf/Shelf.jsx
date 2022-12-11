@@ -15,6 +15,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { Tooltip } from "antd";
+import Loading from "../UI/navbar/Loading";
 export default function Shelf({
   isBuyer,
   books,
@@ -28,6 +29,7 @@ export default function Shelf({
   // console.log(books);
   const [modal, setModal] = useState(false);
   const [Soldbookid, setSoldbookid] = useState(null);
+  const [loadingapi, setLoadingApi] = useState(false);
   const context = useContext(AuthContext);
   const { request } = useHttpClient();
   // console.log(
@@ -140,6 +142,7 @@ export default function Shelf({
   const soldHandler = async (soldOn) => {
     // console.log(Soldbookid)
     let responseData;
+    setLoadingApi(true);
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/books/${Soldbookid}`;
     responseData = await request(
       url,
@@ -163,6 +166,7 @@ export default function Shelf({
       toastCreator(String(responseData), "error");
     }
     setModal(false);
+    setLoadingApi(false);
   };
   const chatHandler = async ({ data, seller }) => {
     // console.log(data);
@@ -172,6 +176,7 @@ export default function Shelf({
       history.push("/login-register");
       return;
     }
+    setLoadingApi(true);
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/chat/createroom`;
     let responseData = await request(
       url,
@@ -193,9 +198,11 @@ export default function Shelf({
     } else {
       toastCreator(String(responseData), "error");
     }
+    setLoadingApi(false);
   };
   return (
     <div className="shelf">
+      <Loading zIndex={10} loading={loadingapi} />
       {modal && (
         <Modal
           message="did the book sold on The Book Bajaar?"
