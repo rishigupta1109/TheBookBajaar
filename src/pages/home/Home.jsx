@@ -49,7 +49,12 @@ export default function Home() {
         </Carousel>
       </div>
       <div className="home_s1">
-        <h1 style={{ alignSelf: "center" }} className="head">
+        <h1
+          style={{ alignSelf: "center" }}
+          className="head"
+          data-aos="slide-up"
+          data-aos-duration="500"
+        >
           What is The Book Bajaar?
         </h1>
         <img
@@ -59,14 +64,14 @@ export default function Home() {
           data-aos="zoom-in"
           data-aos-duration="500"
         ></img>
-        <p className="s1_p">
+        <p className="s1_p" data-aos="slide-up" data-aos-duration="500">
           {" "}
           <b className="title_s1">The Book Bajaar</b> is a platform which acts
           as a medium for buying and selling used books at a genuine price and
           in the college campus itself.
         </p>
       </div>
-      <div className="home_s3">
+      <div className="home_s3" data-aos="slide-up" data-aos-duration="500">
         <div className="s3-d1">
           <p className="s3-h1">Wanna buy a book?</p>
           <p className="s3-h2">Take a Look into our collection..</p>
@@ -83,7 +88,7 @@ export default function Home() {
         <div>
           <img
             className="s3_image"
-            data-aos="zoom-in"
+            data-aos="slide-up"
             data-aos-duration="500"
             src={bookTree}
           ></img>
@@ -93,12 +98,12 @@ export default function Home() {
         <div>
           <img
             className="s3_image"
-            data-aos="zoom-in"
+            data-aos="slide-up"
             data-aos-duration="500"
             src={sellBook}
           ></img>
         </div>
-        <div className="s3-d1">
+        <div className="s3-d1" data-aos="slide-up" data-aos-duration="500">
           <p className="s3-h1">Wanna Sell a book?</p>
           <p className="s3-h2">Head towards it!</p>
           <Link
