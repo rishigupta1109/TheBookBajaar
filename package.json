@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@popperjs/core": "^2.11.6",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
