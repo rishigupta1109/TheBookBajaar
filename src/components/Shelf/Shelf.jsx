@@ -11,11 +11,9 @@ import ReactLoading from "react-loading";
 import useHttpClient from "../../hooks/useHttpClient";
 import Modal from "./../modal/modal";
 import toastCreator from "../../utilities/toastCreator";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import { Tooltip } from "antd";
+import { Pagination, Tooltip } from "antd";
 import Loading from "../UI/navbar/Loading";
+import { useEffect } from "react";
 export default function Shelf({
   isBuyer,
   books,
@@ -27,14 +25,21 @@ export default function Shelf({
   const history = useHistory();
   // console.log(inWishlist);
   // console.log(books);
+  const [bookData, setBookData] = useState(null);
   const [modal, setModal] = useState(false);
   const [Soldbookid, setSoldbookid] = useState(null);
   const [loadingapi, setLoadingApi] = useState(false);
   const context = useContext(AuthContext);
   const { request } = useHttpClient();
+  const [page, setPage] = useState(1);
   // console.log(
   //   books.filter((value) => value.userid !== context.user.id).length === 0
   // );
+  useEffect(() => {
+    if (books && books.length > 0) {
+      setBookData(books.slice((page - 1) * 8, 8));
+    }
+  }, [page, books]);
   if (!bookPresent || (books && books.length === 0)) {
     if (loading) {
       return (
@@ -201,73 +206,98 @@ export default function Shelf({
     setLoadingApi(false);
   };
   return (
-    <div className="shelf">
-      <Loading zIndex={10} loading={loadingapi} />
-      {modal && (
-        <Modal
-          message="did the book sold on The Book Bajaar?"
-          sold={soldHandler}
-          closeModal={() => {
-            setModal(false);
-          }}
-        ></Modal>
-      )}
-      {books.map((data, index) => {
-        if (data.userid === context.user.id && isBuyer)
-          return <div key={Math.random()}></div>;
-        return (
-          <div key={data.id} className="book" data-aos="fade-up">
-            <img alt="book-img" className="book-img" src={data.image}></img>
-            <div className="column" style={{ width: "100%" }}>
-              <p style={{ fontSize: "2.5rem" }}> {data.price}₹</p>
-              <Tooltip title={data.name}>
-                <p
+    <div className="shelfContainer">
+      <div className="shelf">
+        <Loading zIndex={10} loading={loadingapi} />
+        {modal && (
+          <Modal
+            message="did the book sold on The Book Bajaar?"
+            sold={soldHandler}
+            closeModal={() => {
+              setModal(false);
+            }}
+          ></Modal>
+        )}
+        {bookData?.map((data, index) => {
+          if (data.userid === context.user.id && isBuyer)
+            return <div key={Math.random()}></div>;
+          return (
+            <div key={data.id} className="book" data-aos="fade-up">
+              <img alt="book-img" className="book-img" src={data.image}></img>
+              <div className="column" style={{ width: "100%" }}>
+                <div
                   style={{
-                    fontSize: "2rem",
-                    textOverflow: "ellipsis",
-                    width: "100%",
-                    overflow: " hidden",
-                    whiteSpace: "nowrap",
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
                   }}
                 >
+                  <Tooltip title={data.name}>
+                    <p
+                      style={{
+                        fontSize: "2rem",
+                        textOverflow: "ellipsis",
+                        overflow: " hidden",
+                        whiteSpace: "nowrap",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {" "}
+                      {data.name}
+                    </p>
+                  </Tooltip>
+                  <p style={{ fontSize: "2rem", fontWeight: "500" }}>
+                    {" "}
+                    {data.price}₹
+                  </p>
+                </div>
+                <p style={{ fontSize: "1.5rem", color: "gray" }}>
                   {" "}
-                  {data.name}
+                  {data.subject}
                 </p>
-              </Tooltip>
-              <p style={{ fontSize: "1.5rem", color: "gray" }}>
-                {" "}
-                {data.subject}
-              </p>
-              <div
-                className="row"
-                style={{ color: "gray", justifyContent: "center" }}
-              >
-                {isBuyer && data.userid !== context.user.id && (
-                  <p>{data.seller.toUpperCase()} ,</p>
-                )}
-
-                {isBuyer && <p>{data.college}</p>}
-              </div>
-              <div className="row" style={{ justifyContent: "center" }}>
-                {isBuyer &&
-                  !context.wishlist.find((book) => data.id === book.id) &&
-                  !inWishlist &&
-                  data.userid !== context.user.id && (
-                    <Tooltip title="Add to wishlist">
-                      <button
-                        id={data.id}
-                        data="add"
-                        onClick={(e) => {
-                          addToWishlist({ id: data.id, data: "add" });
-                        }}
-                      >
-                        <img alt="add-icon" src={addicon}></img>
-                      </button>
-                    </Tooltip>
+                <div
+                  className="row"
+                  style={{ color: "gray", justifyContent: "center" }}
+                >
+                  {isBuyer && data.userid !== context.user.id && (
+                    <p>{data.seller.toUpperCase()} ,</p>
                   )}
-                {isBuyer &&
-                  context.wishlist.find((book) => data.id === book.id) &&
-                  !inWishlist && (
+
+                  {isBuyer && <p>{data.college}</p>}
+                </div>
+                <div className="row" style={{ justifyContent: "center" }}>
+                  {isBuyer &&
+                    !context.wishlist.find((book) => data.id === book.id) &&
+                    !inWishlist &&
+                    data.userid !== context.user.id && (
+                      <Tooltip title="Add to wishlist">
+                        <button
+                          id={data.id}
+                          data="add"
+                          onClick={(e) => {
+                            addToWishlist({ id: data.id, data: "add" });
+                          }}
+                        >
+                          <img alt="add-icon" src={addicon}></img>
+                        </button>
+                      </Tooltip>
+                    )}
+                  {isBuyer &&
+                    context.wishlist.find((book) => data.id === book.id) &&
+                    !inWishlist && (
+                      <Tooltip title="Remove from wishlist">
+                        <button
+                          id={data.id}
+                          data="remove"
+                          onClick={(e) => {
+                            addToWishlist({ id: data.id, data: "remove" });
+                          }}
+                        >
+                          <img alt="remove-icon" src={removeicon}></img>
+                        </button>
+                      </Tooltip>
+                    )}
+                  {isBuyer && inWishlist && (
                     <Tooltip title="Remove from wishlist">
                       <button
                         id={data.id}
@@ -280,62 +310,60 @@ export default function Shelf({
                       </button>
                     </Tooltip>
                   )}
-                {isBuyer && inWishlist && (
-                  <Tooltip title="Remove from wishlist">
-                    <button
-                      id={data.id}
-                      data="remove"
-                      onClick={(e) => {
-                        addToWishlist({ id: data.id, data: "remove" });
-                      }}
-                    >
-                      <img alt="remove-icon" src={removeicon}></img>
-                    </button>
-                  </Tooltip>
-                )}
-                {isBuyer && (
-                  <Tooltip title={`Chat with ${data.seller}`}>
-                    <button
-                      data={data.userid}
-                      data-seller={data.seller}
-                      onClick={() => {
-                        chatHandler({ data: data.userid, seller: data.seller });
-                      }}
-                    >
-                      {" "}
-                      <img alt="chat-icon" src={chaticon}></img>
-                    </button>
-                  </Tooltip>
-                )}
-                {!isBuyer && (
-                  <Tooltip title={`Edit Book`}>
-                    <button
-                      onClick={() => {
-                        history.push(`/updatebook/${data.id}`);
-                      }}
-                    >
-                      <img alt="edit-icon" src={editicon}></img>
-                    </button>
-                  </Tooltip>
-                )}
-                {!isBuyer && (
-                  <Tooltip title={`Mark Sold`}>
-                    <button
-                      onClick={(e) => {
-                        setModal(true);
-                        setSoldbookid(data.id);
-                      }}
-                    >
-                      {" "}
-                      <img alt="sold-icon" src={soldicon}></img>
-                    </button>
-                  </Tooltip>
-                )}
+                  {isBuyer && (
+                    <Tooltip title={`Chat with ${data.seller}`}>
+                      <button
+                        data={data.userid}
+                        data-seller={data.seller}
+                        onClick={() => {
+                          chatHandler({
+                            data: data.userid,
+                            seller: data.seller,
+                          });
+                        }}
+                      >
+                        {" "}
+                        <img alt="chat-icon" src={chaticon}></img>
+                      </button>
+                    </Tooltip>
+                  )}
+                  {!isBuyer && (
+                    <Tooltip title={`Edit Book`}>
+                      <button
+                        onClick={() => {
+                          history.push(`/updatebook/${data.id}`);
+                        }}
+                      >
+                        <img alt="edit-icon" src={editicon}></img>
+                      </button>
+                    </Tooltip>
+                  )}
+                  {!isBuyer && (
+                    <Tooltip title={`Mark Sold`}>
+                      <button
+                        onClick={(e) => {
+                          setModal(true);
+                          setSoldbookid(data.id);
+                        }}
+                      >
+                        {" "}
+                        <img alt="sold-icon" src={soldicon}></img>
+                      </button>
+                    </Tooltip>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+      <Pagination
+        current={page}
+        total={books?.length / 8}
+        onChange={(e) => {
+          setPage(e);
+        }}
+      />
     </div>
   );
 }
