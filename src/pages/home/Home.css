@@ -90,6 +90,7 @@ body{
     .home_s1{
             padding: 3% 7% 8%;
             justify-content: center;
+            align-items: center;
     }
     .s1_p{
         font-size: 20px;
@@ -101,9 +102,6 @@ body{
     .feautures img{
         height: 150px;
     }
-    .heroimage{
-        height: 50vh !important;
-    }
     .s1_logo{
         height: 60vw;
         padding: 15px;
@@ -113,11 +111,7 @@ body{
         align-items: center;
         justify-content: center;
     }
-    .s3-btn{
-        padding: 13px;
-        height: 50px !important;
-        width: 90% !important;
-    }
+  
     .s3-h1{
         font-size: 35px !important;
     }
@@ -126,6 +120,9 @@ body{
     }
     .s3_image{
         height: 60vw;
+    }
+    .head{
+        font-size: 1.5rem;
     }
 }
 .home_s3{
@@ -138,13 +135,13 @@ body{
 }
 .s3-h1{
     font-size: 55px;
-    font-weight: 300;
+    font-weight: 500;
     color: #FF4646;
     margin: 0;
 }
 .s3-h2{
     font-size: 35px;
-    font-weight: 600;
+    font-weight: 300;
     color: rgba(54, 53, 53, 0.813);
     margin: 0;
 }
@@ -155,6 +152,9 @@ body{
     align-items: baseline;
 }
 .s3-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 12px;
     text-align: center;
     cursor: pointer;
@@ -179,3 +179,4 @@ body{
 .s3_2{
     flex-wrap: wrap;
 }
+

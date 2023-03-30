@@ -31,7 +31,7 @@ AOS.init();
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
-    !!JSON.parse(localStorage.getItem("token"))
+    !!JSON?.parse(localStorage.getItem("token"))
   );
   const [notificationSound, togle] = useAudio(sound);
   const [rooms, setRooms] = useState([]);
@@ -45,8 +45,8 @@ function App() {
   const [notification, setNotification] = useState([]);
   const history = useHistory();
   const { request } = useHttpClient();
- // console.log(user);
-  
+  // console.log(user);
+
   const loginHandler = (userDetail, token, expiration) => {
     setIsLoggedIn(true);
     let expirationDate = expiration || new Date().getTime() + 1000 * 60 * 60;
@@ -152,23 +152,22 @@ function App() {
   socket.on("message_recieved", (sandhesa) => {
     if (
       window.location.pathname.startsWith("/chats/") &&
-      window.location.pathname!=='/chats/'
-      ) {
-        
-      }else{
+      window.location.pathname !== "/chats/"
+    ) {
+    } else {
       togle();
       //  console.log("not in chat");
-       setNotification([sandhesa, ...notification]);
+      setNotification([sandhesa, ...notification]);
     }
   });
   socket.on("notifications", (data) => {
     // console.log(data);
-    if (data&&data[0]&&data[0].notification.length !== 0) {
+    if (data && data[0] && data[0].notification.length !== 0) {
       setNotification(data[0].notification);
     }
   });
   socket.on("joining_req", (room) => {
-    socket.emit("join_room_id",user.id,room);
+    socket.emit("join_room_id", user.id, room);
   });
 
   let routes = (
@@ -260,7 +259,6 @@ function App() {
       <div className="App">
         <Navbar></Navbar>
         {routes}
-       
       </div>
     </AuthContext.Provider>
   );

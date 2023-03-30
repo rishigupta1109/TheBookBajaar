@@ -18,3 +18,20 @@
     font-size: 16px;
     border:1px solid grey;
 }
+@media screen and (max-width:500px) {
+    .filterbar{
+        flex-direction: column;
+        align-items: baseline;
+    }
+    .filters,.sort,.searchbar{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .filters input,.filters select,.sort select,.searchbar input{
+        width: 100%;
+    }
+    
+}

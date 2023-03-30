@@ -13,10 +13,12 @@ import { Carousel } from "antd";
 // import hero1 from "../../utilities/hero1.webp";
 // import hero2 from "../../utilities/hero2.jpg";
 import hero3 from "../../utilities/hero3-utilised.jpg";
+import hero3mobile from "../../utilities/hero3 copy.jpg";
 import { Link } from "react-router-dom";
 import AuthContext from "../../utilities/auth-context";
+import { useState } from "react";
 const contentStyle = {
-  height: "88vh",
+  height: "89vh",
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
@@ -30,7 +32,16 @@ export default function Home() {
   const feautures = ["College Filter", "Chat Room", "Free to use"];
   const feauturesIcon = [filtericon, chaticon, freeicon];
   const heroes = [hero3];
+
+  const [mobileview, setmobileview] = useState(window.innerWidth < 900);
   const ctx = useContext(AuthContext);
+  window.onresize = () => {
+    if (mobileview && window.innerWidth > 900) {
+      setmobileview(false);
+    } else if (!mobileview && window.innerWidth < 900) {
+      setmobileview(true);
+    }
+  };
   return (
     <div className="home">
       <div className="home_s0">
@@ -42,7 +53,7 @@ export default function Home() {
                   alt="hero"
                   style={contentStyle}
                   className="heroimage"
-                  src={hero}
+                  src={mobileview ? hero3mobile : hero3}
                 ></img>
               </div>
             ))}
@@ -71,7 +82,7 @@ export default function Home() {
           in the college campus itself.
         </p>
       </div>
-      <div className="home_s3" data-aos="slide-up" data-aos-duration="500">
+      <div className="home_s3" data-aos="slide-right" data-aos-duration="500">
         <div className="s3-d1">
           <p className="s3-h1">Wanna buy a book?</p>
           <p className="s3-h2">Take a Look into our collection..</p>
@@ -88,7 +99,7 @@ export default function Home() {
         <div>
           <img
             className="s3_image"
-            data-aos="slide-up"
+            data-aos="slide-left"
             data-aos-duration="500"
             src={bookTree}
           ></img>
