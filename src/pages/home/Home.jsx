@@ -82,7 +82,7 @@ export default function Home() {
           in the college campus itself.
         </p>
       </div>
-      <div className="home_s3" data-aos="slide-right" data-aos-duration="500">
+      <div className="home_s3" data-aos="slide-up" data-aos-duration="500">
         <div className="s3-d1">
           <p className="s3-h1">Wanna buy a book?</p>
           <p className="s3-h2">Take a Look into our collection..</p>
@@ -97,22 +97,12 @@ export default function Home() {
           </Link>
         </div>
         <div>
-          <img
-            className="s3_image"
-            data-aos="slide-left"
-            data-aos-duration="500"
-            src={bookTree}
-          ></img>
+          <img className="s3_image" src={bookTree}></img>
         </div>
       </div>
       <div className="home_s3 s3_2">
         <div>
-          <img
-            className="s3_image"
-            data-aos="slide-up"
-            data-aos-duration="500"
-            src={sellBook}
-          ></img>
+          <img className="s3_image" src={sellBook}></img>
         </div>
         <div className="s3-d1" data-aos="slide-up" data-aos-duration="500">
           <p className="s3-h1">Wanna Sell a book?</p>

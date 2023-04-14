@@ -229,7 +229,7 @@ export default function Shelf({
                   style={{
                     display: "flex",
                     justifyContent: "space-evenly",
-                    alignItems: "center",
+                    alignItems: "baseline",
                   }}
                 >
                   <Tooltip title={data.name}>
