@@ -8,7 +8,6 @@ import "@animxyz/core";
 import "antd/dist/antd.css";
 import bookTree from "../../utilities/book-tree.png";
 import sellBook from "../../utilities/Sell-hero.png";
-
 import { Carousel } from "antd";
 // import hero1 from "../../utilities/hero1.webp";
 // import hero2 from "../../utilities/hero2.jpg";
@@ -44,8 +43,17 @@ export default function Home() {
   };
   return (
     <div className="home">
+      <div
+        className="home_s0_bg"
+        style={{
+          backgroundImage: `url(${mobileview ? hero3mobile : hero3})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      ></div>
       <div className="home_s0">
-        <Carousel autoplay>
+        {/* <Carousel autoplay>
           {heroes.length !== 0 &&
             heroes.map((hero) => (
               <div className="container">
@@ -57,7 +65,7 @@ export default function Home() {
                 ></img>
               </div>
             ))}
-        </Carousel>
+        </Carousel> */}
       </div>
       <div className="home_s1">
         <h1
@@ -82,8 +90,8 @@ export default function Home() {
           in the college campus itself.
         </p>
       </div>
-      <div className="home_s3" data-aos="slide-up" data-aos-duration="500">
-        <div className="s3-d1">
+      <div className="home_s3">
+        <div className="s3-d1" data-aos="slide-up" data-aos-duration="500">
           <p className="s3-h1">Wanna buy a book?</p>
           <p className="s3-h2">Take a Look into our collection..</p>
           <Link

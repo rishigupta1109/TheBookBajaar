@@ -1,11 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
 .footer{
-    flex-direction: column !important;
-    justify-content: center;
+    flex-direction: row !important;
+    justify-content: space-around;
+    align-items: center;
     font-size: large;
         border-top:1px solid rgba(128, 128, 128, 0.226);
-        padding:35px;
-        background-color: rgba(0, 0, 0, 0.05);
+        padding:25px;
+        background-color: white;
+        color: gray;
+        z-index: 1;
+        position: relative;
+    
+}
+@media screen and (max-width:500px) {
+    .footer{
+        flex-direction: column !important;
+        justify-content: space-around;
+        align-items: center;
+        gap:15px;
+        font-size: large;
+        border-top:1px solid rgba(128, 128, 128, 0.226);
+        padding:35px 15px;
+        background-color: white;
+        color: gray;
+        z-index: 1;
+        position: relative;
+    }
 }
 .footer-logo{
   
