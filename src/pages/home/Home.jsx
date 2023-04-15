@@ -46,7 +46,7 @@ export default function Home() {
       <div
         className="home_s0_bg"
         style={{
-          backgroundImage: `url(${mobileview ? hero3mobile : hero3})`,
+          backgroundImage: `url(${hero3})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
