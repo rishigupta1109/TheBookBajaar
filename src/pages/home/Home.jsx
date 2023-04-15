@@ -12,7 +12,7 @@ import { Carousel } from "antd";
 // import hero1 from "../../utilities/hero1.webp";
 // import hero2 from "../../utilities/hero2.jpg";
 import hero3 from "../../utilities/hero3-utilised.jpg";
-import hero3mobile from "../../utilities/hero3 copy.jpg";
+import hero3mobile from "../../utilities/hero3-copy.jpg";
 import { Link } from "react-router-dom";
 import AuthContext from "../../utilities/auth-context";
 import { useState } from "react";
@@ -46,7 +46,7 @@ export default function Home() {
       <div
         className="home_s0_bg"
         style={{
-          backgroundImage: `url(${hero3})`,
+          backgroundImage: `url(${mobileview ? hero3mobile : hero3})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
